@@ -27,7 +27,7 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
-    //importation libraires
+    // Import libs folder as library folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 jar {
@@ -35,6 +35,13 @@ jar {
 	manifest {
 		attributes 'Manifest-Version' : '1.0'
 		attributes 'Class-Path' : '.'
-		attributes 'Main-Class' : 'etu.univlille.fr.projetmode13.Main'
+		attributes 'Main-Class' : 'etu.univlille.fr.projetmodei3.Main'
+		attributes 'Created-By': [
+									'BOURGOIN Guilhane',
+									'BOUTRY Maxime',
+									'DEMEESTERE Victor',
+									'FAUBOURG Luca',
+									'HUBERT Léopold'
+										]
 	}
 }
