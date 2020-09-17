@@ -10,7 +10,7 @@ This was made for a modelisation project for the 2nd year of our DUT.
 (problème spécifique par exemple une absence prolongée de l'un des membres, réalisation dont vous êtes particulièrement fiers, ...)
 ```
 
-
+![va bosser](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pierrebrossolette.com%2Fwp-content%2Fuploads%2F2013%2F10%2Flionel-Jospin.png&f=1&nofb=1)
 
 *made by Guilhane Bourgoin, Maxime Boutry, Victor Demeestere, Luca Faubourg, Leopold Hubert.*
 
