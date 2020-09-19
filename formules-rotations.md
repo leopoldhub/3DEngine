@@ -4,6 +4,7 @@
 
 <u>**µ = angle de la rotation** 
 </u>
+
 ####Rotation sur l'axe des X :
 
 * X = X
