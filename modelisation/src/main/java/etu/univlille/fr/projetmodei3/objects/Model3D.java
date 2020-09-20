@@ -42,7 +42,14 @@ public class Model3D {
 	}
 	
 	public void translate(double x, double y, double z) {
-		
+		for(Face f : this.faces) {
+			for(Point p : f.getPoints()) {
+				p.setX(p.getX()+x);
+				p.setY(p.getY()+y);
+				p.setZ(p.getZ()+z);
+
+			}
+		}
 	}
 	
 	@Override
