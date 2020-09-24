@@ -42,12 +42,15 @@ public class Model3D {
 	}
 	
 	public void translate(double x, double y, double z) {
+		List<Point> listePoints = new ArrayList<Point>();
 		for(Face f : this.faces) {
 			for(Point p : f.getPoints()) {
-				p.setX(p.getX()+x);
-				p.setY(p.getY()+y);
-				p.setZ(p.getZ()+z);
-
+				if(!listePoints.contains(p)) {
+					p.setX(p.getX()+x);
+					p.setY(p.getY()+y);
+					p.setZ(p.getZ()+z);
+					listePoints.add(p);
+				}
 			}
 		}
 	}
