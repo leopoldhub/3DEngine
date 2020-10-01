@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -14,10 +14,10 @@ import etu.univlille.fr.projetmodei3.objects.Point;
 public class transformMethodsTests {
 
 	
-	//Pour le moment on se contentera simplement d'un repère orthonormé basique
-	//Si il faut projeter les coordonnées sur d'autre repère il faudra travailler dessus
+	//Pour le moment on se contentera simplement d'un repï¿½re orthonormï¿½ basique
+	//Si il faut projeter les coordonnï¿½es sur d'autre repï¿½re il faudra travailler dessus
 	
-	//Pour le moment on utilisera simplement une petite pyramide à base carré
+	//Pour le moment on utilisera simplement une petite pyramide ï¿½ base carrï¿½
 	// 5 points, 5 faces 
 	
 	Point p1,p2,p3,p4,p5;
@@ -26,7 +26,7 @@ public class transformMethodsTests {
 	
 	@BeforeEach
 	public void setup() {
-		//Sommets de la base carré 
+		//Sommets de la base carrï¿½ 
 		p1 = new Point(-1, 0, -1);
 		p2 = new Point( 1, 0, -1);
 		p3 = new Point( 1, 0,  1);
@@ -34,7 +34,7 @@ public class transformMethodsTests {
 		//Sommet de la pointe
 		p5 = new Point( 0, 2,  0);
 		
-		//Base carré
+		//Base carrï¿½
 		f1 = new Face(new Point[] {p1,p2,p3,p4});
 		//Autres face
 		f2 = new Face(new Point[] {p1,p2,p5});
