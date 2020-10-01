@@ -1,8 +1,15 @@
 plugins {
     id 'java-library'
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
-
+ 
+javafx {
+	version = "15"
+	modules = ['javafx.controls', 'javafx.base']
+}
+ 
 repositories {
     jcenter()
 }
@@ -14,12 +21,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+mainClassName = 'etu.univlille.fr.projetmodei3.Main'
+
 shadowJar {
 	baseName = 'projetmodei3'
 	manifest {
 		attributes 'Manifest-Version' : '1.0'
 		attributes 'Class-Path' : '.'
-		attributes 'Main-Class' : 'etu.univlille.fr.projetmodei3.Main'
 		attributes 'Created-By': [
 									'BOURGOIN Guilhane',
 									'BOUTRY Maxime',
