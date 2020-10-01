@@ -47,5 +47,16 @@ public class Face {
 	public String toString() {
 		return "Face [points=" + points + "]";
 	}
-
+	
+	public Point getCenter() {
+		double centerX = 0,centerY =0, centerZ = 0;
+		for(Point p : points) {
+			centerX+= p.getX();
+			centerY+= p.getY();
+			centerZ+= p.getZ();
+		}
+		return new Point(centerX/points.size(), centerY/points.size(), centerZ/points.size());
+	}
+	
+	
 }
