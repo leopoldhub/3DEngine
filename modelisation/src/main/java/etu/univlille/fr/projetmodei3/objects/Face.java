@@ -51,24 +51,15 @@ public class Face implements PointCloud, Comparable<Face>{
 	}
 	
 	public Point getCenter() {
-		double minx = points.get(0).getX();
-		double miny = points.get(0).getY();
-		double minz = points.get(0).getZ();
-		double maxx = points.get(0).getX();
-		double maxy = points.get(0).getY();
-		double maxz = points.get(0).getZ();
+		double centerx = 0,centery = 0,centerz = 0;
 		
 		for(Point point:this.points) {
-			minx = point.getX()<minx?point.getX():minx;
-			miny = point.getY()<miny?point.getY():miny;
-			minz = point.getZ()<minz?point.getZ():minz;
-			
-			maxx = point.getX()>maxx?point.getX():maxx;
-			maxy = point.getY()>maxy?point.getY():maxy;
-			maxz = point.getZ()>maxz?point.getZ():maxz;
+			centerx += point.getX();
+			centery += point.getY();
+			centerz += point.getZ();
 		}
-		 
-		return new Point(MathsUtils.getSegmentCenter(minx, maxx), MathsUtils.getSegmentCenter(miny, maxy), MathsUtils.getSegmentCenter(minz, maxz));
+		
+		return new Point(centerx/this.points.size(), centery/this.points.size(), centerz/this.points.size());
 	}
 
 	@Override

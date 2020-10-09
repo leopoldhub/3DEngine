@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
@@ -30,7 +32,17 @@ public class Model3D implements PointCloud{
 
 	public List<Face> getFaces() {
 		Collections.sort(this.faces);
-		return this.faces;
+		List<Face> showfaces = new ArrayList<>();
+		
+		for(Face face:this.faces) {
+			Vector3D vn = MathsUtils.getNormal(face.getPoints());
+			Point center = face.getCenter();
+			if(center.getZ()>center.getZ()+vn.getZ()) {
+				showfaces.add(face);
+			}
+		}
+		
+		return showfaces;
 	}
 
 	public List<Point> getPoints() {
