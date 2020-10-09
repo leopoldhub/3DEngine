@@ -2,9 +2,8 @@ package etu.univlille.fr.projetmodei3.utils;
 
 import java.util.List;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import etu.univlille.fr.projetmodei3.objects.Point;
+import etu.univlille.fr.projetmodei3.objects.Vector3D;
 
 public class MathsUtils {
 
