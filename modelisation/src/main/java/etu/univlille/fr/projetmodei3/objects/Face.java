@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Face {
+import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
+import etu.univlille.fr.projetmodei3.utils.MathsUtils;
+
+public class Face implements PointCloud, Comparable<Face>{
 
 	private List<Point> points;
 	
@@ -32,7 +35,6 @@ public class Face {
 	
 	public List<Point> getPoints() {
 		return points;
-		//TODO: A changer victor...
 	}
 
 	public Color getColor() {
@@ -49,13 +51,29 @@ public class Face {
 	}
 	
 	public Point getCenter() {
-		double centerX = 0,centerY =0, centerZ = 0;
-		for(Point p : points) {
-			centerX+= p.getX();
-			centerY+= p.getY();
-			centerZ+= p.getZ();
+		double minx = points.get(0).getX();
+		double miny = points.get(0).getY();
+		double minz = points.get(0).getZ();
+		double maxx = points.get(0).getX();
+		double maxy = points.get(0).getY();
+		double maxz = points.get(0).getZ();
+		
+		for(Point point:this.points) {
+			minx = point.getX()<minx?point.getX():minx;
+			miny = point.getY()<miny?point.getY():miny;
+			minz = point.getZ()<minz?point.getZ():minz;
+			
+			maxx = point.getX()>maxx?point.getX():maxx;
+			maxy = point.getY()>maxy?point.getY():maxy;
+			maxz = point.getZ()>maxz?point.getZ():maxz;
 		}
-		return new Point(centerX/points.size(), centerY/points.size(), centerZ/points.size());
+		
+		return new Point(MathsUtils.getSegmentCenter(minx, maxx), MathsUtils.getSegmentCenter(miny, maxy), MathsUtils.getSegmentCenter(minz, maxz));
+	}
+
+	@Override
+	public int compareTo(Face other) {
+		return Double.compare(this.getCenter().getZ(), other.getCenter().getZ());
 	}
 	
 	

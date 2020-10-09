@@ -2,6 +2,10 @@ package etu.univlille.fr.projetmodei3.utils;
 
 public class MathsUtils {
 
+	public static double getSegmentCenter(double a, double b) {
+		return ((b-a)/2)+a;
+	}
+	
 	public static double round(double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
