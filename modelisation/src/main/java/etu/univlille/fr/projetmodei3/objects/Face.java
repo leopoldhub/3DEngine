@@ -67,7 +67,7 @@ public class Face implements PointCloud, Comparable<Face>{
 			maxy = point.getY()>maxy?point.getY():maxy;
 			maxz = point.getZ()>maxz?point.getZ():maxz;
 		}
-		
+		 
 		return new Point(MathsUtils.getSegmentCenter(minx, maxx), MathsUtils.getSegmentCenter(miny, maxy), MathsUtils.getSegmentCenter(minz, maxz));
 	}
 
