@@ -7,6 +7,7 @@ import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
+import etu.univlille.fr.projetmodei3.utils.Matrix;
 
 public class Model3D implements PointCloud{
 
@@ -15,6 +16,7 @@ public class Model3D implements PointCloud{
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
 		addFaces(faces);
+		System.out.println("Nombre de faces à l'instanciation : "+this.faces.size());
 	}
 
 	public void addFaces(Face... faces) {
@@ -35,11 +37,11 @@ public class Model3D implements PointCloud{
 		for(Face face:this.faces) {
 			Vector3D vn = MathsUtils.getNormal(face.getPoints());
 			Point center = face.getCenter();
-			if(center.getZ()>center.getZ()+vn.getZ()) {
+			//if(center.getZ()>center.getZ()+vn.getZ()) {
 				showfaces.add(face);
-			}
+			//}
 		}
-		
+		//System.out.println("Nombre de faces renvoyés par getFaces() : "+showfaces.size());
 		return showfaces;
 	}
 
@@ -78,7 +80,41 @@ public class Model3D implements PointCloud{
 	}
 
 	public void rotate(double x, double y, double z) {
-
+		
+		Matrix m;
+		m = new Matrix(    new double[][] {{1,0,0,0},
+										  {0,Math.cos(x),-Math.sin(x),0},
+										  {0,Math.sin(x),Math.cos(x),0},								
+										  {0,0,0,1}});
+		m = m.Multiply(new Matrix(new double[][]{   {Math.cos(y),0,Math.sin(y),0},
+												  	  {0,1,0,0},
+												  	  {-Math.sin(y),0,Math.cos(y),0},								
+												  	  {0,0,0,1}}),m );
+		m = m.Multiply(new Matrix(new double[][]{ {Math.cos(z),-Math.sin(z),0,0},
+													{Math.sin(z),Math.cos(z),0,0},
+													{0,0,1,0},								
+													{0,0,0,1}}),m);
+		double[][] pointsModele = new double[4][getPoints().size()];
+		
+		for(int i = 0; i<getPoints().size();i++) {
+			pointsModele[0][i] = getPoints().get(i).getX();
+			pointsModele[1][i] = getPoints().get(i).getY();
+			pointsModele[2][i] = getPoints().get(i).getZ();
+			pointsModele[3][i] = 0;
+		}
+		Matrix matricePointsModele = new Matrix(pointsModele);
+		matricePointsModele = matricePointsModele.Multiply(m,matricePointsModele);
+		pointsModele  = matricePointsModele.getMatrice();
+		
+		//System.out.println("getPoints avant : "+this.getPoints());
+		
+		for(int i = 0; i<getPoints().size();i++) {
+			getPoints().get(i).setX(pointsModele[0][i]);
+			getPoints().get(i).setY(pointsModele[1][i]);
+			getPoints().get(i).setZ(pointsModele[2][i]);
+		}
+		
+		//System.out.println("getPoints après : "+this.getPoints());
 	}
 
 	public void translate(double x, double y, double z) {
