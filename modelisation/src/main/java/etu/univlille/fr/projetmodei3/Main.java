@@ -24,7 +24,7 @@ public class Main extends Application{
 		Face f1,f2,f3,f4,f5;
 		Model3D obj;
 		
-		//Sommets de la base carr� 
+		//Sommets de la base carré 
 		p1 = new Point(100, 200, 100);
 		p2 = new Point(100, 200, 300);
 		p3 = new Point(300, 200, 100);
@@ -32,7 +32,7 @@ public class Main extends Application{
 		//Sommet de la pointe
 		p5 = new Point(200,400, 200);
 					
-		//Base carr�
+		//Base carré
 		f1 = new Face(new Point[] {p1,p2,p4,p3});
 		//Autres face
 		
