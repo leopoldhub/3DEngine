@@ -29,6 +29,10 @@ public class ModelViewer extends AnchorPane{
 		//System.out.println("Nombre face : "+this.getChildren().size());
 	}
 	
+	public void zoom(double valeur) {
+		this.modele.zoom(valeur);
+	}
+	
 	public void rotate(double x, double y, double z) {
 		this.modele.rotate(x,y,z);
 	}
