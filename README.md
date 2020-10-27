@@ -1,25 +1,34 @@
-# ProjetMode-I3
+# Projet modélisation I3
+Ce projet est un logiciel de visualisation 3D permettant de charger des fichiers au format ply. Il a été réalisé lors de notre seconde année de DUT Informatique.
 
-This is a simple 3D engine project in java with Gradle and javaFX.
+# Fonctionnalités
 
-This was made for a modelisation project for the 2nd year of our DUT.
-```
-- Description des activités/responsabilités de chaque membre de l'équipe (rappel: les responsabilités doivent être équilibrées)
-- Toutes précisions qui vous semblent importantes pour la bonne évaluation de votre projet 
+ - parcourir et afficher des modèles 3D
+ - effectuer des translations/rotations/zoom
+ 
+![uml diagram](./UML/UML_Base.png)
 
-(problème spécifique par exemple une absence prolongée de l'un des membres, réalisation dont vous êtes particulièrement fiers, ...)
-```
+# Compiler/Lancer
+les informations pour compiler/lancer le programme se trouvent [sur cette page](build-run.md)
 
-![va bosser](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pierrebrossolette.com%2Fwp-content%2Fuploads%2F2013%2F10%2Flionel-Jospin.png&f=1&nofb=1)
+# Participations
+**Guilhane**
+ - Rotations
+ 
+**Maxime**
+ - Translations
+ 
+**Luca**
+ - PLY Parser
+ 
+**Léopold**
+ - UML
+ - Structure du projet
+ 
+**Victor**
+ - ...
+ 
+# précisions
+Pour la réalisation de ce projet, Victor a du rattraper son retard en refaisant les tp de S2 (courrage). De ce fait, il a été compliqué pour lui de s'investir pleinement.
 
-*made by Guilhane Bourgoin, Maxime Boutry, Victor Demeestere, Luca Faubourg, Leopold Hubert.*
-
-*victor a une imprimante 3d dont il est particulierement fier*
-
-
-
-
-
-
-
-
+Ce projet a été réalisé avec Gradle car notre maîtrise de celui-ci est plus importante qu'avec Maven.
