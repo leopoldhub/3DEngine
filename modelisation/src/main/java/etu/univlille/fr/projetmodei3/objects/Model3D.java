@@ -3,6 +3,7 @@ package etu.univlille.fr.projetmodei3.objects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
@@ -16,7 +17,7 @@ public class Model3D implements PointCloud{
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
 		addFaces(faces);
-		System.out.println("Nombre de faces à l'instanciation : "+this.faces.size());
+		System.out.println("Nombre de faces ï¿½ l'instanciation : "+this.faces.size());
 	}
 
 	public void addFaces(Face... faces) {
@@ -41,7 +42,7 @@ public class Model3D implements PointCloud{
 				showfaces.add(face);
 			//}
 		}
-		//System.out.println("Nombre de faces renvoyés par getFaces() : "+showfaces.size());
+		//System.out.println("Nombre de faces renvoyï¿½s par getFaces() : "+showfaces.size());
 		return showfaces;
 	}
 
@@ -114,7 +115,7 @@ public class Model3D implements PointCloud{
 			getPoints().get(i).setZ(pointsModele[2][i]);
 		}
 		
-		//System.out.println("getPoints après : "+this.getPoints());
+		//System.out.println("getPoints aprï¿½s : "+this.getPoints());
 	}
 
 	public void translate(double x, double y, double z) {
@@ -123,6 +124,66 @@ public class Model3D implements PointCloud{
 			p.setY(p.getY() + y);
 			p.setZ(p.getZ() + z);
 		}
+	}
+	
+	public void rotate(String axe, double degree) { // X, Y ou Z
+		List<Point> listePoints = getPoints();
+		switch (axe.toUpperCase()) {
+		case "X": {
+			for(Point p : listePoints) {
+				rotateX(p, degree);
+			}
+			
+			break;
+			
+		}
+		case "Y":{
+			for(Point p : listePoints) {
+				rotateY(p, degree);
+			}
+			
+			break;
+		}
+		case "Z":{
+			for(Point p : listePoints) {
+				rotateZ(p, degree);
+			}
+			
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + axe+", choose between x,y or z");
+		}
+		
+	}
+	
+	
+	public Matrix rotateX(Point p,double degree) { 
+		double x = p.getX();
+		double y =  p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree);
+		double z = p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree);
+		
+		Matrix m = new Matrix(new Point(x,y,z));
+		return m;
+
+	}
+	public Matrix rotateY(Point p, double degree) {
+		double x = p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree);
+		double y = p.getY();
+		double z = -p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree);
+		
+		Matrix m = new Matrix(new Point(x,y,z));
+		return m;
+
+
+	}
+	public Matrix rotateZ(Point p, double degree) {
+		double x = p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree);
+		double y = p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree);
+		double z = p.getZ();
+		
+		Matrix m = new Matrix(new Point(x,y,z));
+		return m;
 	}
 
 	@Override
