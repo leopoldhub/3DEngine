@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
+import etu.univlille.fr.projetmodei3.utils.Matrix;
 
 public class RotationTests {
 	
@@ -33,7 +34,32 @@ public class RotationTests {
 	}
 	
 	@Test
-	public void rotationTest() {
-		assertEquals();
+	public void rotationTest() { //bien an degre pas en rad
+		
+		//Test rotation de 90° sur l'axe X
+		Matrix m = obj.rotateX(p1,90);
+		double res[][] = m.getMatrice();
+		
+		assertEquals(res[0][0],-1);
+		assertEquals(res[1][0],1);
+		assertEquals(res[2][0],0);
+		
+		//Test rotation de 90° sur l'axe Y
+		m = obj.rotateY(p1,90);
+		res = m.getMatrice();
+		
+		assertEquals(res[0][0],-1);
+		assertEquals(res[1][0],0);
+		assertEquals(res[2][0],1);
+		
+		//Test rotation de 90° sur l'axe Z
+		m = obj.rotateZ(p1,90);
+		res = m.getMatrice();
+		
+		assertEquals(res[0][0],0);
+		assertEquals(res[1][0],-1);
+		assertEquals(res[2][0],-1);
+
+
 	}
 }
