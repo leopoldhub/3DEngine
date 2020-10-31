@@ -1,4 +1,4 @@
-package tests;
+package etu.univlille.fr.projetmodei3.interfaces;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

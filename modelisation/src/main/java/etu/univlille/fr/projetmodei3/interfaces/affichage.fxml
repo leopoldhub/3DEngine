@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="775.0" prefWidth="1124.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="775.0" prefWidth="1124.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="etu.univlille.fr.projetmodei3.interfaces.ControllerDesImpots">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="Fichier">
           <items>
             <MenuItem mnemonicParsing="false" text="Ouvrir..." />
-            <Menu mnemonicParsing="false" text="Récemment ouvert" />
+            <Menu mnemonicParsing="false" text="RÃ©cemment ouvert" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Fermer" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -26,59 +26,60 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="À propos" />
+            <MenuItem mnemonicParsing="false" text="Ã€ propos" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="413.0" layoutY="323.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+        <Label alignment="CENTER" layoutX="413.0" layoutY="323.0" style="&#10;" text="Drag components from Library hereâ€¦" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
             <Button layoutX="954.0" layoutY="587.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Reset" />
-            <Button layoutX="1006.0" layoutY="587.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="53.0" text="→">
+            <Button layoutX="1006.0" layoutY="587.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="53.0" text="â†’">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="954.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↓">
+            <Button layoutX="954.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†“">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="902.0" layoutY="587.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="53.0" text="←">
+            <Button layoutX="902.0" layoutY="587.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="53.0" text="â†�">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="954.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↑">
+            <Button layoutX="954.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†‘">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="902.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↖">
+            <Button layoutX="902.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†–">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="1006.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↗">
+            <Button layoutX="1006.0" layoutY="535.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†—">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="1006.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↘">
+            <Button layoutX="1006.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†˜">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="902.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="↙">
+            <Button layoutX="902.0" layoutY="639.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="â†™">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
+            <Button layoutX="489.0" layoutY="255.0" mnemonicParsing="false" onAction="#pressButton" text="afficher" />
       </children>
     </AnchorPane>
   </children>
