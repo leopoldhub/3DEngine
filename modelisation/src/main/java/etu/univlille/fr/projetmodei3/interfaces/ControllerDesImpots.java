@@ -1,6 +1,9 @@
 package etu.univlille.fr.projetmodei3.interfaces;
 
+import java.io.File;
+
 import etu.univlille.fr.projetmodei3.objects.Face;
+import etu.univlille.fr.projetmodei3.objects.Parser;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import javafx.fxml.FXML;
@@ -13,10 +16,8 @@ public class ControllerDesImpots {
 	private Model3D modele;
 	
 	
-
-	
-	public void pressButton(){
-		AnchorPane.getChildren().clear();
+	public void affichage(Model3D modele) {
+		//AnchorPane.getChildren().clear();
 		Polygon forme;
 		for(Face f : modele.getFaces()) {
 			System.out.println("face f "+f);
@@ -29,8 +30,16 @@ public class ControllerDesImpots {
 			forme.setFill(javafx.scene.paint.Color.RED);
 			AnchorPane.getChildren().add(forme);
 		}
+	}
+
+	
+	public void dragonButton(){
+		modele = Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/Dragon 2.5_ply.ply"));
+		affichage(modele);
+		
+	}	
 		//System.out.println("Nombre face : "+this.getChildren().size());
 	
 		
-	}
 }
+
