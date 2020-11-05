@@ -26,7 +26,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
  - Structure du projet
  
 **Victor**
- - ...
+ - Fenêtre javaFX
  
 # précisions
 Pour la réalisation de ce projet, Victor a du rattraper son retard en refaisant les tp de S2 (courrage). De ce fait, il a été compliqué pour lui de s'investir pleinement.
