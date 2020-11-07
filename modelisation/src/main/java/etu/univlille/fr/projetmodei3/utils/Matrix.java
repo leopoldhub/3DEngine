@@ -16,7 +16,6 @@ public class Matrix {
 		{0, 0, 0}};
 	
 	
-	
 
 	public Matrix(double[][] matrice) {
 		this.matrice = new double[matrice[0].length][matrice.length];
@@ -107,6 +106,30 @@ public class Matrix {
 			}
 		}
 		return str.toString();
+	}
+	public Matrix getRotateXmatrix(double x){
+		double[][] tmp = {
+				  {1,0			,0			,0},
+				  {0,Math.cos(x),-Math.sin(x),0},
+				  {0,Math.sin(x),Math.cos(x),0},								
+				  {0,0			,0			,1}};
+		return new Matrix(tmp);
+	}
+	public Matrix getRotateYmatrix(double y){
+		double[][] tmp ={ 
+				{Math.cos(y),0,Math.sin(y) ,0},
+			  	{0			,1,0		   ,0},
+			  	{-Math.sin(y),0,Math.cos(y),0},								
+			  	{0			 ,0,0		   ,1}};
+		return new Matrix(tmp);
+	}
+	public Matrix getRotateZmatrix(double z){
+		double[][] tmp ={ 
+				{Math.cos(z),-Math.sin(z),0,0},
+				{Math.sin(z),Math.cos(z) ,0,0},
+				{0			,0			 ,1,0},								
+				{0			,0			 ,0,1}};
+		return new Matrix(tmp);
 	}
 
 	

@@ -1,17 +1,16 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import etu.univlille.fr.projetmodei3.utils.Matrix;
 
-public class RotationTests {
+public class ZoomTests {
 	
 	private Point p1,p2,p3,p4,p5;
 	private Face f1,f2,f3,f4,f5;
@@ -34,34 +33,27 @@ public class RotationTests {
 		
 		obj = new Model3D(new Face[] {f1,f2,f3,f4,f5});
 	}
-	
+
 	@Test
-	public void rotationTest() { //bien an degre pas en rad
+	public void zoomTests() {
+		obj.zoom(5);
+		double xObj,yObj,zObj;
+		for(int i = 0; i<obj.getPoints().size();i++) {
+			xObj = obj.getPoints().get(i).getX();
+			yObj = obj.getPoints().get(i).getY();
+			zObj = obj.getPoints().get(i).getZ();
+		}
+		assertEquals(obj.getPoints().get(4).getX(),-5);
+		assertEquals(obj.getPoints().get(4).getY(), 0);
+		assertEquals(obj.getPoints().get(4).getZ(), -5);
 		
-		//Test rotation de 90° sur l'axe X
-		Matrix m = obj.rotateX(p1,90);
-		double res[][] = m.getMatrice();
-		
-		assertEquals(res[0][0],-1);
-		assertEquals(res[1][0],1);
-		assertEquals(res[2][0],0);
-		
-		//Test rotation de 90° sur l'axe Y
-		m = obj.rotateY(p1,90);
-		res = m.getMatrice();
-		
-		assertEquals(res[0][0],-1);
-		assertEquals(res[1][0],0);
-		assertEquals(res[2][0],1);
-		
-		//Test rotation de 90° sur l'axe Z
-		m = obj.rotateZ(p1,90);
-		res = m.getMatrice();
-		
-		assertEquals(res[0][0],0);
-		assertEquals(res[1][0],-1);
-		assertEquals(res[2][0],-1);
-
-
+	}
+	
+	private Matrix zoom(int valeur) {
+		Matrix zoom = new Matrix(new double[][] {{valeur,0,0,0},
+			  {0,valeur,0,0},
+			  {0,0,valeur,0},
+			  {0,0,0,1}});
+		return zoom;
 	}
 }

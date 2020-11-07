@@ -82,19 +82,26 @@ public class Model3D implements PointCloud{
 
 	public void rotate(double x, double y, double z) {
 		
-		Matrix m;
-		m = new Matrix(    new double[][] {{1,0,0,0},
+		Matrix m = new Matrix(new double[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}});
+		m = m.getRotateXmatrix(x);
+		/*new Matrix(    new double[][] {{1,0,0,0},
 										  {0,Math.cos(x),-Math.sin(x),0},
 										  {0,Math.sin(x),Math.cos(x),0},								
-										  {0,0,0,1}});
-		m = m.Multiply(new Matrix(new double[][]{   {Math.cos(y),0,Math.sin(y),0},
+										  {0,0,0,1}});*/
+		m = m.Multiply(m.getRotateYmatrix(y),m);
+				
+				/*
+				new Matrix(new double[][]{   {Math.cos(y),0,Math.sin(y),0},
 												  	  {0,1,0,0},
 												  	  {-Math.sin(y),0,Math.cos(y),0},								
 												  	  {0,0,0,1}}),m );
-		m = m.Multiply(new Matrix(new double[][]{ {Math.cos(z),-Math.sin(z),0,0},
+												  */
+		m = m.Multiply(m.getRotateZmatrix(z),m);
+				
+				/*new Matrix(new double[][]{ {Math.cos(z),-Math.sin(z),0,0},
 													{Math.sin(z),Math.cos(z),0,0},
 													{0,0,1,0},								
-													{0,0,0,1}}),m);
+													{0,0,0,1}}),m);*/
 		double[][] pointsModele = new double[4][getPoints().size()];
 		
 		for(int i = 0; i<getPoints().size();i++) {
