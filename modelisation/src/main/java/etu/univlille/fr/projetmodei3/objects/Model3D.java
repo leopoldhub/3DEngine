@@ -81,27 +81,15 @@ public class Model3D implements PointCloud{
 	}
 
 	public void rotate(double x, double y, double z) {
-		
+		/*
 		Matrix m = new Matrix(new double[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}});
 		m = m.getRotateXmatrix(x);
-		/*new Matrix(    new double[][] {{1,0,0,0},
-										  {0,Math.cos(x),-Math.sin(x),0},
-										  {0,Math.sin(x),Math.cos(x),0},								
-										  {0,0,0,1}});*/
+		
 		m = m.Multiply(m.getRotateYmatrix(y),m);
-				
-				/*
-				new Matrix(new double[][]{   {Math.cos(y),0,Math.sin(y),0},
-												  	  {0,1,0,0},
-												  	  {-Math.sin(y),0,Math.cos(y),0},								
-												  	  {0,0,0,1}}),m );
-												  */
+		
 		m = m.Multiply(m.getRotateZmatrix(z),m);
 				
-				/*new Matrix(new double[][]{ {Math.cos(z),-Math.sin(z),0,0},
-													{Math.sin(z),Math.cos(z),0,0},
-													{0,0,1,0},								
-													{0,0,0,1}}),m);*/
+		
 		double[][] pointsModele = new double[4][getPoints().size()];
 		
 		for(int i = 0; i<getPoints().size();i++) {
@@ -114,7 +102,6 @@ public class Model3D implements PointCloud{
 		matricePointsModele = matricePointsModele.Multiply(m,matricePointsModele);
 		pointsModele  = matricePointsModele.getMatrice();
 		
-		//System.out.println("getPoints avant : "+this.getPoints());
 		
 		for(int i = 0; i<getPoints().size();i++) {
 			getPoints().get(i).setX(pointsModele[0][i]);
@@ -122,7 +109,13 @@ public class Model3D implements PointCloud{
 			getPoints().get(i).setZ(pointsModele[2][i]);
 		}
 		
-		//System.out.println("getPoints apr�s : "+this.getPoints());
+		*/
+		for(Point p : getPoints()) {
+			rotateX(p,x);
+			rotateY(p,y);
+			rotateZ(p,z);
+
+		}
 	}
 
 	public void translate(double x, double y, double z) {
@@ -207,32 +200,37 @@ public class Model3D implements PointCloud{
 	}
 	
 	
-	public Matrix rotateX(Point p,double degree) { 
-		double x = p.getX();
+	public void rotateX(Point p,double degree) { 
+		/*double x = p.getX();
 		double y =  p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree);
 		double z = p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree);
 		
 		Matrix m = new Matrix(new Point(x,y,z));
 		return m;
-
+		 */
+		p.setX(p.getX()) ;
+		p.setY(p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree));
+		p.setZ(p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree));
 	}
-	public Matrix rotateY(Point p, double degree) {
-		double x = p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree);
+	public void rotateY(Point p, double degree) {
+		/*double x = p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree);
 		double y = p.getY();
 		double z = -p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree);
 		
-		Matrix m = new Matrix(new Point(x,y,z));
-		return m;
-
+		Matrix m = new Matrix(new Point(x,y,z));*/
+		p.setX(p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree)) ;
+		p.setY( p.getY());
+		p.setZ(-p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree));
 
 	}
-	public Matrix rotateZ(Point p, double degree) {
-		double x = p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree);
-		double y = p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree);
-		double z = p.getZ();
+	public void rotateZ(Point p, double degree) {
+		//double x = p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree);
+		//double y = p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree);
+		//double z = p.getZ();
 		
-		Matrix m = new Matrix(new Point(x,y,z));
-		return m;
+		p.setX(p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree)) ;
+		p.setY( p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree));
+		p.setZ(p.getZ());
 	}
 
 	@Override
