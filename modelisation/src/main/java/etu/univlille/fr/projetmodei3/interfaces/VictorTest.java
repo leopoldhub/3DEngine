@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class VictorTest extends Application {  
 	   @Override     
 	   public void start(Stage primaryStage) throws Exception { 
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("affichage.fxml"));
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichage.fxml"));
            Parent root = loader.load();
 
            Scene scene = new Scene(root);
