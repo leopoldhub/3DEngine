@@ -127,12 +127,13 @@ public class Model3D implements PointCloud{
 	}
 	
 	public void zoom(double valeur) { 
+		
 		double[][] pointsModele = new double[4][getPoints().size()];
 		
 		System.out.println("Centre avant : "+getCenter());
 		Point centre = getCenter();
 		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-	
+		/*
 		for(int i = 0; i<getPoints().size();i++) {
 			pointsModele[0][i] = getPoints().get(i).getX();
 			pointsModele[1][i] = getPoints().get(i).getY();
@@ -141,18 +142,12 @@ public class Model3D implements PointCloud{
 		}
 		System.out.println("Centre pendant : "+getCenter());
 		Matrix matricePointsModele = new Matrix(pointsModele);
-		/*matricePointsModele = matricePointsModele.Multiply(new Matrix(new double[][] {{1,0,0,-getCenter().getX()},
-																					  {0,1,0,-getCenter().getY()},
-																					  {0,0,1,-getCenter().getZ()},
-																					  {0,0,0,1}}),matricePointsModele);*/
+
 		matricePointsModele = matricePointsModele.Multiply(new Matrix(new double[][] {{valeur,0,0,0},
 																					  {0,valeur,0,0},
 																					  {0,0,valeur,0},
 																					  {0,0,0,1}}),matricePointsModele);
-		/*matricePointsModele = matricePointsModele.Multiply(new Matrix(new double[][] {{1,0,0,getCenter().getX()},
-			  																		  {0,1,0,getCenter().getY()},
-			  																		  {0,0,1,getCenter().getZ()},
-			  																		  {0,0,0,1}}),matricePointsModele);*/
+		
 		pointsModele = matricePointsModele.getMatrice();
 		for(int i = 0; i<getPoints().size();i++) {
 			getPoints().get(i).setX(pointsModele[0][i]);
@@ -160,6 +155,13 @@ public class Model3D implements PointCloud{
 			getPoints().get(i).setZ(pointsModele[2][i]);
 		}
 		
+		*/
+		
+		for(Point p : getPoints()) {
+			p.setX(p.getX()*valeur);
+			p.setY(p.getY()*valeur);
+			p.setZ(p.getZ()*valeur);
+		}
 		
 		this.translate(centre.getX(),centre.getY(),centre.getZ());
 		
