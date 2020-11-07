@@ -12,16 +12,16 @@ Ce projet est un logiciel de visualisation 3D permettant de charger des fichiers
 les informations pour compiler/lancer le programme se trouvent [sur cette page](build-run.md)
 
 # Participations
-**Guilhane**
+**Guilhane** (guilamb, guilhanebourgin, guilhane.bourgoin.etu)
  - Rotations
  
-**Maxime**
+**Maxime** (Maxime, Maxime Boutry)
  - Translations
  
 **Luca**
  - PLY Parser
  
-**Léopold**
+**Léopold** (Leopold Hubert, leopold)
  - UML
  - Structure du projet
  
