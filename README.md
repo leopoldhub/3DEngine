@@ -22,7 +22,9 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
  
 **Maxime** (Maxime, Maxime Boutry)
  - Translations
- 
+ - Zoom
+ - Quelques Tests
+ - EventHandlers 
 **Luca**
  - PLY Parser
  
