@@ -202,33 +202,17 @@ public class Model3D implements PointCloud{
 	
 	
 	public void rotateX(Point p,double degree) { 
-		/*double x = p.getX();
-		double y =  p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree);
-		double z = p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree);
-		
-		Matrix m = new Matrix(new Point(x,y,z));
-		return m;
-		 */
 		p.setX(p.getX()) ;
 		p.setY(p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree));
 		p.setZ(p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree));
 	}
 	public void rotateY(Point p, double degree) {
-		/*double x = p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree);
-		double y = p.getY();
-		double z = -p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree);
-		
-		Matrix m = new Matrix(new Point(x,y,z));*/
 		p.setX(p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree)) ;
 		p.setY( p.getY());
 		p.setZ(-p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree));
 
 	}
 	public void rotateZ(Point p, double degree) {
-		//double x = p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree);
-		//double y = p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree);
-		//double z = p.getZ();
-		
 		p.setX(p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree)) ;
 		p.setY( p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree));
 		p.setZ(p.getZ());
