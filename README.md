@@ -19,6 +19,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
 **Guilhane** (guilamb, guilhanebourgin, guilhane.bourgoin.etu)
  - Rotations
  - Tests
+ - Tests des scripts sur differents os et configurations
  
 **Maxime** (Maxime, Maxime Boutry)
  - Translations
