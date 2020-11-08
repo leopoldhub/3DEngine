@@ -17,7 +17,6 @@ public class Model3D implements PointCloud{
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
 		addFaces(faces);
-		System.out.println("Nombre de faces � l'instanciation : "+this.faces.size());
 	}
 
 	public void addFaces(Face... faces) {
