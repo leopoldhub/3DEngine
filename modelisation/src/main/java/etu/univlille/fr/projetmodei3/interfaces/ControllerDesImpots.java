@@ -113,7 +113,7 @@ public class ControllerDesImpots {
 	
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
-	    
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/resources/"));
 	    File selectedDirectory = directoryChooser.showDialog(null);
 	    
 	    if(selectedDirectory != null) {
