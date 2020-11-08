@@ -107,9 +107,18 @@ public class ControllerDesImpots {
 	}	
 		
 	public void rotateUp() {
-		this.modele.rotate(5,0,0);
+		this.modele.rotate(5,5,5);
 		affichage(modele);
 	}
+	public void rotateDown() {
+		this.modele.rotate(-5,0,0);
+		affichage(modele);
+	}
+	public void rotateRight() {
+		this.modele.rotate(0,5,0);
+		affichage(modele);
+	}
+	
 	
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();

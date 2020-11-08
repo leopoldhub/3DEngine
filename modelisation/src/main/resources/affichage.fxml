@@ -33,7 +33,7 @@
       <AnchorPane fx:id="buttonPane" prefHeight="290.0" prefWidth="1124.0">
          <children>
             <Button layoutX="990.0" layoutY="73.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Reset" textAlignment="CENTER" />
-            <Button layoutX="990.0" layoutY="133.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="⬇" textAlignment="CENTER">
+            <Button layoutX="990.0" layoutY="133.0" mnemonicParsing="false" onAction="#rotateDown" prefHeight="60.0" prefWidth="60.0" text="⬇" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
@@ -68,7 +68,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="1050.0" layoutY="73.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="➡" textAlignment="CENTER">
+            <Button layoutX="1050.0" layoutY="73.0" mnemonicParsing="false" onAction="#rotateRight" prefHeight="60.0" prefWidth="60.0" text="➡" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
