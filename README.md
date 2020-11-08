@@ -18,6 +18,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
 # Participations
 **Guilhane** (guilamb, guilhanebourgin, guilhane.bourgoin.etu)
  - Rotations
+ - Tests
  
 **Maxime** (Maxime, Maxime Boutry)
  - Translations
