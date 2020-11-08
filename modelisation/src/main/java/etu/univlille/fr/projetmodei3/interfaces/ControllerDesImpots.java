@@ -34,7 +34,7 @@ public class ControllerDesImpots {
 
 	
 	public void dragonButton(){
-		modele = Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/Dragon 2.5_ply.ply"));
+		//modele = Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/Dragon 2.5_ply.ply"));
 		affichage(modele);
 		
 	}	

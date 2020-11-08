@@ -91,8 +91,7 @@ public class Parser {
 					if(el.name.equalsIgnoreCase("vertex")) {
 						String datatype = propList.get(e).getValue().get(0).toLowerCase();
 						String dataname = propList.get(e).getKey().toLowerCase();
-						switch (dataname) {
-						case "x", "y", "z", "nx", "ny", "nz":
+						if(dataname.equals("x") || dataname.equals("y") || dataname.equals("z") || dataname.equals("nx") || dataname.equals("ny") || dataname.equals("nz")) {
 							double value = getDoubleValueFromArg(datatype, line.get(e));
 							switch(dataname) {
 								case "x":
@@ -107,8 +106,6 @@ public class Parser {
 								default:
 									break;
 							}
-							break;
-						default:
 							break;
 						}
 					}else if(el.name.equalsIgnoreCase("face")) {
