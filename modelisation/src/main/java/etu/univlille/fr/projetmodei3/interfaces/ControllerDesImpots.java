@@ -1,6 +1,9 @@
 package etu.univlille.fr.projetmodei3.interfaces;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.StringJoiner;
 
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.FolderParser;
@@ -10,11 +13,18 @@ import etu.univlille.fr.projetmodei3.objects.Point;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class ControllerDesImpots {
 	@FXML 
@@ -99,6 +109,42 @@ public class ControllerDesImpots {
 	public void rotateUp() {
 		this.modele.rotate(5,0,0);
 		affichage(modele);
+	}
+	
+	public void selectModel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+	    
+	    File selectedDirectory = directoryChooser.showDialog(null);
+	    
+	    if(selectedDirectory != null) {
+	  	  Stage selStage = new Stage();
+	  	  selStage.setTitle("select your model");
+	  	  VBox vb = new VBox();
+	  	  for(Entry<File, List<String>> entry:FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
+	  		  Button btn = new Button(entry.getKey().getName());
+	  		  StringJoiner sj = new StringJoiner("\n");
+	  		  for(String line:entry.getValue()) {
+	  			  sj.add(line);
+	  		  }
+	  		  btn.setTooltip(new Tooltip(sj.toString()));
+	  		  btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						try {
+							selStage.close();
+							modele = Parser.parse(entry.getKey());
+							autoResize(anchorPane.getWidth(), anchorPane.getHeight());
+							affichage(modele);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+	  		  vb.getChildren().add(btn);
+	  	  }
+	  	  selStage.setScene(new Scene(vb));
+	  	  selStage.show();
+	    }
 	}
 	
 }

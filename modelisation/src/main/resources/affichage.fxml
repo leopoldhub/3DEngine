@@ -15,10 +15,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Fichier">
           <items>
-            <Menu fx:id="listeModele" mnemonicParsing="false" text="ouvrir...">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#dragonButton" text="Dragon" />
-                     </items></Menu>
+            <MenuItem mnemonicParsing="false" onAction="#selectModel" text="ouvrir..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Fermer" />
             <SeparatorMenuItem mnemonicParsing="false" />
