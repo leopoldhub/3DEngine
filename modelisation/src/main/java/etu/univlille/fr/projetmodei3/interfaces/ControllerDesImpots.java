@@ -80,20 +80,20 @@ public class ControllerDesImpots {
 	}	
 		
 	public void rotateUp() {
-		this.modele.rotate(5.0/360.0,0,0);
+		this.modele.rotate(60.0/360.0,0,0);
 		//this.modele.rotate(5,0,0);
 		affichage(modele);
 	}
 	public void rotateDown() {
-		this.modele.rotate(-5.0/360.0,0,0);
+		this.modele.rotate(-60.0/360.0,0,0);
 		affichage(modele);
 	}
 	public void rotateRight() {
-		this.modele.rotate(0,5.0/360.0,0);
+		this.modele.rotate(0,60.0/360.0,0);
 		affichage(modele);
 	}
 	public void rotateLeft() {
-		this.modele.rotate(0,-5.0/360.0,0);
+		this.modele.rotate(0,-60.0/360.0,0);
 		affichage(modele);
 	}
 	public void zoom() {

@@ -80,41 +80,17 @@ public class Model3D implements PointCloud{
 	}
 
 	public void rotate(double x, double y, double z) {
-		/*
-		Matrix m = new Matrix(new double[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}});
-		m = m.getRotateXmatrix(x);
-		
-		m = m.Multiply(m.getRotateYmatrix(y),m);
-		
-		m = m.Multiply(m.getRotateZmatrix(z),m);
-				
-		
-		double[][] pointsModele = new double[4][getPoints().size()];
-		
-		for(int i = 0; i<getPoints().size();i++) {
-			pointsModele[0][i] = getPoints().get(i).getX();
-			pointsModele[1][i] = getPoints().get(i).getY();
-			pointsModele[2][i] = getPoints().get(i).getZ();
-			pointsModele[3][i] = 0;
-		}
-		Matrix matricePointsModele = new Matrix(pointsModele);
-		matricePointsModele = matricePointsModele.Multiply(m,matricePointsModele);
-		pointsModele  = matricePointsModele.getMatrice();
-		
-		
-		for(int i = 0; i<getPoints().size();i++) {
-			getPoints().get(i).setX(pointsModele[0][i]);
-			getPoints().get(i).setY(pointsModele[1][i]);
-			getPoints().get(i).setZ(pointsModele[2][i]);
-		}
-		
-		*/
+
+		Point centre = getCenter();
+		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 		for(Point p : getPoints()) {
 			rotateX(p,x);
 			rotateY(p,y);
 			rotateZ(p,z);
 
 		}
+		this.translate(centre.getX(),centre.getY(),centre.getZ());
+
 	}
 
 	public void translate(double x, double y, double z) {
@@ -132,30 +108,7 @@ public class Model3D implements PointCloud{
 		System.out.println("Centre avant : "+getCenter());
 		Point centre = getCenter();
 		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-		/*
-		for(int i = 0; i<getPoints().size();i++) {
-			pointsModele[0][i] = getPoints().get(i).getX();
-			pointsModele[1][i] = getPoints().get(i).getY();
-			pointsModele[2][i] = getPoints().get(i).getZ();
-			pointsModele[3][i] = 0;
-		}
-		System.out.println("Centre pendant : "+getCenter());
-		Matrix matricePointsModele = new Matrix(pointsModele);
 
-		matricePointsModele = matricePointsModele.Multiply(new Matrix(new double[][] {{valeur,0,0,0},
-																					  {0,valeur,0,0},
-																					  {0,0,valeur,0},
-																					  {0,0,0,1}}),matricePointsModele);
-		
-		pointsModele = matricePointsModele.getMatrice();
-		for(int i = 0; i<getPoints().size();i++) {
-			getPoints().get(i).setX(pointsModele[0][i]);
-			getPoints().get(i).setY(pointsModele[1][i]);
-			getPoints().get(i).setZ(pointsModele[2][i]);
-		}
-		
-		*/
-		
 		for(Point p : getPoints()) {
 			p.setX(p.getX()*valeur);
 			p.setY(p.getY()*valeur);
@@ -166,38 +119,6 @@ public class Model3D implements PointCloud{
 		
 		
 		System.out.println("Centre après : "+getCenter());
-	}
-	
-	
-	public void rotate(String axe, double degree) { // X, Y ou Z
-		List<Point> listePoints = getPoints();
-		switch (axe.toUpperCase()) {
-		case "X": {
-			for(Point p : listePoints) {
-				rotateX(p, degree);
-			}
-			
-			break;
-			
-		}
-		case "Y":{
-			for(Point p : listePoints) {
-				rotateY(p, degree);
-			}
-			
-			break;
-		}
-		case "Z":{
-			for(Point p : listePoints) {
-				rotateZ(p, degree);
-			}
-			
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + axe+", choose between x,y or z");
-		}
-		
 	}
 	
 	
