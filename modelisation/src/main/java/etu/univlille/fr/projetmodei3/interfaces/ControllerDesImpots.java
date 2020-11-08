@@ -45,7 +45,6 @@ public class ControllerDesImpots {
 		anchorPane.setTranslateX(anchorPane.getWidth()/2);
 		anchorPane.setTranslateY(anchorPane.getHeight()/2);
 		
-		this.modele.rotate(30.0/360.0,30.0/360.0,30.0/360.0);
 		for(Face f : this.modele.getFaces()) {
 			forme = new Polygon();
 			for(Point p : f.getPoints()) {
@@ -56,33 +55,7 @@ public class ControllerDesImpots {
 			forme.setFill(Color.RED);
 			anchorPane.getChildren().add(forme);
 		}
-		actuListeModele();
-	}
-
-
-	public void actuListeModele() {
-		//System.out.println(listeModele);
-		listeModele.getItems().clear();
-		MenuItem ajout;
-		for(File f : FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).keySet()) {
-			ajout = new MenuItem(f.getName());
-			ajout.setOnAction(new EventHandler<ActionEvent>(){
-				@Override
-				public void handle(ActionEvent event) {
-					try {
-						affichage(Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/"+f.getName())));
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}					
-				}
-				
-			});
-			listeModele.getItems().add(ajout);
-		}
-	}
-	
-	
+	}	
 	
 	public void dragonButton() throws Exception{
 		modele = Parser.parse(new File(getClass().getResource("/cube.ply").toURI()));
