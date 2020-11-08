@@ -106,7 +106,6 @@ public class Parser {
 								default:
 									break;
 							}
-							break;
 						}
 					}else if(el.name.equalsIgnoreCase("face")) {
 						if(e != 0) {
