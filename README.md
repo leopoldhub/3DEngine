@@ -4,6 +4,7 @@ Ce projet est un logiciel de visualisation 3D permettant de charger des fichiers
 # Fonctionnalités
 
  - obtenir tout les fichiers compatibles dans un dossier donné suivis des informations importantes
+ - sélectionner un fichier compatible
  - lire un modèle 3D au format PLY (header + body) et détecter d'éventuelles érreurs
  - générer un modèle 3D a partir des informations d'un fichier
  - afficher un modèle 3D
@@ -28,6 +29,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
  - UML
  - Structure du projet
  - PLY/Folder Parser
+ - Sélection du dossier/fichier
  
 **Victor**
  - Fenêtre javaFX
