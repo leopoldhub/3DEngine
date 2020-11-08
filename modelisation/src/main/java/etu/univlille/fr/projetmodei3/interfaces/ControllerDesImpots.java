@@ -1,21 +1,24 @@
 package etu.univlille.fr.projetmodei3.interfaces;
 
 import java.io.File;
+
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.FolderParser;
-import etu.univlille.fr.projetmodei3.objects.Parser;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
+import etu.univlille.fr.projetmodei3.objects.Parser;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class ControllerDesImpots {
 	@FXML 
-	javafx.scene.layout.AnchorPane AnchorPane;
+	AnchorPane anchorPane;
 	@FXML
 	Menu listeModele;
 	
@@ -24,11 +27,10 @@ public class ControllerDesImpots {
 	
 	
 	public void affichage(Model3D modele) {
-		AnchorPane.getChildren().clear();
+		anchorPane.getChildren().clear();
 		Polygon forme;
-		AnchorPane.setTranslateX(AnchorPane.getWidth()/2);
-		AnchorPane.setTranslateY(AnchorPane.getHeight()/2);
-		modele.zoom(4);
+		anchorPane.setTranslateX(anchorPane.getWidth()/2);
+		anchorPane.setTranslateY(anchorPane.getHeight()/2);
 		for(Face f : modele.getFaces()) {
 			forme = new Polygon();
 			for(Point p : f.getPoints()) {
@@ -36,9 +38,9 @@ public class ControllerDesImpots {
 				forme.getPoints().add(p.getX());
 				forme.getPoints().add(p.getY());
 			}
-			forme.setStroke(javafx.scene.paint.Color.BLACK);
-			forme.setFill(javafx.scene.paint.Color.RED);
-			AnchorPane.getChildren().add(forme);
+			forme.setStroke(Color.BLACK);
+			forme.setFill(Color.RED);
+			anchorPane.getChildren().add(forme);
 		}
 		actuListeModele();
 	}
@@ -71,12 +73,27 @@ public class ControllerDesImpots {
 	
 	
 	public void dragonButton() throws Exception{
-		modele = Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/Dragon 2.5_ply.ply"));
+		modele = Parser.parse(new File(getClass().getResource("/cube.ply").toURI()));
+		autoResize(anchorPane.getWidth(), anchorPane.getHeight());
 		affichage(modele);
-		
-	}	
-		//System.out.println("Nombre face : "+this.getChildren().size());
+	}
 	
+	public void autoResize(double width, double height) {
+		System.out.println("center: "+modele.getCenter());
+		double mw = 0;
+		double mh = 0;
+		Point mcent = modele.getCenter();
+		
+		for(Point pt:modele.getPoints()) {
+			if(Math.abs(pt.getX())-Math.abs(mcent.getX()) > mw)mw = Math.abs(pt.getX())-Math.abs(mcent.getX());
+			if(Math.abs(pt.getY())-Math.abs(mcent.getY()) > mh)mh = Math.abs(pt.getY())-Math.abs(mcent.getY());
+		}
+		
+		mw = (width/2)/mw/2;
+		mh = (height/2)/mh/2;
+		
+		modele.zoom(mw < mh?mw:mh);
+	}	
 		
 }
 

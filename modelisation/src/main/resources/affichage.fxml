@@ -32,7 +32,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane fx:id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="anchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <Button layoutX="962.0" layoutY="595.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Reset" textAlignment="CENTER" />
             <Button layoutX="1022.0" layoutY="595.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="➡" textAlignment="CENTER">
