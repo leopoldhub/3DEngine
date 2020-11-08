@@ -24,6 +24,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
 **Léopold** (Leopold Hubert, leopold)
  - UML
  - Structure du projet
+ - PLY/Folder Parser
  
 **Victor**
  - Fenêtre javaFX
