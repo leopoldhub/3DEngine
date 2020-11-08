@@ -46,4 +46,4 @@ shadowJar {
 jar.enabled = false
 
 build.dependsOn(shadowJar)
-build.dependsOn(javadoc)
+//build.dependsOn(javadoc)
