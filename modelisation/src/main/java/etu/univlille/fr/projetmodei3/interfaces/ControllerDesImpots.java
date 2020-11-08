@@ -27,14 +27,18 @@ public class ControllerDesImpots {
 	
 	
 	public void affichage(Model3D modele) {
+		this.modele = modele;
 		anchorPane.getChildren().clear();
+		autoResize(anchorPane.getWidth(), anchorPane.getHeight());
+
 		Polygon forme;
 		anchorPane.setTranslateX(anchorPane.getWidth()/2);
 		anchorPane.setTranslateY(anchorPane.getHeight()/2);
-		for(Face f : modele.getFaces()) {
+		
+		this.modele.rotate(30.0/360.0,30.0/360.0,30.0/360.0);
+		for(Face f : this.modele.getFaces()) {
 			forme = new Polygon();
 			for(Point p : f.getPoints()) {
-				System.out.println(p);
 				forme.getPoints().add(p.getX());
 				forme.getPoints().add(p.getY());
 			}
@@ -55,26 +59,23 @@ public class ControllerDesImpots {
 			ajout.setOnAction(new EventHandler<ActionEvent>(){
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("appui sur le bouton");
 					try {
 						affichage(Parser.parse(new File(System.getProperty("user.dir") + "/src/main/resources/"+f.getName())));
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}					
 				}
 				
 			});
-			System.out.println("ajout de "+f.getName());
 			listeModele.getItems().add(ajout);
 		}
-		System.out.println("Actu cool cool");
 	}
 	
 	
 	
 	public void dragonButton() throws Exception{
 		modele = Parser.parse(new File(getClass().getResource("/cube.ply").toURI()));
-		autoResize(anchorPane.getWidth(), anchorPane.getHeight());
 		affichage(modele);
 	}
 	
@@ -95,5 +96,10 @@ public class ControllerDesImpots {
 		modele.zoom(mw < mh?mw:mh);
 	}	
 		
+	public void rotateUp() {
+		this.modele.rotate(5,0,0);
+		affichage(modele);
+	}
+	
 }
 
