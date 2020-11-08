@@ -24,7 +24,7 @@ public class ControllerDesImpots {
 	
 	
 	public void affichage(Model3D modele) {
-		//AnchorPane.getChildren().clear();
+		AnchorPane.getChildren().clear();
 		Polygon forme;
 		AnchorPane.setTranslateX(AnchorPane.getWidth()/2);
 		AnchorPane.setTranslateY(AnchorPane.getHeight()/2);
