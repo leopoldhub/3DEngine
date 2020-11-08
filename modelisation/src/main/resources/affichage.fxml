@@ -38,7 +38,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="930.0" layoutY="73.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="⬅" textAlignment="CENTER">
+            <Button layoutX="930.0" layoutY="73.0" mnemonicParsing="false" onAction="#rotateLeft" prefHeight="60.0" prefWidth="60.0" text="⬅" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
@@ -73,12 +73,12 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="712.0" layoutY="66.0" mnemonicParsing="false" text="+">
+            <Button layoutX="712.0" layoutY="66.0" mnemonicParsing="false" onAction="#zoom" text="+">
                <font>
                   <Font size="32.0" />
                </font>
             </Button>
-            <Button layoutX="778.0" layoutY="66.0" mnemonicParsing="false" text="-">
+            <Button layoutX="778.0" layoutY="66.0" mnemonicParsing="false" onAction="#dezoom" text="-">
                <font>
                   <Font size="32.0" />
                </font>
