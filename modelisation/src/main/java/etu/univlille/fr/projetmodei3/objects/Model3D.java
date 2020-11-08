@@ -123,20 +123,23 @@ public class Model3D implements PointCloud{
 	
 	
 	public void rotateX(Point p,double degree) { 
-		p.setX(p.getX()) ;
-		p.setY(p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree));
-		p.setZ(p.getY()  * Math.sin(degree) + (p.getZ() * Math.cos(degree)));
+		Point psauv = p;
+		p.setX(psauv.getX()) ;
+		p.setY(psauv.getY() * Math.cos(degree) - psauv.getZ() * Math.sin(degree));
+		p.setZ(psauv.getY()  * Math.sin(degree) + (psauv.getZ() * Math.cos(degree)));
 	}
 	public void rotateY(Point p, double degree) {
-		p.setX(p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree)) ;
-		p.setY( p.getY());
-		p.setZ(-p.getX() * Math.sin(degree) + p.getZ() * Math.cos(degree));
+		Point psauv = p;
+		p.setX(psauv.getX() *  Math.cos(degree) + psauv.getZ()*  Math.sin(degree)) ;
+		p.setY(psauv.getY());
+		p.setZ(-psauv.getX() * Math.sin(degree) + psauv.getZ() * Math.cos(degree));
 
 	}
 	public void rotateZ(Point p, double degree) {
-		p.setX(p.getX()  * Math.cos(degree) - p.getY() * Math.sin(degree)) ;
-		p.setY( p.getY() * Math.cos(degree) + p.getX() *  Math.sin(degree));
-		p.setZ(p.getZ());
+		Point psauv = p;
+		p.setX(psauv.getX()  * Math.cos(degree) - psauv.getY() * Math.sin(degree)) ;
+		p.setY(psauv.getY() *  Math.cos(degree) + psauv.getX() *  Math.sin(degree));
+		p.setZ(psauv.getZ());
 	}
 
 	@Override
