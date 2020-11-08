@@ -3,8 +3,11 @@ Ce projet est un logiciel de visualisation 3D permettant de charger des fichiers
 
 # Fonctionnalités
 
- - parcourir et afficher des modèles 3D
- - effectuer des translations/rotations/zoom
+ - obtenir tout les fichiers compatibles dans un dossier donné suivis des informations importantes
+ - lire un modèle 3D au format PLY (header + body) et détecter d'éventuelles érreurs
+ - générer un modèle 3D a partir des informations d'un fichier
+ - afficher un modèle 3D
+ - éffectuer translations/rotations/zoom sur un modèle éxistant
  
 ![uml diagram](./UML/UML_Base.png)
 
@@ -24,6 +27,7 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
 **Léopold** (Leopold Hubert, leopold)
  - UML
  - Structure du projet
+ - PLY/Folder Parser
  
 **Victor**
  - Fenêtre javaFX
