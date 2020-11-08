@@ -53,9 +53,14 @@ public class Main extends Application{
 		System.out.println("Debut de parse");
 		//obj = Parser.parse(new File(System.getProperty("user.dir")+"/src/main/resources"+File.separator+"Crane.ply"));
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichage.fxml"));
-		Parent root = loader.load();
-		System.out.println(root.getChildrenUnmodifiable().get(0));
+		  FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichage.fxml"));
+          Parent root = loader.load();
+
+          Scene scene = new Scene(root);
+          primaryStage.setTitle("Accueil");
+          primaryStage.setScene(scene);
+          primaryStage.setResizable(false);
+          primaryStage.show();
 		
 		/*
 		ModelViewer vue = new ModelViewer(obj);
@@ -80,9 +85,7 @@ public class Main extends Application{
 		timeline.play();
 		*/
 		//AnchorPane ap = new AnchorPane(vue);
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		
 
 
 	}
