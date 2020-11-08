@@ -26,7 +26,7 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class ControllerDesImpots {
+public class Controler {
 	@FXML 
 	AnchorPane anchorPane;
 	@FXML
