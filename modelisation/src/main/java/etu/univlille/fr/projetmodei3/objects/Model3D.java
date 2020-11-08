@@ -204,7 +204,7 @@ public class Model3D implements PointCloud{
 	public void rotateX(Point p,double degree) { 
 		p.setX(p.getX()) ;
 		p.setY(p.getY() * Math.cos(degree) - p.getZ() * Math.sin(degree));
-		p.setZ(p.getY()  * Math.sin(degree) + p.getZ() * Math.cos(degree));
+		p.setZ(p.getY()  * Math.sin(degree) + (p.getZ() * Math.cos(degree)));
 	}
 	public void rotateY(Point p, double degree) {
 		p.setX(p.getX() *  Math.cos(degree) + p.getZ()*  Math.sin(degree)) ;
