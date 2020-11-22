@@ -39,7 +39,6 @@ public class Controler {
 	public void affichage(Model3D modele) {
 		this.modele = modele;
 		anchorPane.getChildren().clear();
-		autoResize(anchorPane.getWidth(), anchorPane.getHeight());
 
 		Polygon forme;
 		anchorPane.setTranslateX(anchorPane.getWidth()/2);
