@@ -1,0 +1,43 @@
+Travail préparatoire pour le livrable 2
+==============================================
+
+Vous devez compléter ce fichier avec les éléments décrits ci-dessous, puis le déposer sur gitlab.
+
+- Faire une liste des fonctionnalités à faire pour le livrable 2 de la plus prioritaire à la moins prioritaire (les fonctionnalités obligatoires sont plus prioritaires que les fonctionnalités au choix)
+
+- Le premier élément de cette liste sera passer votre projet en MVC. Une séance de COA a déjà été consacrée à ça
+
+- Pour chaque tâche ainsi identifiée, affecter un ou plusieurs noms de ceux qui vont s'en occuper
+
+- Pour chaque tâche, donner une date où vous vous engagez à avoir une première version
+
+
+Priorité 1 :
+
+Travail préparatoire pour le livrable 2
+==============================================
+
+- liste des fonctionnalités obligatoires de la plus prioritaire à la moins prioritaire :
+    -zoomer et dézoomer: Maxime                                          -> 22/11/2020;
+    -ajouter la translation: Luca                                         -> 22/11/2020;
+    -réparer la rotation: Guilhane                                       -> 29/11/2020;
+    -faire fonctionner les test unitaires: Guilhane                      -> 29/11/2020;
+    -affichage secondaire: tout le monde                                 -> 20/12/2020;
+    -menu de selection nouvelle gen*: Victor                             -> 13/12/2020;
+    -affichage des faces seulement:leopold                               -> 06/12/2020;
+    -affichage des segments seulement:Luca et Maxime                         -> 06/12/2020;
+    -affichage des segments et des faces:Leopold et Luca                 -> 13/12/2020;
+
+- liste des fonctionnalités aux choix de la plus prioritaire à la moins prioritaire :
+    -Modèle centré:Léopold                                               -> déja faits;
+    -Contrôleur horloge: Guilhane                                        -> 3/01/2021;
+    -vue en tranche:Maxime                                               -> 3/01/2021;
+
+
+* = Le contenu de la bibliothèque sera affiché dans la fenêtre de l’application en utilisant un tableau. Il est
+possible d’ouvrir un modèle depuis la bibliothèque, par exemple par double clic ou en utilisant un bouton. Il
+est possible de trier le tableau sur ses différentes colonnes
+
+* = Le contenu de la bibliothèque sera affiché dans la fenêtre de l’application en utilisant un tableau. Il est
+possible d’ouvrir un modèle depuis la bibliothèque, par exemple par double clic ou en utilisant un bouton. Il
+est possible de trier le tableau sur ses différentes colonnes
