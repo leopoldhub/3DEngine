@@ -82,14 +82,15 @@ public class Model3D implements PointCloud{
 	public void rotate(double x, double y, double z) {
 
 		Point centre = getCenter();
-		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+		System.out.println(centre);
+		//this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 		for(Point p : getPoints()) {
 			rotateX(p,x);
 			rotateY(p,y);
 			rotateZ(p,z);
 
 		}
-		this.translate(centre.getX(),centre.getY(),centre.getZ());
+		//this.translate(centre.getX(),centre.getY(),centre.getZ());
 
 	}
 
@@ -109,6 +110,8 @@ public class Model3D implements PointCloud{
 		Point centre = getCenter();
 		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 
+		System.out.println("centre : "+getCenter());
+		
 		for(Point p : getPoints()) {
 			p.setX(p.getX()*valeur);
 			p.setY(p.getY()*valeur);
@@ -123,20 +126,29 @@ public class Model3D implements PointCloud{
 	
 	
 	public void rotateX(Point p,double degree) { 
-		Point psauv = p;
+		Point psauv = new Point();
+		psauv.setX(p.getX());
+		psauv.setY(p.getY());
+		psauv.setZ(p.getZ());
 		p.setX(psauv.getX()) ;
 		p.setY(psauv.getY() * Math.cos(degree) - psauv.getZ() * Math.sin(degree));
 		p.setZ(psauv.getY()  * Math.sin(degree) + (psauv.getZ() * Math.cos(degree)));
 	}
 	public void rotateY(Point p, double degree) {
-		Point psauv = p;
+		Point psauv = new Point();
+		psauv.setX(p.getX());
+		psauv.setY(p.getY());
+		psauv.setZ(p.getZ());
 		p.setX(psauv.getX() *  Math.cos(degree) + psauv.getZ()*  Math.sin(degree)) ;
 		p.setY(psauv.getY());
 		p.setZ(-psauv.getX() * Math.sin(degree) + psauv.getZ() * Math.cos(degree));
 
 	}
 	public void rotateZ(Point p, double degree) {
-		Point psauv = p;
+		Point psauv = new Point();
+		psauv.setX(p.getX());
+		psauv.setY(p.getY());
+		psauv.setZ(p.getZ());
 		p.setX(psauv.getX()  * Math.cos(degree) - psauv.getY() * Math.sin(degree)) ;
 		p.setY(psauv.getY() *  Math.cos(degree) + psauv.getX() *  Math.sin(degree));
 		p.setZ(psauv.getZ());

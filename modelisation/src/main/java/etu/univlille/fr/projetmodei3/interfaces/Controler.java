@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class Controler {
 	
 	public void affichage(Model3D modele) {
 		this.modele = modele;
+		
 		anchorPane.getChildren().clear();
 
 		Polygon forme;
@@ -54,6 +56,7 @@ public class Controler {
 			forme.setFill(Color.RED);
 			anchorPane.getChildren().add(forme);
 		}
+
 	}	
 	
 	public void dragonButton() throws Exception{
@@ -126,6 +129,8 @@ public class Controler {
 						try {
 							selStage.close();
 							modele = Parser.parse(entry.getKey());
+							Point centre = modele.getCenter();
+							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 							autoResize(anchorPane.getWidth(), anchorPane.getHeight());
 							affichage(modele);
 						} catch (Exception e) {
