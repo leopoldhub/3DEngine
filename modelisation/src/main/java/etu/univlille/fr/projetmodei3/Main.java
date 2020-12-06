@@ -1,5 +1,6 @@
 package etu.univlille.fr.projetmodei3;
 
+import etu.univlille.fr.projetmodei3.objects.Affichage;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
@@ -40,8 +41,9 @@ public class Main extends Application {
 
 		obj = new Model3D(new Face[] { f1, f2, f3, f4, f5 });
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichage.fxml"));
-		Parent root = loader.load();
+		//FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichage.fxml"));
+		
+		Parent root =new Affichage();
 
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Accueil");

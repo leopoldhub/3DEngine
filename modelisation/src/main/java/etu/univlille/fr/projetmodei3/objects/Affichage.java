@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -28,16 +30,19 @@ public class Affichage extends VBox{
 	
 	MenuBar menu;
 	Model3D modele;
-	AnchorPane vue;
+	Canvas vue;
 	AnchorPane commande;
 	HBox vueCommande;
 	
+	
 	private double sensibilite = 60.0/360.0;
+	boolean voirFace = true;
+	
 	
 	public Affichage() {
 		this.menu = new MenuBar();
 		this.modele = new Model3D();
-		this.vue = new AnchorPane();
+		this.vue = new Canvas();
 		this.vueCommande = new HBox();
 		this.commande = new AnchorPane();
 		parametrageTailles();
@@ -54,8 +59,8 @@ public class Affichage extends VBox{
 		this.vueCommande.setPrefWidth(1124);
 		this.vueCommande.setPrefHeight(720);
 		this.getChildren().add(vueCommande);
-		this.vue.setPrefWidth(984);
-		this.vue.setPrefHeight(720);
+		this.vue.setWidth(984);
+		this.vue.setHeight(720);
 		this.commande.setPrefWidth(140);
 		this.commande.setPrefHeight(720);
 	}
@@ -75,9 +80,26 @@ public class Affichage extends VBox{
 	private void parametrageCommande() {
 		GridPane boutons = new GridPane();
 		
+		Button affichageFace = new Button("Ne pas voir les faces");
+		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
+			if(voirFace) {
+				voirFace = false;
+				affichageFace.setText("Voir les faces");
+			} else {
+				voirFace = true;
+				affichageFace.setText("Ne pas voir les faces");
+			}
+			affichage(modele);
+		});
+		affichageFace.setTranslateY(300);
+		affichageFace.setPrefWidth(130);
+		affichageFace.setPrefHeight(50);
+
+		this.commande.getChildren().add(affichageFace);
+		
 		Button option = new Button("\\");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(sensibilite,-sensibilite,sensibilite);
+			modele.rotate(sensibilite,-sensibilite,-sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,0,0);
@@ -119,7 +141,7 @@ public class Affichage extends VBox{
 		
 		option = new Button("/");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(-sensibilite,-sensibilite,0);
+			modele.rotate(-sensibilite,-sensibilite,-sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,0,2);
@@ -133,7 +155,7 @@ public class Affichage extends VBox{
 		
 		option = new Button("\\");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(-sensibilite,sensibilite,0);
+			modele.rotate(-sensibilite,sensibilite,sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,2,2);
@@ -195,23 +217,40 @@ public class Affichage extends VBox{
 		modele.zoom(mw < mh?mw:mh);
 	}	
 	public void affichage(Model3D modele) {
+		GraphicsContext gc = this.vue.getGraphicsContext2D();
 		this.modele = modele;
 		
-		vue.getChildren().clear();
-
+		gc.clearRect(0,0,this.vue.getWidth(),this.vue.getHeight());
+		
 		Polygon forme;
-		vue.setTranslateX(vue.getWidth()/2);
-		vue.setTranslateY(vue.getHeight()/2);
+		//vue.setTranslateX(vue.getWidth()/2);
+		//vue.setTranslateY(vue.getHeight()/2);
+		
+		int idx = 0;
+		double[] xPoints,yPoints;
 		
 		for(Face f : this.modele.getFaces()) {
 			forme = new Polygon();
+			idx = 0;
+			xPoints = new double[10];
+			yPoints = new double[10];
 			for(Point p : f.getPoints()) {
-				forme.getPoints().add(p.getX());
-				forme.getPoints().add(p.getY());
+				//forme.getPoints().add(p.getX());
+				//forme.getPoints().add(p.getY());
+				xPoints[idx] = p.getX()+vue.getWidth()/2;
+				yPoints[idx] = p.getY()+vue.getHeight()/2;
+				idx++;
 			}
 			forme.setStroke(Color.BLACK);
 			forme.setFill(Color.RED);
-			vue.getChildren().add(forme);
+			
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.RED);
+			
+			if(voirFace) gc.fillPolygon(xPoints,yPoints,idx);
+			gc.strokePolygon(xPoints,yPoints,idx);
+
+			//vue.getChildren().add(forme);
 		}
 
 	}	
