@@ -1,6 +1,7 @@
 package etu.univlille.fr.projetmodei3.objects;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -215,6 +216,29 @@ public class Parser {
 			return true;
 		}
 		
+	}
+	
+	public static int parseNb(File file, String element) {
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+			StringTokenizer st;
+			while(sc.hasNextLine()) {
+				st = new StringTokenizer(sc.nextLine());
+				if( (st.hasMoreTokens() && st.nextToken().equals("element") )&& (st.hasMoreTokens() &&st.nextToken().equals(element) )) {
+					if(st.hasMoreTokens()) {
+						int nb = Integer.parseInt(st.nextToken());
+						System.out.println("On a "+nb+ " "+element +" pour le fichier" +file.getName());
+						return nb;
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if(sc != null) sc.close();
+		}
+		return -1;
 	}
 	
 }

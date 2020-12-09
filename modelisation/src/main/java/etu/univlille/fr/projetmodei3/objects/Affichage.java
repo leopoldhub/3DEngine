@@ -1,10 +1,14 @@
 package etu.univlille.fr.projetmodei3.objects;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.Map.Entry;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -12,9 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -37,6 +45,8 @@ public class Affichage extends VBox{
 	
 	private double sensibilite = 60.0/360.0;
 	boolean voirFace = true;
+	Trieur tri;
+	
 	
 	
 	public Affichage() {
@@ -45,9 +55,11 @@ public class Affichage extends VBox{
 		this.vue = new Canvas();
 		this.vueCommande = new HBox();
 		this.commande = new AnchorPane();
+		tri = new Trieur();
 		parametrageTailles();
 		parametrageMenu();
 		parametrageCommande();
+		
 	}
 	
 	private void parametrageTailles() {
@@ -162,16 +174,54 @@ public class Affichage extends VBox{
 		
 		commande.getChildren().add(boutons);
 	}
-	
+	//PENSER A RAJOUTER UN BOUTON CROISSANT DECROISSANT
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/resources/"));
 	    File selectedDirectory = directoryChooser.showDialog(null);
-	    
-	    if(selectedDirectory != null) {
-	  	  Stage selStage = new Stage();
-	  	  selStage.setTitle("select your model");
+	  	Stage selStage = new Stage();
 	  	  VBox vb = new VBox();
+
+	    if(selectedDirectory != null) {
+	  	  selStage.setTitle("select your model");
+	  	  mettreBouton(vb,selStage);
+		};
+			
+	  	/*
+	  	List<File> fichier = new ArrayList<File>();
+	  	  
+	  	for(File f : new File(System.getProperty("user.dir") + "/src/main/resources/").listFiles() ){
+	  		if(f.getName().contains(".ply"))fichier.add(f);
+	  	}
+	  	tri.tri(fichier);
+	  	System.out.println(fichier);
+	  	for(File f : fichier) {
+	  		Button btn = new Button(f.getName());
+	  		StringJoiner sj = new StringJoiner("\n");
+	  		for(String line : FolderParser.getFileInfos(f)) {
+	  			sj.add(line);
+	  		}
+	  		btn.setTooltip(new Tooltip(sj.toString()));
+	  		btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	  			@Override
+	  			public void handle(MouseEvent event) {
+	  				try {
+	  					selStage.close();
+	  					modele = Parser.parse(f);
+						Point centre = modele.getCenter();
+						modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+						autoResize(vue.getWidth(), vue.getHeight());
+						affichage(modele);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+	  		 vb.getChildren().add(btn);
+	  	}
+	  	*/
+	  	
+	  	  /*
 	  	  for(Entry<File, List<String>> entry:FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
 	  		  Button btn = new Button(entry.getKey().getName());
 	  		  StringJoiner sj = new StringJoiner("\n");
@@ -196,10 +246,65 @@ public class Affichage extends VBox{
 				});
 	  		  vb.getChildren().add(btn);
 	  	  }
+	  	  */
 	  	  selStage.setScene(new Scene(vb));
+	  	  selStage.setWidth(1000);
+	  	  selStage.setWidth(500);
 	  	  selStage.show();
 	    }
-	}
+	
+	
+
+  	public void mettreBouton(VBox listeBouton, Stage fenetreChoix) {
+  		List<File> fichier = new ArrayList<File>();
+	  	listeBouton.getChildren().clear();
+	  	ChoiceBox<String> cb = new ChoiceBox<String>();
+	  	  
+	  	for(EnumTri et : EnumTri.values()) {
+	  		cb.getItems().add(et.getNom());
+	  	}
+	  	cb.valueProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				tri.setMethodeTri(newValue);
+				mettreBouton(listeBouton, fenetreChoix);
+			}
+	  	});
+	  	listeBouton.getChildren().add(cb);
+	  	Label info = new Label("Tri par "+tri);
+	  	listeBouton.getChildren().add(info);
+	  	for(File f : new File(System.getProperty("user.dir") + "/src/main/resources/").listFiles() ){
+	  		if(f.getName().contains(".ply"))fichier.add(f);
+	  	}
+	  	tri.tri(fichier);
+	  	System.out.println(fichier);
+	  	for(File f : fichier) {
+	  		Button btn = new Button(f.getName());
+	  		StringJoiner sj = new StringJoiner("\n");
+	  		for(String line : FolderParser.getFileInfos(f)) {
+	  			sj.add(line);
+	  		}
+	  		btn.setTooltip(new Tooltip(sj.toString()));
+	  		btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	  			@Override
+	  			public void handle(MouseEvent event) {
+	  				try {
+	  					fenetreChoix.close();
+	  					modele = Parser.parse(f);
+						Point centre = modele.getCenter();
+						modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+						autoResize(vue.getWidth(), vue.getHeight());
+						affichage(modele);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+	  		 listeBouton.getChildren().add(btn);
+	  	}
+  	}
+	
 	public void autoResize(double width, double height) {
 		System.out.println("center: "+modele.getCenter());
 		double mw = 0;
