@@ -44,7 +44,7 @@ public class Affichage extends VBox{
 	
 	
 	private double sensibilite = 60.0/360.0;
-	boolean voirFace = true;
+	boolean voirFace = true, voirArrete = true;
 	Trieur tri;
 	
 	
@@ -108,6 +108,23 @@ public class Affichage extends VBox{
 		affichageFace.setPrefHeight(50);
 
 		this.commande.getChildren().add(affichageFace);
+		
+		Button affichageArrete = new Button("Ne pas voir les arretes");
+		affichageArrete.addEventHandler(ActionEvent.ACTION, e->{
+			if(voirArrete) {
+				voirArrete = false;
+				affichageArrete.setText("Voir les Arretes");
+			} else {
+				voirArrete = true;
+				affichageArrete.setText("Ne pas voir les Arretes");
+			}
+			affichage(modele);
+		});
+		affichageArrete.setTranslateY(400);
+		affichageArrete.setPrefWidth(130);
+		affichageArrete.setPrefHeight(50);
+
+		this.commande.getChildren().add(affichageArrete);
 		
 		Button option = new Button("\\");
 		option.addEventHandler(ActionEvent.ACTION,e->{
@@ -353,7 +370,7 @@ public class Affichage extends VBox{
 			gc.setFill(Color.RED);
 			
 			if(voirFace) gc.fillPolygon(xPoints,yPoints,idx);
-			gc.strokePolygon(xPoints,yPoints,idx);
+			if(voirArrete)gc.strokePolygon(xPoints,yPoints,idx);
 
 			//vue.getChildren().add(forme);
 		}
