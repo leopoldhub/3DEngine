@@ -324,41 +324,46 @@ public class Affichage extends VBox{
 	  	 */
 	  	
 	  	
-	  	
-	  	
+	  	ListView<String> list = new ListView<String>();
+	  	ObservableList<String> models =  FXCollections.observableArrayList();
 	  	
 	  	for(File f : fichier) {
-	  		Button btn = new Button(f.getName());
 	  		StringJoiner sj = new StringJoiner("\n");
 	  		
 	  		
-	  		ObservableList<String> models =  FXCollections.observableArrayList();
-	  		ListView<String> list = new ListView<String>();
+	  		
 	  		models.add(f.getName());
+	  		System.out.println(models.size()+" taille");
 	  		
 	  		for(String line : FolderParser.getFileInfos(f)) {
 	  			sj.add(line);
 	  		}
-	  		btn.setTooltip(new Tooltip(sj.toString()));
 	  		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	  			@Override
 	  			public void handle(MouseEvent event) {
 	  				try {
-	  					fenetreChoix.close();
-	  					modele = Parser.parse(f);
-						Point centre = modele.getCenter();
-						modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-						autoResize(vue.getWidth(), vue.getHeight());
-						affichage(modele);
+	  					if(event.getClickCount() == 2) {
+	  						fenetreChoix.close();
+		  					modele = Parser.parse(f);
+							Point centre = modele.getCenter();
+							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+							autoResize(vue.getWidth(), vue.getHeight());
+							affichage(modele);
+	  					}
+	  					
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
 	  		
-	  		list.setItems(models);
-	  		 listeBouton.getChildren().add(list/*btn*/);
+	  		
+	  		
 	  	}
+	  	list.setItems(models);
+  		//list.setMaxSize(200, 160);
+  		listeBouton.getChildren().add(list);
+	  	
   	}
 	
 	public void autoResize(double width, double height) {
