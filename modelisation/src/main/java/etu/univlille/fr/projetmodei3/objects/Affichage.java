@@ -8,7 +8,9 @@ import java.util.Map.Entry;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -307,14 +310,37 @@ public class Affichage extends VBox{
 	  	}
 	  	tri.tri(fichier);
 	  	System.out.println(fichier);
+	  	
+	  	
+	  	
+	  	/*
+	  	 
+	  	 	ObservableList<String> models =  FXCollections.observableArrayList();
+	  		ListView<String> list = new ListView<String>();
+	  		models.add(line);
+	  		  list.setItems(models);
+	  	 
+	  	 
+	  	 */
+	  	
+	  	
+	  	
+	  	
+	  	
 	  	for(File f : fichier) {
 	  		Button btn = new Button(f.getName());
 	  		StringJoiner sj = new StringJoiner("\n");
+	  		
+	  		
+	  		ObservableList<String> models =  FXCollections.observableArrayList();
+	  		ListView<String> list = new ListView<String>();
+	  		models.add(f.getName());
+	  		
 	  		for(String line : FolderParser.getFileInfos(f)) {
 	  			sj.add(line);
 	  		}
 	  		btn.setTooltip(new Tooltip(sj.toString()));
-	  		btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	  		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	  			@Override
 	  			public void handle(MouseEvent event) {
 	  				try {
@@ -329,7 +355,9 @@ public class Affichage extends VBox{
 					}
 				}
 			});
-	  		 listeBouton.getChildren().add(btn);
+	  		
+	  		list.setItems(models);
+	  		 listeBouton.getChildren().add(list/*btn*/);
 	  	}
   	}
 	
