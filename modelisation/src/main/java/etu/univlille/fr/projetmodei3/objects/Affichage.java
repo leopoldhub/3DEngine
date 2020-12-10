@@ -12,6 +12,7 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +24,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -275,20 +277,29 @@ public class Affichage extends VBox{
   	public void mettreBouton(VBox listeBouton, Stage fenetreChoix) {
   		List<File> fichier = new ArrayList<File>();
 	  	listeBouton.getChildren().clear();
-	  	ChoiceBox<String> cb = new ChoiceBox<String>();
+	  	ToolBar toolBar = new ToolBar();
+	  	System.out.println("vbox add ok");
+	  	ChoiceBox<String> choiceBox = new ChoiceBox<String>();
 	  	  
 	  	for(EnumTri et : EnumTri.values()) {
-	  		cb.getItems().add(et.getNom());
-	  	}
-	  	cb.valueProperty().addListener(new ChangeListener<String>() {
+	  		Button tmp = new Button(et.getNom());
+	  		tmp.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				tri.setMethodeTri(newValue);
-				mettreBouton(listeBouton, fenetreChoix);
-			}
-	  	});
-	  	listeBouton.getChildren().add(cb);
+				@Override
+				public void handle(ActionEvent event) {
+					tri.setMethodeTri(et.getNom());
+					mettreBouton(listeBouton, fenetreChoix);
+					
+				}
+	  			
+			});
+	  		
+	  		toolBar.getItems().add(tmp);
+	  		choiceBox.getItems().add(et.getNom());
+	  	}
+
+	  	
+	  	listeBouton.getChildren().add(toolBar);
 	  	Label info = new Label("Tri par "+tri);
 	  	listeBouton.getChildren().add(info);
 	  	for(File f : new File(System.getProperty("user.dir") + "/src/main/resources/").listFiles() ){

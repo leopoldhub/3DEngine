@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
+
 public class FolderParser {
 
 	public static Map<File, List<String>> getCompatibleFiles(File folder){
@@ -34,6 +38,11 @@ public class FolderParser {
 	}
 	
 	public static List<String> getFileInfos(File file){
+		
+		 ObservableList<String> models =  FXCollections.observableArrayList();
+	  		ListView<String> list = new ListView<String>();
+		
+		System.out.println("ct ici en faite");
 		List<String> lst = new ArrayList<>();
 		if(file == null || !file.exists() || !file.canRead() || !file.isFile())return null;
 		

@@ -52,6 +52,7 @@ public class Controler {
 				forme.getPoints().add(p.getX());
 				forme.getPoints().add(p.getY());
 			}
+			
 			forme.setStroke(Color.BLACK);
 			forme.setFill(Color.RED);
 			anchorPane.getChildren().add(forme);
@@ -119,6 +120,8 @@ public class Controler {
 	  	  for(Entry<File, List<String>> entry:FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
 	  		  Button btn = new Button(entry.getKey().getName());
 	  		  StringJoiner sj = new StringJoiner("\n");
+	  		  
+	  		  
 	  		  for(String line:entry.getValue()) {
 	  			  sj.add(line);
 	  		  }
