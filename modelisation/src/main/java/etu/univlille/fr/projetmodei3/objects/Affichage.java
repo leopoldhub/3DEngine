@@ -27,8 +27,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -282,7 +286,6 @@ public class Affichage extends VBox{
 	  	listeBouton.getChildren().clear();
 	  	ToolBar toolBar = new ToolBar();
 	  	System.out.println("vbox add ok");
-	  	ChoiceBox<String> choiceBox = new ChoiceBox<String>();
 	  	  
 	  	for(EnumTri et : EnumTri.values()) {
 	  		Button tmp = new Button(et.getNom());
@@ -298,7 +301,6 @@ public class Affichage extends VBox{
 			});
 	  		
 	  		toolBar.getItems().add(tmp);
-	  		choiceBox.getItems().add(et.getNom());
 	  	}
 
 	  	
@@ -313,38 +315,54 @@ public class Affichage extends VBox{
 	  	
 	  	
 	  	
-	  	/*
-	  	 
-	  	 	ObservableList<String> models =  FXCollections.observableArrayList();
-	  		ListView<String> list = new ListView<String>();
-	  		models.add(line);
-	  		  list.setItems(models);
-	  	 
-	  	 
-	  	 */
+	  	ObservableList<FileDescriptor> models = FXCollections.observableArrayList();
+	  	
+	  	TableView<FileDescriptor> table = new TableView<FileDescriptor>();
 	  	
 	  	
-	  	ListView<String> list = new ListView<String>();
-	  	ObservableList<String> models =  FXCollections.observableArrayList();
+	  	TableColumn<FileDescriptor, String> fileName = new TableColumn<FileDescriptor, String>("file name");
+	  	fileName.setCellValueFactory(new PropertyValueFactory<>("name"));
+	  	
+	  	TableColumn<FileDescriptor, String> creatorColumn = new TableColumn<FileDescriptor, String>("creator");
+	  	creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
+	  	
+	  	TableColumn<FileDescriptor, String> vertexColumn = new TableColumn<FileDescriptor, String>("vertex");
+	  	vertexColumn.setCellValueFactory(new PropertyValueFactory<>("vertex"));
+
+	  	
+	  	TableColumn<FileDescriptor, String> faceColumn = new TableColumn<FileDescriptor, String>("face");
+	  	faceColumn.setCellValueFactory(new PropertyValueFactory<>("face"));
+
+	  	
+	  	
+
+	  	
+	  	
 	  	
 	  	for(File f : fichier) {
 	  		StringJoiner sj = new StringJoiner("\n");
+	  		FileDescriptor fdTmp = new FileDescriptor(f.getName());
 	  		
 	  		
+	  		models.add(fdTmp);
 	  		
-	  		models.add(f.getName());
-	  		System.out.println(models.size()+" taille");
 	  		
-	  		for(String line : FolderParser.getFileInfos(f)) {
+	  		int i = 0;
+	  		for(String line : FolderParser.getFileInfos(f,fdTmp)) {
 	  			sj.add(line);
+	  			i++;
 	  		}
-	  		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	  		fdTmp.setFile(f);
+	  		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	  			@Override
 	  			public void handle(MouseEvent event) {
 	  				try {
+	  					TableView c = (TableView) event.getSource();
+	  					int index = c.getSelectionModel().getFocusedIndex();
+	  					
 	  					if(event.getClickCount() == 2) {
 	  						fenetreChoix.close();
-		  					modele = Parser.parse(f);
+		  					modele = Parser.parse(models.get(index).getFile());
 							Point centre = modele.getCenter();
 							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 							autoResize(vue.getWidth(), vue.getHeight());
@@ -360,9 +378,10 @@ public class Affichage extends VBox{
 	  		
 	  		
 	  	}
-	  	list.setItems(models);
-  		//list.setMaxSize(200, 160);
-  		listeBouton.getChildren().add(list);
+	  	table.setItems(models);
+	  	table.getColumns().addAll(fileName,creatorColumn,vertexColumn,faceColumn);
+	  	
+  		listeBouton.getChildren().add(table);
 	  	
   	}
 	

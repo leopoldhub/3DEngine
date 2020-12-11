@@ -70,4 +70,53 @@ public class FolderParser {
 		return lst;
 	}
 	
+	public static List<String> getFileInfos(File file, FileDescriptor fd){
+		List<String> lst = new ArrayList<>();
+		if(file == null || !file.exists() || !file.canRead() || !file.isFile())return null;
+		
+		BufferedReader br;
+		String fType = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			fType = br.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(fType == null || !fType.equalsIgnoreCase("ply"))return null;
+		
+		List<List<String>> header = Parser.parseHeader(file);
+		for(List<String> line:header) {
+			StringJoiner sj = new StringJoiner(" ");
+			if(line.size() > 1 && line.get(0).equalsIgnoreCase("comment")) {
+				if(line.size() > 4 && line.get(1).equalsIgnoreCase("created") && line.get(2).equalsIgnoreCase("by")) {
+					for(int i = 1; i < line.size(); i++) {
+						sj.add(line.get(i));
+						
+					}
+					
+
+					fd.setCreator(sj.toString().substring(10));
+					lst.add(sj.toString());
+				}	
+			}else if(line.size() == 3 && line.get(0).equalsIgnoreCase("element")) {
+				for(int i = 1; i < line.size(); i++) {
+					
+					sj.add(line.get(i));
+				}
+				
+				if(line.get(1).equalsIgnoreCase("vertex")) {
+					fd.setVertex(sj.toString().substring(6));
+				}else if(line.get(1).equalsIgnoreCase("face")) {
+					fd.setFace(sj.toString().substring(4));
+				}
+				
+				lst.add(sj.toString());
+			}
+		}
+		
+		Collections.sort(lst);
+		
+		return lst;
+	}
+	
 }
