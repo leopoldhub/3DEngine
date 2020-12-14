@@ -2,6 +2,7 @@ package etu.univlille.fr.projetmodei3.utils;
 
 import java.util.List;
 
+import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import etu.univlille.fr.projetmodei3.objects.Vector3D;
 
@@ -41,7 +42,54 @@ public class MathsUtils {
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
 	}
+	
+	//Vecteur allant de p1 à p2
+	public static Point getVecteur(Point p1, Point p2) {
+		return new Point(p2.getX()-p1.getX(), p2.getY()-p1.getY(), p2.getZ()-p1.getZ());
+	}
+	
+	//On part du principe que TOUTES les faces sont des triangles (eeeerrrrfffff)
+	public static Point produitVectoriel(Point vecteur1, Point vecteur2) {
+		return new Point(vecteur1.getY() * vecteur2.getZ() - vecteur1.getZ() * vecteur2.getY(),
+						-vecteur1.getX() * vecteur2.getZ() + vecteur1.getZ() * vecteur2.getX(),
+						 vecteur1.getX() * vecteur2.getY() - vecteur1.getY() * vecteur2.getX()
+				);
+	}
+	//Obtenir la norme d'un vecteur 
+	public static double getNorme(Point produitVectoriel) {
+		return Math.sqrt(Math.pow(produitVectoriel.getX(),2) + Math.pow(produitVectoriel.getY(),2) + Math.pow(produitVectoriel.getZ(),2));
+	}
 
+	//Obtenir le vecteur normal unitaire d'une face
+	public static Point getVecteurNormal(Face f) {
+		System.out.println(" Centre de la face f : "+f.getCenter());
+		Point vecteur1  = getVecteur(f.getPoints().get(0), f.getPoints().get(1));
+		Point vecteur2  = getVecteur(f.getPoints().get(0), f.getPoints().get(2));
+
+		Point prodVectoriel = produitVectoriel(vecteur1, vecteur2);
+		normalisation(prodVectoriel);
+		System.out.println("Produit vectoriel associé  : "+prodVectoriel);
+
+
+		return prodVectoriel;
+	}
+	
+	public static void normalisation(Point vecteur) {
+		double norme = getNorme(vecteur);
+		vecteur.setX(vecteur.getX()/norme);
+		vecteur.setY(vecteur.getY()/norme);
+		vecteur.setZ(vecteur.getZ()/norme);
+	}
+	
+	public static double tauxEclairage(Face f, Point vecteurVersLumiere) {
+		Point vecteurNorm = getVecteurNormal(f);
+		normalisation(vecteurVersLumiere);
+		System.out.println("Vecteur vers la source de lumière : " +vecteurVersLumiere);
+		return Math.abs(vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
+	}
+	
+	
+	
 	public static double degreeToRad(double degree) {
 		return degree * Math.PI / 180;
 	}

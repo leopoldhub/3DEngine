@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+
+import etu.univlille.fr.projetmodei3.utils.MathsUtils;
+
 import java.util.Map.Entry;
 
 import javafx.beans.value.ChangeListener;
@@ -51,7 +54,7 @@ public class Affichage extends VBox{
 	AnchorPane commande;
 	HBox vueCommande;
 	
-	
+	Point posLumiere = new Point(500,0,0);
 	private double sensibilite = 60.0/360.0;
 	boolean voirFace = true, voirArrete = true;
 	Trieur tri;
@@ -426,12 +429,21 @@ public class Affichage extends VBox{
 				yPoints[idx] = p.getY()+vue.getHeight()/2;
 				idx++;
 			}
+			double tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
+			System.out.println("Taux affichage pour la face : "+tauxAffichage);
 			forme.setStroke(Color.BLACK);
-			forme.setFill(Color.RED);
+			if(f.getColor() != null) {
+				forme.setFill(new Color(f.getColor().getRed()/255.0,f.getColor().getBlue()/255.0,f.getColor().getGreen()/255.0,f.getColor().getAlpha()/255.0));
+			} else {
+				forme.setFill(Color.RED);
+			}
 			
 			gc.setStroke(Color.BLACK);
-			gc.setFill(Color.RED);
-			
+			if(f.getColor() != null) {
+				gc.setFill(new Color(f.getColor().getRed() * tauxAffichage/255.0,f.getColor().getBlue() * tauxAffichage/255.0,f.getColor().getGreen() * tauxAffichage/255.0,f.getColor().getAlpha()/255.0));
+			} else {
+				gc.setFill(Color.RED);
+			}
 			if(voirFace) gc.fillPolygon(xPoints,yPoints,idx);
 			if(voirArrete)gc.strokePolygon(xPoints,yPoints,idx);
 

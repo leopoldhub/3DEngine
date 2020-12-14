@@ -14,7 +14,7 @@ public class Face implements PointCloud, Comparable<Face>{
 	private Color color;
 	
 	public Face(Point... points) {
-		this(new Color(), points);
+		this(new Color(255,0,0), points);
 	}
 	
 	public Face(Color color, Point... points) {
@@ -47,7 +47,7 @@ public class Face implements PointCloud, Comparable<Face>{
 
 	@Override
 	public String toString() {
-		return "Face [points=" + points + "]";
+		return "Face [points=" + points + "]\n Couleur : "+this.color;
 	}
 	
 	public Point getCenter() {
