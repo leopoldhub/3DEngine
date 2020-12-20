@@ -196,19 +196,19 @@ public class Affichage extends VBox{
 		boutons.add(option,0,1);
 		
 		
-		option = new Button();
+		Button middleButton = new Button("⤨ ");
 		
-		if(!isRotation)
-			option.setText("⟳ ");
-		else
-			option.setText("⤨ ");
-		option.addEventHandler(ActionEvent.ACTION,e->{
+		
+		middleButton.addEventHandler(ActionEvent.ACTION,e->{
 			isRotation = ! isRotation;
-			
+			if(isRotation)
+				middleButton.setText("⟳ ");
+			else
+				middleButton.setText("⤨ ");
 			modele.rotate(0,0,0);
 			affichage(modele);
 		});
-		boutons.add(option,1,1);
+		boutons.add(middleButton,1,1);
 		
 		option = new Button("→ -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
