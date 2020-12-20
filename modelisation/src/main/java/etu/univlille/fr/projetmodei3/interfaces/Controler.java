@@ -84,7 +84,6 @@ public class Controler {
 		
 	public void rotateUp() {
 		this.modele.rotate(60.0/360.0,0,0);
-		//this.modele.rotate(5,0,0);
 		affichage(modele);
 	}
 	public void rotateDown() {
@@ -105,6 +104,22 @@ public class Controler {
 	}
 	public void dezoom() {
 		this.modele.zoom(0.8);
+		affichage(modele);
+	}
+	public void translateUp() {
+		this.modele.translate(0, 1, 0);
+		affichage(modele);
+	}
+	public void translateDown() {
+		this.modele.translate(0, -1, 0);
+		affichage(modele);	
+	}
+	public void translateRight() {
+		this.modele.translate(1, 0, 0);	
+		affichage(modele);
+	}
+	public void translateLeft() {
+		this.modele.translate(-1, 0, 0);		
 		affichage(modele);
 	}
 	

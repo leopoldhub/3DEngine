@@ -46,6 +46,8 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+
+
 public class Affichage extends VBox{
 	
 	MenuBar menu;
@@ -58,7 +60,7 @@ public class Affichage extends VBox{
 	private double sensibilite = 60.0/360.0;
 	boolean voirFace = true, voirArrete = true;
 	Trieur tri;
-	
+	private boolean isRotation = false;
 	
 	
 	public Affichage() {
@@ -115,16 +117,17 @@ public class Affichage extends VBox{
 	}
 	
 	private void parametrageCommande() {
+		
 		GridPane boutons = new GridPane();
 		
-		Button affichageFace = new Button("Ne pas voir les faces");
+		Button affichageFace = new Button("Cacher les faces");
 		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
 			if(voirFace) {
 				voirFace = false;
 				affichageFace.setText("Voir les faces");
 			} else {
 				voirFace = true;
-				affichageFace.setText("Ne pas voir les faces");
+				affichageFace.setText("Cacher les faces");
 			}
 			affichage(modele);
 		});
@@ -141,7 +144,7 @@ public class Affichage extends VBox{
 				affichageArrete.setText("Voir les Arretes");
 			} else {
 				voirArrete = true;
-				affichageArrete.setText("Ne pas voir les Arretes");
+				affichageArrete.setText("Cacher les Arretes");
 			}
 			affichage(modele);
 		});
@@ -151,65 +154,98 @@ public class Affichage extends VBox{
 
 		this.commande.getChildren().add(affichageArrete);
 		
-		Button option = new Button("\\");
+		Button option = new Button("↖ hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(sensibilite,-sensibilite,-sensibilite);
+			if(!isRotation)
+				modele.translate(-sensibilite*60, -sensibilite*60, 0);
+			else
+				modele.rotate(sensibilite,-sensibilite,-sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,0,0);
 		
-		option = new Button("|");
+		option = new Button("↑ |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(sensibilite,0,0);
+			if(!isRotation)
+				modele.translate(0, -sensibilite*60, 0);
+			else
+				modele.rotate(sensibilite,0,0);
 			affichage(modele);
 		});
 		boutons.add(option,1,0);
 		
-		option = new Button("/");
+		option = new Button("↗ hd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(sensibilite,sensibilite,sensibilite);
+			if(!isRotation)
+				modele.translate(sensibilite*60, -sensibilite*60, 0);
+			else
+				modele.rotate(sensibilite,sensibilite,sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,2,0);
 		
-		option = new Button("-");
+		option = new Button("← -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(0,-sensibilite,0);
+			//modele.rotate(0,-sensibilite,0);
+			if(!isRotation)
+				modele.translate(-sensibilite*60, 0, 0);
+			else
+				modele.rotate(0,-sensibilite,0);
 			affichage(modele);
 		});
 		boutons.add(option,0,1);
 		
-		option = new Button("o");
+		
+		option = new Button();
+		
+		if(!isRotation)
+			option.setText("⟳ ");
+		else
+			option.setText("⤨ ");
 		option.addEventHandler(ActionEvent.ACTION,e->{
+			isRotation = ! isRotation;
+			
 			modele.rotate(0,0,0);
 			affichage(modele);
 		});
 		boutons.add(option,1,1);
 		
-		option = new Button("-");
+		option = new Button("→ -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(0,sensibilite,0);
+			if(!isRotation)
+				modele.translate(sensibilite*60,0 ,0);
+			else
+				modele.rotate(0,sensibilite,0);
 			affichage(modele);
 		});
 		boutons.add(option,2,1);
 		
-		option = new Button("/");
+		option = new Button("↙ bg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(-sensibilite,-sensibilite,-sensibilite);
+			if(!isRotation)
+				modele.translate(-sensibilite*60, sensibilite*60, 0);
+			else
+				modele.rotate(-sensibilite,-sensibilite,-sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,0,2);
 		
-		option = new Button("|");
+		option = new Button("↓ |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(-sensibilite,0,0);
+			if(!isRotation)
+				modele.translate(0, sensibilite*60, 0);
+			else
+				modele.rotate(-sensibilite,0,0);
 			affichage(modele);
 		});
 		boutons.add(option,1,2);
 		
-		option = new Button("\\");
+		option = new Button("↘ bd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
-			modele.rotate(-sensibilite,sensibilite,sensibilite);
+			if(!isRotation )
+				modele.translate(sensibilite*60, sensibilite*60, 0);
+			else
+				modele.rotate(-sensibilite,sensibilite,sensibilite);
 			affichage(modele);
 		});
 		boutons.add(option,2,2);
