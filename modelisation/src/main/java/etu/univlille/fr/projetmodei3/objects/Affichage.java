@@ -104,7 +104,7 @@ public class Affichage extends VBox{
 		this.menu.getMenus().get(0).getItems().add(fichier);
 		this.menu.getMenus().get(0).getItems().get(0);
 		
-		MenuItem nouvelleVue = new MenuItem("Ouvrir dans une nouvelle fenetre");
+		MenuItem nouvelleVue = new MenuItem("Ouvrir une nouvelle fenetre");
 		nouvelleVue.addEventHandler(ActionEvent.ACTION,e->{
 			Affichage vue = new Affichage();
 			Stage fenetre = new Stage();
@@ -120,14 +120,14 @@ public class Affichage extends VBox{
 		
 		GridPane boutons = new GridPane();
 		
-		Button affichageFace = new Button("Cacher les faces");
+		Button affichageFace = new Button("Cacher Faces");
 		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
 			if(voirFace) {
 				voirFace = false;
-				affichageFace.setText("Voir les faces");
+				affichageFace.setText("Voir Faces");
 			} else {
 				voirFace = true;
-				affichageFace.setText("Cacher les faces");
+				affichageFace.setText("Cacher Faces");
 			}
 			affichage(modele);
 		});
@@ -137,14 +137,14 @@ public class Affichage extends VBox{
 
 		this.commande.getChildren().add(affichageFace);
 		
-		Button affichageArrete = new Button("Ne pas voir les arretes");
+		Button affichageArrete = new Button("Cacher Arretes");
 		affichageArrete.addEventHandler(ActionEvent.ACTION, e->{
 			if(voirArrete) {
 				voirArrete = false;
-				affichageArrete.setText("Voir les Arretes");
+				affichageArrete.setText("Voir Arretes");
 			} else {
 				voirArrete = true;
-				affichageArrete.setText("Cacher les Arretes");
+				affichageArrete.setText("Cacher Arretes");
 			}
 			affichage(modele);
 		});
@@ -153,6 +153,19 @@ public class Affichage extends VBox{
 		affichageArrete.setPrefHeight(50);
 
 		this.commande.getChildren().add(affichageArrete);
+		
+		
+		Button resetModel = new Button("Reset translation");
+		resetModel.addEventHandler(ActionEvent.ACTION, e->{
+			modele.reset();	
+			affichage(modele);
+		});
+		resetModel.setTranslateY(500);
+		resetModel.setPrefWidth(130);
+		resetModel.setPrefHeight(50);
+		
+		this.commande.getChildren().add(resetModel);
+		
 		
 		Button option = new Button("↖ hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{

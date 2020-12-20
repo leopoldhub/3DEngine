@@ -122,6 +122,11 @@ public class Controler {
 		this.modele.translate(-1, 0, 0);		
 		affichage(modele);
 	}
+	public void reset() {
+		Point centre = modele.getCenter();
+		modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+		affichage(modele);
+	}
 	
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();

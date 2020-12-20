@@ -153,6 +153,11 @@ public class Model3D implements PointCloud{
 		p.setY(psauv.getY() *  Math.cos(degree) + psauv.getX() *  Math.sin(degree));
 		p.setZ(psauv.getZ());
 	}
+	
+	public void reset() {
+		Point centre = this.getCenter();
+		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
+	}
 
 	@Override
 	public String toString() {
