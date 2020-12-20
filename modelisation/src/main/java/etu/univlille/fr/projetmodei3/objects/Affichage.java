@@ -71,6 +71,8 @@ public class Affichage extends VBox{
 		parametrageTailles();
 		parametrageMenu();
 		parametrageCommande();
+		posLumiere.setX(posLumiere.getX()+ vue.getWidth()/2);
+		posLumiere.setY(posLumiere.getY()+ vue.getHeight()/2);
 		
 	}
 	
@@ -99,6 +101,17 @@ public class Affichage extends VBox{
 		});
 		this.menu.getMenus().get(0).getItems().add(fichier);
 		this.menu.getMenus().get(0).getItems().get(0);
+		
+		MenuItem nouvelleVue = new MenuItem("Ouvrir dans une nouvelle fenetre");
+		nouvelleVue.addEventHandler(ActionEvent.ACTION,e->{
+			Affichage vue = new Affichage();
+			Stage fenetre = new Stage();
+			Scene truc = new Scene(vue);
+			fenetre.setScene(truc);
+			fenetre.show();
+		});
+		this.menu.getMenus().get(0).getItems().add(nouvelleVue);
+
 	}
 	
 	private void parametrageCommande() {

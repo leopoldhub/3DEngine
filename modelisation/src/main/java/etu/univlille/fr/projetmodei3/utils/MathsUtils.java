@@ -85,7 +85,12 @@ public class MathsUtils {
 		Point vecteurNorm = getVecteurNormal(f);
 		normalisation(vecteurVersLumiere);
 		System.out.println("Vecteur vers la source de lumière : " +vecteurVersLumiere);
-		return Math.abs(vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
+		double resultat = (vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
+		if(resultat > 0) {
+			return resultat;
+		} else {
+			return 0;
+		}
 	}
 	
 	
