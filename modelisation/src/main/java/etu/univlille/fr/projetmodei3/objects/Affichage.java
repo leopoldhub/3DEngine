@@ -4,10 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
 import java.util.Map.Entry;
+import java.util.ServiceConfigurationError;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -15,6 +18,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -57,10 +62,13 @@ public class Affichage extends VBox{
 	Canvas vue;
 	AnchorPane commande;
 	HBox vueCommande;
+	Timer timer = new Timer();
+
+	
 	
 	Point posLumiere = new Point(500,0,0);
 	private double sensibilite = 60.0/360.0;
-	boolean voirFace = true, voirArrete = true;
+	boolean voirFace = true, voirArrete = true, rotationAuto = false	;
 	Trieur tri;
 	private boolean isRotation = false;
 	
@@ -180,6 +188,45 @@ public class Affichage extends VBox{
 		
 		this.commande.getChildren().add(resetModel);
 		
+	
+		
+		
+		Button rotationHor = new Button("Rotation auto");
+		
+		rotationHor.addEventHandler(ActionEvent.ACTION, e->{
+			
+			
+			TimerTask task = new TimerTask() {
+				
+				@Override
+				public void run() {
+					modele.rotate(sensibilite, sensibilite, sensibilite);	
+					
+					
+				}
+			};
+			
+			//timer.schedule(task, 0, 1000);
+			
+			if(rotationAuto) {
+				timer.cancel();
+				
+			}else {
+				timer = new Timer();
+				timer.schedule(task, 0,1000);		
+			}	
+			this.rotationAuto = !rotationAuto;
+				
+			
+				
+		});
+		
+			
+		rotationHor.setTranslateY(600);
+		rotationHor.setPrefWidth(130);
+		rotationHor.setPrefHeight(50);
+		this.commande.getChildren().add(rotationHor);
+
 		
 		Button option = new Button("↖ hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
