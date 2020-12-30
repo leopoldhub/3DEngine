@@ -33,6 +33,7 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -129,7 +130,7 @@ public class Affichage extends VBox{
 				voirFace = true;
 				affichageFace.setText("Cacher Faces");
 			}
-			affichage(modele);
+			affichage(/*modele*/);
 		});
 		affichageFace.setTranslateY(300);
 		affichageFace.setPrefWidth(130);
@@ -146,13 +147,25 @@ public class Affichage extends VBox{
 				voirArrete = true;
 				affichageArrete.setText("Cacher Arretes");
 			}
-			affichage(modele);
+			affichage(/*modele*/);
 		});
 		affichageArrete.setTranslateY(400);
 		affichageArrete.setPrefWidth(130);
 		affichageArrete.setPrefHeight(50);
 
 		this.commande.getChildren().add(affichageArrete);
+
+		Button tranches = new Button("Activer les tranches");
+
+		tranches.setPrefWidth(130);
+		tranches.setPrefHeight(50);
+		tranches.setTranslateY(500);
+		
+		TextField nbTranches = new TextField();
+		nbTranches.setTranslateY(550);
+
+		this.commande.getChildren().add(tranches);
+		this.commande.getChildren().add(nbTranches);
 		
 		
 		Button resetModel = new Button("Reset translation");
@@ -173,7 +186,7 @@ public class Affichage extends VBox{
 				modele.translate(-sensibilite*60, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibilite,-sensibilite,-sensibilite);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,0);
 		
@@ -183,7 +196,7 @@ public class Affichage extends VBox{
 				modele.translate(0, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibilite,0,0);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,1,0);
 		
@@ -193,7 +206,7 @@ public class Affichage extends VBox{
 				modele.translate(sensibilite*60, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibilite,sensibilite,sensibilite);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,0);
 		
@@ -204,7 +217,7 @@ public class Affichage extends VBox{
 				modele.translate(-sensibilite*60, 0, 0);
 			else
 				modele.rotate(0,-sensibilite,0);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,1);
 		
@@ -219,7 +232,7 @@ public class Affichage extends VBox{
 			else
 				middleButton.setText("⤨ ");
 			modele.rotate(0,0,0);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(middleButton,1,1);
 		
@@ -229,7 +242,7 @@ public class Affichage extends VBox{
 				modele.translate(sensibilite*60,0 ,0);
 			else
 				modele.rotate(0,sensibilite,0);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,1);
 		
@@ -239,7 +252,7 @@ public class Affichage extends VBox{
 				modele.translate(-sensibilite*60, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,-sensibilite,-sensibilite);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,2);
 		
@@ -249,7 +262,7 @@ public class Affichage extends VBox{
 				modele.translate(0, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,0,0);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,1,2);
 		
@@ -259,12 +272,13 @@ public class Affichage extends VBox{
 				modele.translate(sensibilite*60, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,sensibilite,sensibilite);
-			affichage(modele);
+			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,2);
 		
 		commande.getChildren().add(boutons);
 	}
+	
 	//PENSER A RAJOUTER UN BOUTON CROISSANT DECROISSANT
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -418,6 +432,7 @@ public class Affichage extends VBox{
 	  			i++;
 	  		}
 	  		fdTmp.setFile(f);
+	  		Affichage vue= this;
 	  		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	  			@Override
 	  			public void handle(MouseEvent event) {
@@ -428,10 +443,11 @@ public class Affichage extends VBox{
 	  					if(event.getClickCount() == 2) {
 	  						fenetreChoix.close();
 		  					modele = Parser.parse(models.get(index).getFile());
+		  					modele.setVue(vue);
 							Point centre = modele.getCenter();
 							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 							autoResize(vue.getWidth(), vue.getHeight());
-							affichage(modele);
+							affichage(/*modele*/);
 	  					}
 	  					
 					} catch (Exception e) {
@@ -466,9 +482,9 @@ public class Affichage extends VBox{
 		
 		modele.zoom(mw < mh?mw:mh);
 	}	
-	public void affichage(Model3D modele) {
+	public void affichage() {
 		GraphicsContext gc = this.vue.getGraphicsContext2D();
-		this.modele = modele;
+		//this.modele = modele;
 		
 		gc.clearRect(0,0,this.vue.getWidth(),this.vue.getHeight());
 		
