@@ -171,7 +171,7 @@ public class Affichage extends VBox{
 		Button resetModel = new Button("Reset translation");
 		resetModel.addEventHandler(ActionEvent.ACTION, e->{
 			modele.reset();	
-			affichage(modele);
+			affichage(/*modele*/);
 		});
 		resetModel.setTranslateY(500);
 		resetModel.setPrefWidth(130);
