@@ -9,6 +9,7 @@ import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
 import java.util.Map.Entry;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -285,12 +286,16 @@ public class Affichage extends VBox{
 		directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/resources/"));
 	    File selectedDirectory = directoryChooser.showDialog(null);
 	  	Stage selStage = new Stage();
-	  	  VBox vb = new VBox();
+
+	  	VBox vb = new VBox();
+	  	System.out.println(directoryChooser.toString()+"selected directory null");
 
 	    if(selectedDirectory != null) {
 	  	  selStage.setTitle("select your model");
 	  	  mettreBouton(vb,selStage);
-		};
+		}else{
+			 Platform.runLater(() -> selStage.close());
+		}
 			
 	  	/*
 	  	List<File> fichier = new ArrayList<File>();
