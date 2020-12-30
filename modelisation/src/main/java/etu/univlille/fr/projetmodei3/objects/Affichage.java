@@ -228,7 +228,7 @@ public class Affichage extends VBox{
 		this.commande.getChildren().add(rotationHor);
 
 		
-		Button option = new Button("↖ hg");
+		Button option = new Button("\u2196 hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(-sensibilite*60, -sensibilite*60, 0);
@@ -238,7 +238,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,0,0);
 		
-		option = new Button("↑ |");
+		option = new Button("\u2191 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(0, -sensibilite*60, 0);
@@ -248,7 +248,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,1,0);
 		
-		option = new Button("↗ hd");
+		option = new Button("\u2197 hd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(sensibilite*60, -sensibilite*60, 0);
@@ -258,7 +258,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,2,0);
 		
-		option = new Button("← -");
+		option = new Button("\u2190 -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			//modele.rotate(0,-sensibilite,0);
 			if(!isRotation)
@@ -270,21 +270,21 @@ public class Affichage extends VBox{
 		boutons.add(option,0,1);
 		
 		
-		Button middleButton = new Button("⤨ ");
+		Button middleButton = new Button("\u2928 ");
 		
 		
 		middleButton.addEventHandler(ActionEvent.ACTION,e->{
 			isRotation = ! isRotation;
 			if(isRotation)
-				middleButton.setText("⟳ ");
+				middleButton.setText("\u27F3 ");
 			else
-				middleButton.setText("⤨ ");
+				middleButton.setText("\u2928 ");
 			modele.rotate(0,0,0);
 			//affichage(/*modele*/);
 		});
 		boutons.add(middleButton,1,1);
 		
-		option = new Button("→ -");
+		option = new Button("\u2192 -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(sensibilite*60,0 ,0);
@@ -294,7 +294,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,2,1);
 		
-		option = new Button("↙ bg");
+		option = new Button("\u2199 bg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(-sensibilite*60, sensibilite*60, 0);
@@ -304,7 +304,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,0,2);
 		
-		option = new Button("↓ |");
+		option = new Button("\u2193 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
 				modele.translate(0, sensibilite*60, 0);
@@ -314,7 +314,7 @@ public class Affichage extends VBox{
 		});
 		boutons.add(option,1,2);
 		
-		option = new Button("↘ bd");
+		option = new Button("\u2198 bd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation )
 				modele.translate(sensibilite*60, sensibilite*60, 0);
