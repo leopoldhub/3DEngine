@@ -13,6 +13,7 @@ import etu.univlille.fr.projetmodei3.utils.Matrix;
 public class Model3D implements PointCloud{
 
 	private List<Face> faces;
+	private Affichage vue;
 
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
@@ -85,13 +86,13 @@ public class Model3D implements PointCloud{
 		System.out.println(centre);
 		//this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 		for(Point p : getPoints()) {
-			rotateX(p,x);
-			rotateY(p,y);
-			rotateZ(p,z);
+			if(x != 0) rotateX(p,x);
+			if(y != 0) rotateY(p,y);
+			if(z != 0) rotateZ(p,z);
 
 		}
 		//this.translate(centre.getX(),centre.getY(),centre.getZ());
-
+		vue.affichage();
 	}
 
 	public void translate(double x, double y, double z) {
@@ -100,6 +101,7 @@ public class Model3D implements PointCloud{
 			p.setY(p.getY() + y);
 			p.setZ(p.getZ() + z);
 		}
+		vue.affichage();
 	}
 	
 	public void zoom(double valeur) { 
@@ -122,6 +124,8 @@ public class Model3D implements PointCloud{
 		
 		
 		System.out.println("Centre après : "+getCenter());
+		
+		vue.affichage();
 	}
 	
 	
@@ -154,6 +158,11 @@ public class Model3D implements PointCloud{
 		p.setZ(psauv.getZ());
 	}
 
+	
+	public void setVue(Affichage vue) {
+		this.vue = vue;
+	}
+	
 	@Override
 	public String toString() {
 		return "Model3D [faces=" + faces + "]";
