@@ -170,9 +170,25 @@ public class Affichage extends VBox{
 
 
 		Button tranches = new Button("Activer les tranches");
-
+		Affichage vue = this;
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
-			MathsUtils.getZtranches(modele, Integer.parseInt(nbTranches.getText()));
+			Model3D modeleTranches = new Model3D();
+			modeleTranches.setVue(vue);
+			Face tranche;
+			Point[] intersections;
+			for(double z : MathsUtils.getZtranches(modele, Integer.parseInt(nbTranches.getText()))) {
+				tranche = new Face();
+				for(Face f : modele.getFaces()) {
+					intersections = MathsUtils.getIntersection(f, z);
+					if(intersections != null) {
+						tranche.addPoints(intersections[0]);
+						tranche.addPoints(intersections[1]);
+					}
+				}
+				modeleTranches.addFaces(tranche);
+			}
+			modele = modeleTranches;
+			affichage();
 		});
 		
 		tranches.setPrefWidth(130);
@@ -556,8 +572,8 @@ public class Affichage extends VBox{
 		for(Face f : this.modele.getFaces()) {
 			forme = new Polygon();
 			idx = 0;
-			xPoints = new double[10];
-			yPoints = new double[10];
+			xPoints = new double[1000];
+			yPoints = new double[1000];
 			for(Point p : f.getPoints()) {
 				//forme.getPoints().add(p.getX());
 				//forme.getPoints().add(p.getY());
@@ -566,7 +582,7 @@ public class Affichage extends VBox{
 				idx++;
 			}
 			double tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
-			System.out.println("Taux affichage pour la face : "+tauxAffichage);
+			//System.out.println("Taux affichage pour la face : "+tauxAffichage);
 			forme.setStroke(Color.BLACK);
 			if(f.getColor() != null) {
 				forme.setFill(new Color(f.getColor().getRed()/255.0,f.getColor().getBlue()/255.0,f.getColor().getGreen()/255.0,f.getColor().getAlpha()/255.0));

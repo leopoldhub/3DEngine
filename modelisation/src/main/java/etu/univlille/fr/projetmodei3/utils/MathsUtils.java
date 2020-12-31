@@ -69,7 +69,7 @@ public class MathsUtils {
 
 		Point prodVectoriel = produitVectoriel(vecteur1, vecteur2);
 		normalisation(prodVectoriel);
-		System.out.println("Produit vectoriel associé  : "+prodVectoriel);
+		//System.out.println("Produit vectoriel associé  : "+prodVectoriel);
 
 
 		return prodVectoriel;
@@ -85,7 +85,7 @@ public class MathsUtils {
 	public static double tauxEclairage(Face f, Point vecteurVersLumiere) {
 		Point vecteurNorm = getVecteurNormal(f);
 		normalisation(vecteurVersLumiere);
-		System.out.println("Vecteur vers la source de lumière : " +vecteurVersLumiere);
+		//System.out.println("Vecteur vers la source de lumière : " +vecteurVersLumiere);
 		double resultat = (vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
 		if(resultat > 0) {
 			return resultat;
@@ -117,7 +117,7 @@ public class MathsUtils {
 		return zTranches;
 	}
 	
-	public Point[] getIntersection(Face f, double z) {
+	public static Point[] getIntersection(Face f, double z) {
 		//Un triangle traverse un plan forcément en 2 points
 		Point[] intersections = new Point[2];
 		List<Point> points = f.getPoints();
@@ -142,14 +142,14 @@ public class MathsUtils {
 		return intersections;
 	}
 	
-	public Point intersectionDroitePlan(Point p1, Point p2, double z) {
+	public static Point intersectionDroitePlan(Point p1, Point p2, double z) {
 		
 		if( p1.getZ() < z && p2.getZ() > z) {
 			double taux = (z-p1.getZ())/(p2.getZ() - p1.getZ());
-			return new Point((p2.getX()-p1.getX())*taux, p2.getY()-p1.getY()*taux, p2.getZ()-p1.getZ()*taux );
+			return new Point(p1.getX() + (p2.getX()-p1.getX())*taux, p1.getY()+ (p2.getY()-p1.getY())*taux,z);
 		} else if (p1.getZ() > z && p2.getZ() < z){
 			double taux = (z-p2.getZ())/(p1.getZ() - p2.getZ());
-			return new Point((p1.getX()-p2.getX())*taux, p1.getY()-p2.getY()*taux, p1.getZ()-p2.getZ()*taux );
+			return new Point(p2.getX() + (p1.getX()-p2.getX())*taux, p2.getY()+ (p1.getY()-p2.getY())*taux,z);
 		} else {
 			return null;
 		}
