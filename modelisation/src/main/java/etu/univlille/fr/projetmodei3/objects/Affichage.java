@@ -164,15 +164,21 @@ public class Affichage extends VBox{
 
 		this.commande.getChildren().add(affichageArrete);
 
-		Button tranches = new Button("Activer les tranches");
-
-		tranches.setPrefWidth(130);
-		tranches.setPrefHeight(50);
-		tranches.setTranslateY(500);
 		
 		TextField nbTranches = new TextField();
 		nbTranches.setTranslateY(550);
 
+
+		Button tranches = new Button("Activer les tranches");
+
+		tranches.addEventHandler(ActionEvent.ACTION, e->{
+			MathsUtils.getZtranches(modele, Integer.parseInt(nbTranches.getText()));
+		});
+		
+		tranches.setPrefWidth(130);
+		tranches.setPrefHeight(50);
+		tranches.setTranslateY(500);
+		
 		this.commande.getChildren().add(tranches);
 		this.commande.getChildren().add(nbTranches);
 		
@@ -182,7 +188,7 @@ public class Affichage extends VBox{
 			modele.reset();	
 			affichage(/*modele*/);
 		});
-		resetModel.setTranslateY(500);
+		resetModel.setTranslateY(700);
 		resetModel.setPrefWidth(130);
 		resetModel.setPrefHeight(50);
 		

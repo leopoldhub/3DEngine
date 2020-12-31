@@ -3,6 +3,7 @@ package etu.univlille.fr.projetmodei3.utils;
 import java.util.List;
 
 import etu.univlille.fr.projetmodei3.objects.Face;
+import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import etu.univlille.fr.projetmodei3.objects.Vector3D;
 
@@ -91,6 +92,68 @@ public class MathsUtils {
 		} else {
 			return 0;
 		}
+	}
+	
+	public static double[] getZtranches(Model3D modele, int nbTranches) {
+		double[] zTranches = new double[nbTranches];
+		List<Face> faces = modele.getFaces();
+		double zMax = faces.get(faces.size()-1).getPoints().get(0).getZ(), zMin = faces.get(0).getPoints().get(0).getZ();
+
+		
+		for(int i = 1; i < 3; i++) {
+			if(zMin > faces.get(0).getPoints().get(i).getZ()) zMin = faces.get(0).getPoints().get(i).getZ();
+			if(zMax > faces.get(faces.size()-1).getPoints().get(i).getZ()) zMin = faces.get(faces.size()-1).getPoints().get(i).getZ();
+		}
+		
+		zTranches[0] = zMin;
+		for(int i = 1 ; i < zTranches.length ; i++) {
+			zTranches[i] = zTranches[i-1] + (zMax - zMin)/nbTranches;
+		}
+		System.out.println("Valeur des z de chaque tranches : ");
+		for(double d : zTranches) {
+			System.out.println(d);
+		}
+		
+		return zTranches;
+	}
+	
+	public Point[] getIntersection(Face f, double z) {
+		//Un triangle traverse un plan forcément en 2 points
+		Point[] intersections = new Point[2];
+		List<Point> points = f.getPoints();
+		int idx = 0;
+		Point resultat = intersectionDroitePlan(points.get(0), points.get(1), z);
+		if(resultat != null) {
+			intersections[idx] =  resultat;
+			idx++;
+		}
+		resultat = intersectionDroitePlan(points.get(0), points.get(2), z);
+		if(resultat != null) {
+			intersections[idx] =  resultat;
+			idx++;
+		}
+		
+		resultat = intersectionDroitePlan(points.get(1), points.get(2), z);
+		if(resultat != null) {
+			intersections[idx] =  resultat;
+			idx++;
+		}
+		
+		return intersections;
+	}
+	
+	public Point intersectionDroitePlan(Point p1, Point p2, double z) {
+		
+		if( p1.getZ() < z && p2.getZ() > z) {
+			double taux = (z-p1.getZ())/(p2.getZ() - p1.getZ());
+			return new Point((p2.getX()-p1.getX())*taux, p2.getY()-p1.getY()*taux, p2.getZ()-p1.getZ()*taux );
+		} else if (p1.getZ() > z && p2.getZ() < z){
+			double taux = (z-p2.getZ())/(p1.getZ() - p2.getZ());
+			return new Point((p1.getX()-p2.getX())*taux, p1.getY()-p2.getY()*taux, p1.getZ()-p2.getZ()*taux );
+		} else {
+			return null;
+		}
+	
 	}
 	
 	
