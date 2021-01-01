@@ -23,6 +23,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -35,7 +36,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -70,7 +73,7 @@ public class Affichage extends VBox{
 	private double sensibilite = 60.0/360.0;
 	boolean voirFace = true, voirArrete = true, rotationAuto = false	;
 	Trieur tri;
-	private boolean isRotation = false;
+	private boolean isRotation = false, lightOn = true;
 	
 	
 	public Affichage() {
@@ -106,13 +109,31 @@ public class Affichage extends VBox{
 	
 	private void parametrageMenu() {
 		this.menu.getMenus().add(new Menu("fichier"));
+		this.menu.getMenus().add(new Menu("edition"));
+
 		MenuItem fichier = new MenuItem("fichier");
-		
+		MenuItem lights = new MenuItem("on/off lumières");
+		MenuItem tranche = new MenuItem("Vue en tranches");
+
 		fichier.addEventHandler(ActionEvent.ACTION,e->{
 			selectModel();
 		});
+		
+		lights.addEventHandler(ActionEvent.ACTION,e->{
+			lightOn = !lightOn;
+			affichage();
+		});
+		
+		tranche.addEventHandler(ActionEvent.ACTION,e->{
+			
+		});
+
 		this.menu.getMenus().get(0).getItems().add(fichier);
 		this.menu.getMenus().get(0).getItems().get(0);
+		
+		this.menu.getMenus().get(1).getItems().add(lights);
+		this.menu.getMenus().get(1).getItems().add(tranche);
+
 		
 		MenuItem nouvelleVue = new MenuItem("Ouvrir une nouvelle fenetre");
 		nouvelleVue.addEventHandler(ActionEvent.ACTION,e->{
@@ -165,8 +186,15 @@ public class Affichage extends VBox{
 		this.commande.getChildren().add(affichageArrete);
 
 		
-		TextField nbTranches = new TextField();
+		Slider nbTranches = new Slider();
 		nbTranches.setTranslateY(550);
+		nbTranches.setMin(1);
+		nbTranches.setMax(20);
+		nbTranches.setOrientation(Orientation.HORIZONTAL);
+		nbTranches.setValue(4);
+		nbTranches.setShowTickLabels(true);
+		nbTranches.setShowTickMarks(true);
+		nbTranches.setMajorTickUnit(1);
 
 
 		Button tranches = new Button("Vue en tranches");
@@ -176,7 +204,7 @@ public class Affichage extends VBox{
 			modeleTranches.setVue(vue);
 			Face tranche;
 			Point[] intersections;
-			for(double z : MathsUtils.getZtranches(modele, Integer.parseInt(nbTranches.getText()))) {
+			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
 				tranche = new Face();
 				for(Face f : modele.getFaces()) {
 					intersections = MathsUtils.getIntersection(f, z);
@@ -363,66 +391,6 @@ public class Affichage extends VBox{
 			 Platform.runLater(() -> selStage.close());
 		}
 			
-	  	/*
-	  	List<File> fichier = new ArrayList<File>();
-	  	  
-	  	for(File f : new File(System.getProperty("user.dir") + "/src/main/resources/").listFiles() ){
-	  		if(f.getName().contains(".ply"))fichier.add(f);
-	  	}
-	  	tri.tri(fichier);
-	  	System.out.println(fichier);
-	  	for(File f : fichier) {
-	  		Button btn = new Button(f.getName());
-	  		StringJoiner sj = new StringJoiner("\n");
-	  		for(String line : FolderParser.getFileInfos(f)) {
-	  			sj.add(line);
-	  		}
-	  		btn.setTooltip(new Tooltip(sj.toString()));
-	  		btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	  			@Override
-	  			public void handle(MouseEvent event) {
-	  				try {
-	  					selStage.close();
-	  					modele = Parser.parse(f);
-						Point centre = modele.getCenter();
-						modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-						autoResize(vue.getWidth(), vue.getHeight());
-						affichage(modele);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-	  		 vb.getChildren().add(btn);
-	  	}
-	  	*/
-	  	
-	  	  /*
-	  	  for(Entry<File, List<String>> entry:FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
-	  		  Button btn = new Button(entry.getKey().getName());
-	  		  StringJoiner sj = new StringJoiner("\n");
-	  		  for(String line:entry.getValue()) {
-	  			  sj.add(line);
-	  		  }
-	  		  btn.setTooltip(new Tooltip(sj.toString()));
-	  		  btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						try {
-							selStage.close();
-							modele = Parser.parse(entry.getKey());
-							Point centre = modele.getCenter();
-							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-							autoResize(vue.getWidth(), vue.getHeight());
-							affichage(modele);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-	  		  vb.getChildren().add(btn);
-	  	  }
-	  	  */
 	  	  selStage.setScene(new Scene(vb));
 	  	  selStage.setWidth(1000);
 	  	  selStage.setWidth(500);
@@ -578,7 +546,11 @@ public class Affichage extends VBox{
 				yPoints[idx] = p.getY()+vue.getHeight()/2;
 				idx++;
 			}
-			double tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
+			double tauxAffichage;
+			if(lightOn)
+				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
+			else
+				tauxAffichage = 0;
 			//System.out.println("Taux affichage pour la face : "+tauxAffichage);
 			forme.setStroke(Color.BLACK);
 			if(f.getColor() != null) {
