@@ -169,7 +169,7 @@ public class Affichage extends VBox{
 		nbTranches.setTranslateY(550);
 
 
-		Button tranches = new Button("Activer les tranches");
+		Button tranches = new Button("Vue en tranches");
 		Affichage vue = this;
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
 			Model3D modeleTranches = new Model3D();
@@ -222,14 +222,11 @@ public class Affichage extends VBox{
 				
 				@Override
 				public void run() {
-					modele.rotate(sensibilite, sensibilite, sensibilite);	
+					modele.rotate(sensibilite+1, sensibilite+1, sensibilite+3);	
 					
 					
 				}
-			};
-			
-			//timer.schedule(task, 0, 1000);
-			
+			};			
 			if(rotationAuto) {
 				timer.cancel();
 				
