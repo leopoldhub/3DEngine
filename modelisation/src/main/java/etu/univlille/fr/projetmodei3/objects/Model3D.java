@@ -166,6 +166,7 @@ public class Model3D implements PointCloud{
 	
 	public void setVue(Affichage vue) {
 		this.vue = vue;
+		vue.affichage();
 	}
 	
 	@Override

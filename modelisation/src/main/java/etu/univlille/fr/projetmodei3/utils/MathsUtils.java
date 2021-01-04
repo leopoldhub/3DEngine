@@ -105,7 +105,7 @@ public class MathsUtils {
 			if(zMax > faces.get(faces.size()-1).getPoints().get(i).getZ()) zMin = faces.get(faces.size()-1).getPoints().get(i).getZ();
 		}
 		
-		zTranches[0] = zMin;
+		zTranches[0] = zMin + (zMax - zMin)/nbTranches;
 		for(int i = 1 ; i < zTranches.length ; i++) {
 			zTranches[i] = zTranches[i-1] + (zMax - zMin)/nbTranches;
 		}
@@ -139,7 +139,9 @@ public class MathsUtils {
 			idx++;
 		}
 		
-		return intersections;
+		System.out.println("getIntersection : "+idx+ " points renvoyés");
+		if(idx == 2) return intersections;
+		else return null;
 	}
 	
 	public static Point intersectionDroitePlan(Point p1, Point p2, double z) {

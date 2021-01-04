@@ -2,6 +2,7 @@ package etu.univlille.fr.projetmodei3.objects;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.Timer;
@@ -11,6 +12,7 @@ import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
 import java.util.Map.Entry;
 import java.util.ServiceConfigurationError;
+import java.util.Set;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -201,8 +203,8 @@ public class Affichage extends VBox{
 		Affichage vue = this;
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
 			Model3D modeleTranches = new Model3D();
-			modeleTranches.setVue(vue);
 			Face tranche;
+			/*
 			Point[] intersections;
 			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
 				tranche = new Face();
@@ -215,8 +217,53 @@ public class Affichage extends VBox{
 				}
 				modeleTranches.addFaces(tranche);
 			}
+			*/
+			Point depart, courant;
+			Point[] intersection;
+			int idx;
+			List<Point[]> segments = new ArrayList<Point[]>();
+			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
+				tranche = new Face();
+				for(Face f: modele.getFaces()) {
+					intersection = MathsUtils.getIntersection(f, z);
+					if(intersection != null) segments.add(intersection);
+				}
+				System.out.println("Liste intersection : "+segments);
+				depart = segments.get(0)[0];
+				courant = segments.get(0)[1];
+				tranche.addPoints(depart);
+				tranche.addPoints(courant);
+
+				System.out.println("Segment : "+segments.get(0)[0]+"\nDepart : "+depart+"\ncourant"+courant);
+				segments.remove(0);
+				while(!segments.isEmpty()) {
+					idx = 1;	
+					while(idx < segments.size() && !courant.equals(segments.get(idx-1)[0]) && !courant.equals(segments.get(idx-1)[1])) {
+						idx++;
+					}
+					if(idx < segments.size()) {
+						System.out.println("dans le if");
+						if(courant.equals(segments.get(idx-1)[0])) {
+							courant = segments.get(idx-1)[1];
+							tranche.addPoints(courant);
+						} else {
+							courant = segments.get(idx-1)[0];
+							tranche.addPoints(courant);
+						}
+						segments.remove(idx-1);
+						System.out.println("Fin du if");
+					}	else {
+						tranche.addPoints(depart);
+						segments.clear();
+					}
+				}
+				tranche.addPoints(depart);
+				System.out.println("Face fini");
+				modeleTranches.addFaces(tranche);
+			}
+			
+			modeleTranches.setVue(vue);
 			modele = modeleTranches;
-			affichage();
 		});
 		
 		tranches.setPrefWidth(130);
@@ -550,7 +597,7 @@ public class Affichage extends VBox{
 			if(lightOn)
 				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
 			else
-				tauxAffichage = 0;
+				tauxAffichage = 1;
 			//System.out.println("Taux affichage pour la face : "+tauxAffichage);
 			forme.setStroke(Color.BLACK);
 			if(f.getColor() != null) {
