@@ -65,15 +65,12 @@ public class Affichage extends VBox{
 	MenuBar menu;
 	Model3D modele;
 	Canvas vue;
-	AnchorPane commande;
+	Controller commande;
 	HBox vueCommande;
 	Timer timer = new Timer();
 
-	
-	
-	Point posLumiere = new Point(500,0,0);
 	private double sensibilite = 60.0/360.0;
-	boolean voirFace = true, voirArrete = true, rotationAuto = false	;
+	boolean rotationAuto = false;
 	Trieur tri;
 	private boolean isRotation = false, lightOn = true;
 	
@@ -83,13 +80,14 @@ public class Affichage extends VBox{
 		this.modele = new Model3D();
 		this.vue = new Canvas();
 		this.vueCommande = new HBox();
-		this.commande = new AnchorPane();
+		//this.commande = new AnchorPane();
+		this.commande = new Controller(modele);
 		tri = new Trieur();
 		parametrageTailles();
 		parametrageMenu();
-		parametrageCommande();
-		posLumiere.setX(posLumiere.getX()+ vue.getWidth()/2);
-		posLumiere.setY(posLumiere.getY()+ vue.getHeight()/2);
+		//parametrageCommande();
+		this.modele.posLumiere.setX(this.modele.posLumiere.getX()+ vue.getWidth()/2);
+		this.modele.posLumiere.setY(this.modele.posLumiere.getY()+ vue.getHeight()/2);
 		
 	}
 	
@@ -155,11 +153,11 @@ public class Affichage extends VBox{
 		
 		Button affichageFace = new Button("Cacher Faces");
 		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
-			if(voirFace) {
-				voirFace = false;
+			if(this.modele.vueFaceOn()) {
+				modele.switchVueFace();
 				affichageFace.setText("Voir Faces");
 			} else {
-				voirFace = true;
+				modele.switchVueFace();
 				affichageFace.setText("Cacher Faces");
 			}
 			affichage(/*modele*/);
@@ -172,11 +170,11 @@ public class Affichage extends VBox{
 		
 		Button affichageArrete = new Button("Cacher Arretes");
 		affichageArrete.addEventHandler(ActionEvent.ACTION, e->{
-			if(voirArrete) {
-				voirArrete = false;
+			if(modele.vueArreteOn()) {
+				modele.switchVueArrete();
 				affichageArrete.setText("Voir Arretes");
 			} else {
-				voirArrete = true;
+				modele.switchVueArrete();
 				affichageArrete.setText("Cacher Arretes");
 			}
 			affichage(/*modele*/);
@@ -187,6 +185,9 @@ public class Affichage extends VBox{
 
 		this.commande.getChildren().add(affichageArrete);
 
+
+		Slider posLumX = new Slider(),posLumY = new Slider(),posLumZ = new Slider();
+		//setSliderLumiere(posLumX, posLumY, posLumZ);
 		
 		Slider nbTranches = new Slider();
 		nbTranches.setTranslateY(550);
@@ -533,6 +534,7 @@ public class Affichage extends VBox{
 							Point centre = modele.getCenter();
 							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 							autoResize(vue.getWidth(), vue.getHeight());
+							commande.setModele(modele);
 							affichage(/*modele*/);
 	  					}
 	  					
@@ -595,7 +597,7 @@ public class Affichage extends VBox{
 			}
 			double tauxAffichage;
 			if(lightOn)
-				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.posLumiere));
+				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.modele.getLumiere()));
 			else
 				tauxAffichage = 1;
 			//System.out.println("Taux affichage pour la face : "+tauxAffichage);
@@ -612,15 +614,45 @@ public class Affichage extends VBox{
 			} else {
 				gc.setFill(Color.RED);
 			}
-			if(voirFace) gc.fillPolygon(xPoints,yPoints,idx);
-			if(voirArrete)gc.strokePolygon(xPoints,yPoints,idx);
+			if(this.modele.vueFaceOn()) gc.fillPolygon(xPoints,yPoints,idx);
+			if(modele.vueArreteOn())gc.strokePolygon(xPoints,yPoints,idx);
 
 			//vue.getChildren().add(forme);
 		}
 
 	}	
 	
-	public void setSensibilite(double angle) {
-		this.sensibilite = angle/360.0;
+	public void setModele(Model3D modele) {
+		this.modele = modele;
 	}
+	
+	public void setSliderLumiere(Slider x, Slider y, Slider z) {
+		if(x == null) {
+			x = new Slider();
+			y = new Slider();
+			z = new Slider();
+		}
+		List<Point> points = modele.getPoints();
+		double xMin = points.get(0).getX(), xMax = points.get(0).getX(), 
+				yMin = points.get(0).getY(), yMax = points.get(0).getY(), 
+				zMin = points.get(0).getZ(), zMax = points.get(0).getZ();
+		for(Point p : modele.getPoints()) {
+			if(p.getX() < xMin) xMin = p.getX();
+			if(p.getX() > xMax) xMax = p.getX();
+			if(p.getX() < yMin) xMin = p.getY();
+			if(p.getX() > yMin) xMax = p.getY();
+			if(p.getX() < zMin) xMin = p.getZ();
+			if(p.getX() > zMax) xMax = p.getZ();
+		}
+		
+		x.setMin(xMin * 0.8);
+		x.setMax(xMax * 1.2);
+		x.setMin(yMin * 0.8);
+		x.setMin(yMax * 1.2);
+		x.setMin(zMin * 0.8);
+		x.setMin(zMax * 1.2);
+
+	}
+	
+	
 }

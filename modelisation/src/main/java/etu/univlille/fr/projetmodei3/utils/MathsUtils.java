@@ -63,7 +63,6 @@ public class MathsUtils {
 
 	//Obtenir le vecteur normal unitaire d'une face
 	public static Point getVecteurNormal(Face f) {
-		System.out.println(" Centre de la face f : "+f.getCenter());
 		Point vecteur1  = getVecteur(f.getPoints().get(0), f.getPoints().get(1));
 		Point vecteur2  = getVecteur(f.getPoints().get(0), f.getPoints().get(2));
 

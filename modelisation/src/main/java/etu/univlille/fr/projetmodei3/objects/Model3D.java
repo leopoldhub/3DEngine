@@ -15,6 +15,10 @@ public class Model3D implements PointCloud{
 	private List<Face> faces;
 	private Affichage vue;
 
+	Point posLumiere = new Point(500,0,0);
+	private boolean voirFace = true, voirArrete = true;
+	
+	
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
 		addFaces(faces);
@@ -166,9 +170,39 @@ public class Model3D implements PointCloud{
 	
 	public void setVue(Affichage vue) {
 		this.vue = vue;
+		vue.setModele(this);
 		vue.affichage();
 	}
 	
+	public Point getLumiere() {
+		return this.posLumiere;
+	}
+	
+	public boolean vueFaceOn() {
+		return this.voirFace;
+	}
+	public boolean vueArreteOn() {
+		return this.voirArrete;
+	}
+	public void setLumiere(double x, double y, double z) {
+		this.posLumiere.setX(x+ vue.getWidth()/2);
+		this.posLumiere.setY(y+ vue.getWidth()/2);
+		this.posLumiere.setZ(z);
+		vue.affichage();
+	}
+	
+	public Affichage getVue() {
+		return this.vue;
+	}
+	
+	public void switchVueFace() {
+		this.voirFace = !voirFace;
+		vue.affichage();
+	}
+	public void switchVueArrete() {
+		this.voirArrete = !voirArrete;
+		vue.affichage();
+	}
 	@Override
 	public String toString() {
 		return "Model3D [faces=" + faces + "]";
