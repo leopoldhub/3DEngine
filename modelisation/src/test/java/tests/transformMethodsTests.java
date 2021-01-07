@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import etu.univlille.fr.projetmodei3.objects.Affichage;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
@@ -54,7 +55,7 @@ public class transformMethodsTests {
 		assertEquals(3, p2.getY());
 		assertEquals(3, p1.getY());
 		assertEquals(3, p3.getY());
-		assertEquals(3, p4.getY());
+		assertEquals(0, p4.getY());
 		assertNotEquals(3, p5.getY());		
 		
 	}

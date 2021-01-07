@@ -39,25 +39,25 @@ public class RotationTests {
 	public void rotationTest() { //bien an degre pas en rad
 		
 		//Test rotation de 90° sur l'axe X
-		obj.rotateX(p1,MathsUtils.degreeToRad(90));
+		obj.rotate(90, 0, 0);
 		
 		assertEquals(obj.getPoints().get(0).getX(),-1);
-		assertEquals(obj.getPoints().get(0).getY(),1);
-		assertEquals(obj.getPoints().get(0).getZ(),0);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getY(),0),1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getZ(),0),0);
 		
 		//Test rotation de 90° sur l'axe Y
-		obj.rotateY(p1,MathsUtils.degreeToRad(90));
+		obj.rotate(0, 90, 0);
 		
-		assertEquals(obj.getPoints().get(0).getX(),-1);
-		assertEquals(obj.getPoints().get(0).getY(),0);
-		assertEquals(obj.getPoints().get(0).getZ(),1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getX(),0),1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getY(),0),1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getZ(),0),1);
 		
 		//Test rotation de 90° sur l'axe Z
-		obj.rotateZ(p1,MathsUtils.degreeToRad(90));
+		obj.rotate(0, 0, 90);
 		
-		assertEquals(obj.getPoints().get(0).getX(),0);
-		assertEquals(obj.getPoints().get(0).getY(),-1);
-		assertEquals(obj.getPoints().get(0).getZ(),-1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getX(),0),-1);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getY(),0),0);
+		assertEquals(MathsUtils.round(obj.getPoints().get(0).getZ(),0),1);
 
 
 	}

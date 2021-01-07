@@ -5,6 +5,7 @@ import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,6 +50,9 @@ public class Main extends Application {
 		primaryStage.setTitle("Accueil");
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
+		primaryStage.setOnCloseRequest(e->{
+			System.exit(0);
+		});
 		primaryStage.show();
 
 	}

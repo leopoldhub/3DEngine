@@ -69,6 +69,7 @@ public class Affichage extends VBox{
 	HBox vueCommande;
 	Timer timer = new Timer();
 
+	private int nbTranches = 0;
 	private double sensibilite = 60.0/360.0;
 	boolean rotationAuto = false;
 	Trieur tri;
@@ -110,10 +111,11 @@ public class Affichage extends VBox{
 	private void parametrageMenu() {
 		this.menu.getMenus().add(new Menu("fichier"));
 		this.menu.getMenus().add(new Menu("edition"));
+		this.menu.getMenus().add(new Menu("parametres"));
 
 		MenuItem fichier = new MenuItem("fichier");
 		MenuItem lights = new MenuItem("on/off lumières");
-		MenuItem tranche = new MenuItem("Vue en tranches");
+		MenuItem param = new MenuItem("parametres");
 
 		fichier.addEventHandler(ActionEvent.ACTION,e->{
 			selectModel();
@@ -124,15 +126,16 @@ public class Affichage extends VBox{
 			affichage();
 		});
 		
-		tranche.addEventHandler(ActionEvent.ACTION,e->{
-			
+
+		param.addEventHandler(ActionEvent.ACTION, e->{
+			settings();
 		});
 
 		this.menu.getMenus().get(0).getItems().add(fichier);
 		this.menu.getMenus().get(0).getItems().get(0);
 		
 		this.menu.getMenus().get(1).getItems().add(lights);
-		this.menu.getMenus().get(1).getItems().add(tranche);
+		this.menu.getMenus().get(2).getItems().add(param);
 
 		
 		MenuItem nouvelleVue = new MenuItem("Ouvrir une nouvelle fenetre");
@@ -189,15 +192,15 @@ public class Affichage extends VBox{
 		Slider posLumX = new Slider(),posLumY = new Slider(),posLumZ = new Slider();
 		//setSliderLumiere(posLumX, posLumY, posLumZ);
 		
-		Slider nbTranches = new Slider();
-		nbTranches.setTranslateY(550);
-		nbTranches.setMin(1);
-		nbTranches.setMax(20);
-		nbTranches.setOrientation(Orientation.HORIZONTAL);
-		nbTranches.setValue(4);
-		nbTranches.setShowTickLabels(true);
-		nbTranches.setShowTickMarks(true);
-		nbTranches.setMajorTickUnit(1);
+		Slider sliderTranche = new Slider();
+		sliderTranche.setTranslateY(550);
+		sliderTranche.setMin(1);
+		sliderTranche.setMax(20);
+		sliderTranche.setOrientation(Orientation.HORIZONTAL);
+		sliderTranche.setValue(4);
+		sliderTranche.setShowTickLabels(true);
+		sliderTranche.setShowTickMarks(true);
+		sliderTranche.setMajorTickUnit(1);
 
 
 		Button tranches = new Button("Vue en tranches");
@@ -205,6 +208,7 @@ public class Affichage extends VBox{
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
 			Model3D modeleTranches = new Model3D();
 			Face tranche;
+			nbTranches = (int)sliderTranche.getValue();
 			/*
 			Point[] intersections;
 			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
@@ -223,7 +227,7 @@ public class Affichage extends VBox{
 			Point[] intersection;
 			int idx;
 			List<Point[]> segments = new ArrayList<Point[]>();
-			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
+			for(double z : MathsUtils.getZtranches(modele, nbTranches)) {
 				tranche = new Face();
 				for(Face f: modele.getFaces()) {
 					intersection = MathsUtils.getIntersection(f, z);
@@ -272,7 +276,7 @@ public class Affichage extends VBox{
 		tranches.setTranslateY(500);
 		
 		this.commande.getChildren().add(tranches);
-		this.commande.getChildren().add(nbTranches);
+		this.commande.getChildren().add(sliderTranche);
 		
 		
 		Button resetModel = new Button("Reset translation");
@@ -308,7 +312,7 @@ public class Affichage extends VBox{
 				
 			}else {
 				timer = new Timer();
-				timer.schedule(task, 0,1000);		
+				timer.schedule(task, 0,500);		
 			}	
 			this.rotationAuto = !rotationAuto;
 				
@@ -491,6 +495,7 @@ public class Affichage extends VBox{
 	  	
 	  	TableColumn<FileDescriptor, String> creatorColumn = new TableColumn<FileDescriptor, String>("creator");
 	  	creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
+	  	creatorColumn.setPrefWidth(215);
 	  	
 	  	TableColumn<FileDescriptor, String> vertexColumn = new TableColumn<FileDescriptor, String>("vertex");
 	  	vertexColumn.setCellValueFactory(new PropertyValueFactory<>("vertex"));
@@ -652,6 +657,44 @@ public class Affichage extends VBox{
 		x.setMin(zMin * 0.8);
 		x.setMin(zMax * 1.2);
 
+	}
+	
+	private void settings() {
+		VBox settingVbox = new VBox();
+		Label labelRotation = new Label("Entrez l'angle de rotation au format(x y z) : ");
+		TextField angleRotation = new TextField();
+		angleRotation.setMaxWidth(400);
+		
+		Label labelTranches = new Label("Entrez le nombre de tranches : ");
+		labelTranches.setTranslateY(10);
+		TextField trancheField = new TextField();
+		trancheField.setMaxWidth(400);
+		trancheField.setTranslateY(10);
+		
+		Button validateSettings = new Button("valider");
+		validateSettings.setTranslateY(20);
+		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
+			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
+			if(angleRotation.getText()!=null || !angleRotation.getText().equals(" "))
+				sensibilite =  Integer.parseInt(angleRotation.getText());
+			
+			if(trancheField.getText()!=null || !trancheField.getText().equals(" "))
+				this.nbTranches = Integer.parseInt(trancheField.getText());
+		});
+		
+		/*
+		Label label = new Label("Entrez le nombre de tranches : ");
+		TextField nbRotations = new TextField();
+		*/
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelTranches,trancheField,validateSettings);
+		
+		Scene settingScene = new Scene(settingVbox,800,500);
+		
+		Stage settingStage = new Stage();
+		settingStage.setTitle("Parametres");
+		settingStage.setScene(settingScene);
+		
+		settingStage.show();
 	}
 	
 	

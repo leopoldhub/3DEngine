@@ -44,7 +44,7 @@ public class ZoomTests {
 			zObj = obj.getPoints().get(i).getZ();
 		}
 		assertEquals(obj.getPoints().get(4).getX(),-5);
-		assertEquals(obj.getPoints().get(4).getY(), 0);
+		assertEquals(obj.getPoints().get(4).getY(), 1);
 		assertEquals(obj.getPoints().get(4).getZ(), -5);
 		
 	}

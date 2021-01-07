@@ -96,7 +96,8 @@ public class Model3D implements PointCloud{
 
 		}
 		//this.translate(centre.getX(),centre.getY(),centre.getZ());
-		vue.affichage();
+		if(vue != null)
+			vue.affichage();
 	}
 
 	public void translate(double x, double y, double z) {
@@ -105,7 +106,8 @@ public class Model3D implements PointCloud{
 			p.setY(p.getY() + y);
 			p.setZ(p.getZ() + z);
 		}
-		vue.affichage();
+		if(vue != null)
+			vue.affichage();
 	}
 	
 	public void zoom(double valeur) { 
@@ -128,8 +130,8 @@ public class Model3D implements PointCloud{
 		
 		
 		System.out.println("Centre après : "+getCenter());
-		
-		vue.affichage();
+		if(vue != null)
+			vue.affichage();
 	}
 	
 	
