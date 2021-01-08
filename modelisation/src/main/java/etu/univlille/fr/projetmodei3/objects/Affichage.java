@@ -265,40 +265,6 @@ public class Affichage extends VBox{
 		this.commande.getChildren().add(resetModel);
 		
 	
-		
-		
-		Button rotationHor = new Button("Rotation auto");
-		
-		rotationHor.addEventHandler(ActionEvent.ACTION, e->{
-			
-			
-			TimerTask task = new TimerTask() {
-				
-				@Override
-				public void run() {
-					modele.rotate(sensibilite+1, sensibilite+1, sensibilite+3);	
-					
-					
-				}
-			};			
-			if(rotationAuto) {
-				timer.cancel();
-				
-			}else {
-				timer = new Timer();
-				timer.schedule(task, 0,500);		
-			}	
-			this.rotationAuto = !rotationAuto;
-				
-			
-				
-		});
-		
-			
-		rotationHor.setTranslateY(600);
-		rotationHor.setPrefWidth(130);
-		rotationHor.setPrefHeight(50);
-		this.commande.getChildren().add(rotationHor);
 
 	}
 

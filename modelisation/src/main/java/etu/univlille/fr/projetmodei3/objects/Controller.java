@@ -25,6 +25,8 @@ public class Controller extends AnchorPane{
 	
 	Model3D modele;
 	private double sensibilite = 60.0/360.0;
+	private double sensibiliteX,sensibiliteY,sensibiliteZ = 0.0;
+
 	private int nbTranches = 2;
 
 	Trieur tri;
@@ -41,7 +43,9 @@ public class Controller extends AnchorPane{
 	
 	
 	private void parametrageCommande() {
-		
+		sensibiliteX = 60.0/360.0;
+		sensibiliteY = 60.0/360.0;
+		sensibiliteZ = (60.0/360.0);
 		GridPane boutons = new GridPane();
 		
 		Button affichageFace = new Button("Cacher Faces");
@@ -240,7 +244,7 @@ public class Controller extends AnchorPane{
 				
 				@Override
 				public void run() {
-					modele.rotate(sensibilite+1, sensibilite+1, sensibilite+3);	
+					modele.rotate(sensibiliteX+1, sensibiliteY+1, sensibiliteZ+3);	
 					
 					
 				}
@@ -250,7 +254,7 @@ public class Controller extends AnchorPane{
 				
 			}else {
 				timer = new Timer();
-				timer.schedule(task, 0,1000);		
+				timer.schedule(task, 0,60);		
 			}	
 			this.rotationAuto = !rotationAuto;
 				
@@ -290,7 +294,7 @@ public class Controller extends AnchorPane{
 			if(!isRotation)
 				modele.translate(sensibilite*60, -sensibilite*60, 0);
 			else
-				modele.rotate(sensibilite,sensibilite,sensibilite);
+				modele.rotate(sensibiliteX,sensibiliteY,sensibiliteZ);
 			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,0);
@@ -408,6 +412,22 @@ public class Controller extends AnchorPane{
 		angleRotation.setMaxWidth(400);
 		angleRotation.setText(sensibilite+"");
 		
+		Label labelRotationX = new Label("Entrez l'angle de rotation sur l'axe X : ");
+		TextField angleRotationX = new TextField();
+		angleRotationX.setMaxWidth(400);
+		angleRotationX.setText(sensibiliteX+"");
+		
+		Label labelRotationY = new Label("Entrez l'angle de rotation sur l'axe Y : ");
+		TextField angleRotationY = new TextField();
+		angleRotationY.setMaxWidth(400);
+		angleRotationY.setText(sensibiliteY+"");
+		
+		Label labelRotationZ = new Label("Entrez l'angle de rotation sur l'axe Z : ");
+		TextField angleRotationZ = new TextField();
+		angleRotationZ.setMaxWidth(400);
+		angleRotationZ.setText(sensibiliteZ+"");
+		
+		
 		Label labelTranches = new Label("Entrez le nombre de tranches : ");
 		labelTranches.setTranslateY(10);
 		TextField trancheField = new TextField();
@@ -425,7 +445,9 @@ public class Controller extends AnchorPane{
 				try {
 					sensibilite =  Integer.parseInt(angleRotation.getText());					
 				}catch(Exception eRota) {
-					sensibilite =  60.0/360.0;
+					sensibiliteX = 60.0/360.0;
+					sensibiliteY = 60.0/360.0;
+					sensibiliteZ = (60.0/360.0) + 3;
 				}
 			}
 				
@@ -448,7 +470,7 @@ public class Controller extends AnchorPane{
 		Label label = new Label("Entrez le nombre de tranches : ");
 		TextField nbRotations = new TextField();
 		*/
-		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelTranches,trancheField,validateSettings);
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelTranches,trancheField,validateSettings);
 		
 		
 		settingStage.setTitle("Parametres");
