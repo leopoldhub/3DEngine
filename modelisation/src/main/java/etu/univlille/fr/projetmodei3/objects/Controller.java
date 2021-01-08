@@ -10,17 +10,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Controller extends AnchorPane{
 	
 	
 	Model3D modele;
 	private double sensibilite = 60.0/360.0;
+	private int nbTranches = 2;
+
 	Trieur tri;
 	Timer timer = new Timer();
 	Slider posLumX,posLumY,posLumZ;
@@ -100,7 +106,7 @@ public class Controller extends AnchorPane{
 		
 		
 		setSliderLumiere();
-		
+		/*
 		Slider nbTranches = new Slider();
 		nbTranches.setTranslateY(550);
 		nbTranches.setMin(1);
@@ -110,7 +116,7 @@ public class Controller extends AnchorPane{
 		nbTranches.setShowTickLabels(true);
 		nbTranches.setShowTickMarks(true);
 		nbTranches.setMajorTickUnit(1);
-
+		 */
 
 		Button tranches = new Button("Vue en tranches");
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
@@ -135,7 +141,7 @@ public class Controller extends AnchorPane{
 			int idx;
 			Affichage tmp = modele.getVue();
 			List<Point[]> segments = new ArrayList<Point[]>();
-			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
+			for(double z : MathsUtils.getZtranches(modele, nbTranches)) {
 				tranche = new Face();
 				for(Face f: modele.getFaces()) {
 					intersection = MathsUtils.getIntersection(f, z);
@@ -182,9 +188,7 @@ public class Controller extends AnchorPane{
 		tranches.setPrefHeight(50);
 		tranches.setTranslateY(500);
 		
-		this.getChildren().add(tranches);
-		this.getChildren().add(nbTranches);
-		
+		this.getChildren().add(tranches);		
 		
 		Button resetModel = new Button("Reset translation");
 		resetModel.addEventHandler(ActionEvent.ACTION, e->{
@@ -393,6 +397,64 @@ public class Controller extends AnchorPane{
 		System.out.println("Set Modele fait");
 		this.modele = modele;
 		setSliderLumiere();
+	}
+	public void settings() {
+		
+		Stage settingStage = new Stage();
+		VBox settingVbox = new VBox();
+		Scene settingScene = new Scene(settingVbox,800,500);		
+		Label labelRotation = new Label("Entrez l'angle de rotation au format(x y z) : ");
+		TextField angleRotation = new TextField();
+		angleRotation.setMaxWidth(400);
+		angleRotation.setText(sensibilite+"");
+		
+		Label labelTranches = new Label("Entrez le nombre de tranches : ");
+		labelTranches.setTranslateY(10);
+		TextField trancheField = new TextField();
+		trancheField.setMaxWidth(400);
+		trancheField.setTranslateY(10);
+		trancheField.setText(nbTranches+"");
+		
+		Button validateSettings = new Button("valider");
+		validateSettings.setTranslateY(20);
+		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
+			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
+			System.out.println("ça contient : "+angleRotation.getText());
+			if(angleRotation.getText()!=null || !angleRotation.getText().equals("0"))
+			{
+				try {
+					sensibilite =  Integer.parseInt(angleRotation.getText());					
+				}catch(Exception eRota) {
+					sensibilite =  60.0/360.0;
+				}
+			}
+				
+			
+			if(trancheField.getText()!=null || !trancheField.getText().equals("0")||!trancheField.getText().trim().isBlank()) {
+				
+				try {
+					this.nbTranches = Integer.parseInt(trancheField.getText());
+					
+				}catch(Exception eTranches) {
+					this.nbTranches = 2;
+
+				}
+			}
+			
+			settingStage.close();
+		});
+		
+		/*
+		Label label = new Label("Entrez le nombre de tranches : ");
+		TextField nbRotations = new TextField();
+		*/
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelTranches,trancheField,validateSettings);
+		
+		
+		settingStage.setTitle("Parametres");
+		settingStage.setScene(settingScene);
+		
+		settingStage.show();
 	}
 	
 }
