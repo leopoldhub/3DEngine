@@ -16,7 +16,6 @@ public class MathsUtils {
 	 * Un triangle traverse un plan forcément en 2 points
 	 */
 	private final static int NBPOINTSMIN = 2;
-	
 	/**
 	 * trouve le centre d'un segment
 	 * @param a debut du segment

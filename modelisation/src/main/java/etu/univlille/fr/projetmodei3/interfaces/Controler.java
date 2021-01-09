@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.StringJoiner;
 
 import etu.univlille.fr.projetmodei3.objects.Face;
-import etu.univlille.fr.projetmodei3.objects.FolderParser;
+import etu.univlille.fr.projetmodei3.objects.FolderParserUtils;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.ParserUtils;
 import etu.univlille.fr.projetmodei3.objects.Point;
@@ -134,7 +134,7 @@ public class Controler {
 	  	  Stage selStage = new Stage();
 	  	  selStage.setTitle("select your model");
 	  	  VBox vb = new VBox();
-	  	  for(Entry<File, List<String>> entry:FolderParser.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
+	  	  for(Entry<File, List<String>> entry:FolderParserUtils.getCompatibleFiles(new File(System.getProperty("user.dir") + "/src/main/resources/")).entrySet()) {
 	  		  Button btn = new Button(entry.getKey().getName());
 	  		  StringJoiner sj = new StringJoiner("\n");
 	  		  

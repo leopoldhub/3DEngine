@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -84,6 +85,8 @@ public class Affichage extends VBox{
 	 * Pour changer la taille des nodes il suffit d'aller les changer dans la méthode parametrageTailles()
 	 * Ce constructeur met aussi en place la lumière en car celle-ci dépendra de la taille de la fenêtre lors de l'instanciation
 	 */
+	public double prevx, prevy;
+	
 	public Affichage() {
 		this.menu = new MenuBar();
 		this.modele = new Model3D();
@@ -95,6 +98,47 @@ public class Affichage extends VBox{
 		parametrageMenu();
 		this.modele.posLumiere.setX(this.modele.posLumiere.getX()+ vue.getWidth()/2);
 		this.modele.posLumiere.setY(this.modele.posLumiere.getY()+ vue.getHeight()/2);
+		
+		this.vueCommande.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				prevx = event.getX();
+				prevy = event.getY();
+				event.setDragDetect(true);
+			}
+		});
+		
+		this.vueCommande.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				event.setDragDetect(false);
+			}
+		});
+		
+		this.vueCommande.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(modele != null) {
+					if(event.isPrimaryButtonDown()) {
+						modele.translate(event.getX()-prevx, event.getY()-prevy, 0);
+					}else {
+						modele.rotate((prevy-event.getY())*0.02, (event.getX()-prevx)*0.02, 0);
+					}
+				}
+				
+				prevx = event.getX();
+				prevy = event.getY();
+			}
+		});
+		
+		this.vueCommande.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				double factor = 0.2;
+				double deltaY = event.getDeltaY();
+	            modele.zoom(deltaY<0?1-factor:1+factor);
+			}
+		});
 		
 	}
 	
@@ -351,17 +395,11 @@ public class Affichage extends VBox{
 			else
 				tauxAffichage = 1;
 			forme.setStroke(Color.BLACK);
-			if(f.getColor() != null) {
-				forme.setFill(new Color(f.getColor().getRed()/255.0,f.getColor().getBlue()/255.0,f.getColor().getGreen()/255.0,f.getColor().getAlpha()/255.0));
-			} else {
-				forme.setFill(Color.RED);
-			}			
+			forme.setFill(f.getColor());
+			
 			gc.setStroke(Color.BLACK);
-			if(f.getColor() != null) {
-				gc.setFill(new Color(f.getColor().getRed() * tauxAffichage/255.0,f.getColor().getBlue() * tauxAffichage/255.0,f.getColor().getGreen() * tauxAffichage/255.0,f.getColor().getAlpha()/255.0));
-			} else {
-				gc.setFill(Color.RED);
-			}
+			gc.setFill(f.getColor());
+			
 			if(this.modele.vueFaceOn()) gc.fillPolygon(xPoints,yPoints,idx);
 			if(modele.vueArreteOn())gc.strokePolygon(xPoints,yPoints,idx);
 		}
