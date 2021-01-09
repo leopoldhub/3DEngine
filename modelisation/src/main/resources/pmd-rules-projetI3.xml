@@ -1,0 +1,45 @@
+<ruleset name="Production d'applications" xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+<description>
+Ensemble de règles Perso Projet Mode S3
+</description>
+<rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+<properties>
+<property name="ignoreMagicNumbers" value="0"/>
+<property name="ignoreExpressions" value="true"/>
+</properties>
+</rule>
+<rule ref="category/java/design.xml/NcssCount">
+<properties>
+<property name="methodReportLevel" value="25"/>
+<property name="classReportLevel" value="300"/>
+<property name="ncssOptions" value=""/>
+</properties>
+</rule>
+<rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
+<rule ref="category/java/bestpractices.xml/UnusedAssignment">
+<properties>
+<property name="checkUnusedPrefixIncrement" value="true"/>
+<property name="reportUnusedVariables" value="false"/>
+</properties>
+</rule>
+<rule ref="category/java/codestyle.xml/ClassNamingConventions"/>
+<rule ref="category/java/codestyle.xml/FieldNamingConventions"/>
+<rule ref="category/java/bestpractices.xml/LooseCoupling"/>
+<rule ref="category/java/design.xml/GodClass"/>
+<rule ref="category/java/bestpractices.xml/JUnitUseExpected"/>
+<rule ref="category/java/codestyle.xml/LocalVariableNamingConventions"/>
+<rule ref="category/java/errorprone.xml/DetachedTestCase"/>
+<rule ref="category/java/codestyle.xml/UnnecessaryModifier" />
+<rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody" />
+<rule ref="category/java/design.xml/CyclomaticComplexity" />
+<rule ref="category/java/bestpractices.xml/JUnitAssertionsShouldIncludeMessage" />
+<rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts" />
+<rule ref="category/java/codestyle.xml/ShortMethodName">
+    <properties>
+        <property name="minimum" value="3" />
+    </properties>
+</rule>
+<rule ref="category/java/codestyle.xml/OnlyOneReturn" />
+<rule ref="category/java/codestyle.xml/PrematureDeclaration" />
+<rule ref="category/java/documentation.xml/CommentRequired" />
+</ruleset>
