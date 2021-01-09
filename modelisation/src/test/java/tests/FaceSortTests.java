@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-
+/**
+ * classe de test du tri des faces
+ * @author grp I3
+ *
+ */
 class FaceSortTests {
 
 	@Test
@@ -29,8 +33,8 @@ class FaceSortTests {
 		facearriere.addPoints(ul, ur, dl, dr);
 		model.addFaces(faceavant, facearriere);
 		List<Face> facesOrdered = model.getFaces();
-		assertEquals(facearriere, facesOrdered.get(0));
-		assertEquals(faceavant, facesOrdered.get(1));
+		assertEquals(facearriere, facesOrdered.get(0),"facesOrdered.get(0)");
+		assertEquals(faceavant, facesOrdered.get(1),"facesOrdered.get(0)");
 	}
 
 }

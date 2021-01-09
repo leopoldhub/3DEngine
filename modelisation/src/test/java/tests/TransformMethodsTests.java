@@ -10,8 +10,12 @@ import org.junit.jupiter.api.Test;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-
-public class transformMethodsTests {
+/**
+ * methode de test des translations
+ * @author grp I3
+ *
+ */
+public class TransformMethodsTests {
 
 	
 	//Pour le moment on se contentera simplement d'un rep�re orthonorm� basique
@@ -19,13 +23,21 @@ public class transformMethodsTests {
 	
 	//Pour le moment on utilisera simplement une petite pyramide � base carr�
 	// 5 points, 5 faces 
-	
+	/**
+	 * points du modele
+	 */
 	Point p1,p2,p3,p4,p5;
+	/**
+	 * face du modele
+	 */
 	Face f1,f2,f3,f4,f5;
+	/**
+	 * modele 3D
+	 */
 	Model3D obj;
 	
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		//Sommets de la base carr� 
 		p1 = new Point(-1, 0, -1);
 		p2 = new Point( 1, 0, -1);
@@ -46,15 +58,15 @@ public class transformMethodsTests {
 	}
 	
 	@Test
-	public void translateTest() {
+	void translateTest() {
 		obj.translate(5, 3, 1);
-		assertEquals(4, p1.getX());
-		assertEquals(4, f1.getPoints().get(0).getX());
+		assertEquals(4, p1.getX(),"p1.getX()");
+		assertEquals(4, f1.getPoints().get(0).getX(),"f1.getPoints().get(0).getX()");
 		
-		assertEquals(3, p2.getY());
-		assertEquals(3, p1.getY());
-		assertEquals(3, p3.getY());
-		assertEquals(0, p4.getY());
+		assertEquals(3, p2.getY(),"p2.getY()");
+		assertEquals(3, p1.getY(),"p1.getY()");
+		assertEquals(3, p3.getY(),"p3.getY()");
+		assertEquals(0, p4.getY(),"p4.getY()");
 		assertNotEquals(3, p5.getY());		
 		
 	}

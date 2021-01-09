@@ -4,10 +4,7 @@ package etu.univlille.fr.projetmodei3.utils;
 import etu.univlille.fr.projetmodei3.objects.Point;
 
 
-/*TODO
- * transformer un point -> matrice.
- * 
- */
+
 public class Matrix {
 	private double[][] matrice;
 	private double[][] tmp = 
