@@ -7,21 +7,52 @@ import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
-
+/**
+ * Classe représentant un modèle 3D, elle est composée de Faces ainsi que différent paramètre d'affichage
+ * utilisé par la classe Affichage.java
+ * 
+ * @author Leopold HUBERT, Maxime BOUTRY, Guilhane BOURGOING, Luca FAUBOURG
+ *
+ */
 public class Model3D implements PointCloud{
 
+	/**
+	 * La liste des faces du modèle, elle sert à appliquer les transformations sur chaque point du modèle
+	 */
 	private List<Face> faces;
+	/**
+	 * La vue que ce modèle notifiera à chaque transformation appliqué sur lui
+	 */
 	private Affichage vue;
 
+	/**
+	 * La position de la lumière par rapport au modèle, de base elle est situé à droite du modèle
+	 */
 	Point posLumiere = new Point(500,0,0);
-	private boolean voirFace = true, voirArrete = true;
 	
+	/**
+	 * Boolean servant à l'affichage pour savoir si on affiche les faces ou non
+	 */
+	private boolean voirFace = true;
 	
+	/**
+	 * Boolean servant à l'affichage pour savoir si on affiche les arrêtes ou non
+	 */
+	private boolean voirArrete = true;
+	
+	/**
+	 * Constructeur de base du modèle enrichie par une liste de face, Utilisé souvent par le Parser
+	 * @param faces
+	 */
 	public Model3D(Face... faces) {
 		this.faces = new ArrayList<>();
 		addFaces(faces);
 	}
 
+	/**
+	 * Methode permettant d'ajouter une liste de face au modèle
+	 * @param faces Les faces à ajouter
+	 */
 	public void addFaces(Face... faces) {
 		for (Face face : faces) {
 			if (face != null && !this.faces.contains(face))
@@ -29,10 +60,20 @@ public class Model3D implements PointCloud{
 		}
 	}
 
+	/**
+	 * Methode permettant de retirer un liste de face du modèle
+	 * @param faces Les faces à retirer
+	 */
 	public void remFaces(Face... faces) {
 		this.faces.removeAll(Arrays.asList(faces));
 	}
 
+	
+	
+	/**
+	 * Methode permettant de recuperer la liste de face du modèle triés par ordre de profondeur (la valeur du plus petit Z)
+	 * @return Liste de Faces triées
+	 */
 	public List<Face> getFaces() {
 		Collections.sort(this.faces);
 		List<Face> showfaces = new ArrayList<>();
@@ -43,6 +84,11 @@ public class Model3D implements PointCloud{
 		return showfaces;
 	}
 
+	
+	/**
+	 * Methode retournant la liste des points unique du modèle (les faces partageant souvent le même points)
+	 * une vérification est effectuée
+	 */
 	public List<Point> getPoints() {
 		List<Point> points = new ArrayList<>();
 		for(Face face:this.faces) {
@@ -53,6 +99,11 @@ public class Model3D implements PointCloud{
 		return points;
 	}
 
+	
+	/**
+	 * Methode retournant le centre de la figure, utilisé pour placer le modèle au point (0,0,0) lorsqu'il
+	 * est traduit d'un fichier .ply pour pouvior effectuer les transformation de rotation et de zoom sans problème
+	 */
 	public Point getCenter() {
 		List<Point> points = this.getPoints();
 		if(points.size() == 0)return new Point(0, 0, 0);
@@ -77,6 +128,12 @@ public class Model3D implements PointCloud{
 		return new Point(MathsUtils.getSegmentCenter(minx, maxx), MathsUtils.getSegmentCenter(miny, maxy), MathsUtils.getSegmentCenter(minz, maxz));
 	}
 
+	/**
+	 * Methode de rotation globale, elle fait appel au trois méthode de transformation rotateX, Y, Z
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public void rotate(double x, double y, double z) {
 
 		Point centre = getCenter();
