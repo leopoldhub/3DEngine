@@ -8,15 +8,27 @@ import org.junit.jupiter.api.Test;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-
+/**
+ * classe de test du zoom
+ * @author grp I3
+ *
+ */
 public class ZoomTests {
-	
+	/**
+	 * points du modele
+	 */
 	private Point p1,p2,p3,p4,p5;
+	/**
+	 * faces du modele
+	 */
 	private Face f1,f2,f3,f4,f5;
+	/**
+	 * modele 3D
+	 */
 	private Model3D obj;
 	
 	@BeforeEach
-	public void setup() {
+	private void setup() {
 		
 		p1 = new Point(-1, 0, -1);
 		p2 = new Point( 1, 0, -1);
@@ -34,12 +46,12 @@ public class ZoomTests {
 	}
 
 	@Test
-	public void zoomTests() {
+	void zoomTests() {
 		obj.zoom(5);
 
-		assertEquals(obj.getPoints().get(4).getX(),-5);
-		assertEquals(obj.getPoints().get(4).getY(), 1);
-		assertEquals(obj.getPoints().get(4).getZ(), -5);
+		assertEquals(obj.getPoints().get(4).getX(),-5,"(obj.getPoints().get(4).getX()");
+		assertEquals(obj.getPoints().get(4).getY(), 1,"(obj.getPoints().get(4).getY()");
+		assertEquals(obj.getPoints().get(4).getZ(), -5,"(obj.getPoints().get(4).getZ()");
 		
 	}
 	

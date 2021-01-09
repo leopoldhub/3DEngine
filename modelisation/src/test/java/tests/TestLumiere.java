@@ -6,14 +6,30 @@ import org.junit.jupiter.api.Test;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-
+/**
+ * classe de test de la lumière
+ * @author grp I3
+ *
+ */
 public class TestLumiere {
+	/**
+	 * les points du modele
+	 */
 	private Point p1,p2,p3,p4,p5;
+	/**
+	 * les faces du modele
+	 */
 	private Face f1,f2,f3,f4,f5;
+	/**
+	 * le modele
+	 */
 	private Model3D obj;
 	
 	@BeforeEach
-	public void setup() {
+	/**
+	 * set up du modele 
+	 */
+	private void setup() {
 		
 		p1 = new Point(-1, 0, -1);
 		p2 = new Point( 1, 0, -1);
@@ -31,22 +47,23 @@ public class TestLumiere {
 	}
 	
 	@Test
-	public void testProduitVectoriel() {
+	
+	void testProduitVectoriel() {
 		
 	}
 
 	@Test
-	public void produitScalaire() {
+	void produitScalaire() {
 		
 	}
 	
 	@Test
-	public void getVecteurNormal() {
+	void getVecteurNormal() {
 		
 	}
 	
 	@Test
-	public void testNorme() {
+	void testNorme() {
 		
 	}
 }
