@@ -260,7 +260,7 @@ public class Affichage extends VBox{
 	  		models.add(fdTmp);
 	  		
 
-	  		for(String line : FolderParser.getFileInfos(f,fdTmp)) {
+	  		for(String line : FolderParserUtils.getFileInfos(f,fdTmp)) {
 	  			sj.add(line);
 	  		}
 	  		fdTmp.setFile(f);
@@ -276,7 +276,7 @@ public class Affichage extends VBox{
 	  					
 	  					if(event.getClickCount() == doubleClick) {
 	  						fenetreChoix.close();
-		  					modele = Parser.parse(models.get(index).getFile());
+		  					modele = ParserUtils.parse(models.get(index).getFile());
 		  					modele.setVue(vue);
 							Point centre = modele.getCenter();
 							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());

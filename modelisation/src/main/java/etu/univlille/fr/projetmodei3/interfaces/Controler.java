@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.FolderParser;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
-import etu.univlille.fr.projetmodei3.objects.Parser;
+import etu.univlille.fr.projetmodei3.objects.ParserUtils;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -58,7 +58,7 @@ public class Controler {
 	}	
 	
 	public void dragonButton() throws Exception{
-		modele = Parser.parse(new File(getClass().getResource("/cube.ply").toURI()));
+		modele = ParserUtils.parse(new File(getClass().getResource("/cube.ply").toURI()));
 		affichage(modele);
 	}
 	
@@ -148,7 +148,7 @@ public class Controler {
 					public void handle(MouseEvent event) {
 						try {
 							selStage.close();
-							modele = Parser.parse(entry.getKey());
+							modele = ParserUtils.parse(entry.getKey());
 							Point centre = modele.getCenter();
 							modele.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 							autoResize(anchorPane.getWidth(), anchorPane.getHeight());

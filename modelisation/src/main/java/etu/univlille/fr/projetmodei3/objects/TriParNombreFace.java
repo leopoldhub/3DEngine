@@ -18,7 +18,7 @@ public class TriParNombreFace implements Tri{
 	 */
 	@Override
 	public int compare(File o1, File o2) {
-		return Parser.parseNb(o1,"face")-Parser.parseNb(o2,"face");
+		return ParserUtils.parseNb(o1,"face")-ParserUtils.parseNb(o2,"face");
 	}
 
 	/**

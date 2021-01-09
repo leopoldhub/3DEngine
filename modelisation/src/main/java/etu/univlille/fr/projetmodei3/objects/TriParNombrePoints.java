@@ -19,7 +19,7 @@ public class TriParNombrePoints implements Tri{
 	 */
 	@Override
 	public int compare(File o1, File o2) {
-		return Parser.parseNb(o1,"vertex")-Parser.parseNb(o2,"vertex");
+		return ParserUtils.parseNb(o1,"vertex")-ParserUtils.parseNb(o2,"vertex");
 	}
 
 	/**

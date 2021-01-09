@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * @author Leopold HUBERT, Maxime BOUTRY, Guilhane BOURGOING, Luca FAUBOURG
  *
  */
-public class Parser {
+public class ParserUtils {
 
 	/**
 	 * La méthode principale convertissant un fichier .ply et en extrait les informations nécessaires
@@ -24,6 +24,16 @@ public class Parser {
 	 * @param file Le fichier a transformer
 	 * @return Le Model3D correspondant au fichier transformé, si ce dernier ne comporte pas d'erreur
 	 * @throws Exception Les erreurs trouvés dans le fichier
+	 */
+	/**
+	 * le nombre d'arguments
+	 */
+	private final static int NBARGUMENTS = 3;
+	/**
+	 * constucteur
+	 * @param file le fichier à parser
+	 * @return le modele 3D decrit dans le fichier
+	 * @throws Exception
 	 */
 	public static Model3D parse(File file) throws Exception {
 		List<List<String>> headerList = parseHeader(file);
@@ -59,8 +69,8 @@ public class Parser {
 		List<Element> elements = new ArrayList<>();
 		for(List<String> headline:headerList) {
 			if(headline.get(0).equalsIgnoreCase("element")) {
-				if(headline.size() != 3)throw new NoSuchElementException("an element must have at least and only 2 arguments");
-				int count = -1;
+				if(headline.size() != NBARGUMENTS)throw new NoSuchElementException("an element must have at least and only 2 arguments");
+				int count;
 				try {
 					count = Integer.parseInt(headline.get(2));
 				}catch(Exception e) {
@@ -70,7 +80,7 @@ public class Parser {
 				elements.add(new Element(headline.get(1), count));
 			}else if(headline.get(0).equalsIgnoreCase("property")) {
 				if(elements.size() == 0)throw new NullPointerException("you must define an element before a property");
-				if(headline.size() < 3)throw new NoSuchElementException("a property must have at least 2 arguments");
+				if(headline.size() < NBARGUMENTS)throw new NoSuchElementException("a property must have at least 2 arguments");
 				if(headline.get(1).equalsIgnoreCase("list") && headline.size() < 5)throw new NoSuchElementException("list property must have at least 4 arguments");
 				Element element = elements.get(elements.size()-1);
 				int fe = 1;
@@ -187,7 +197,11 @@ public class Parser {
 		}
 		return value;
 	}
-	
+	/**
+	 * methode servant à parcourir le header
+	 * @param file le fichier à parcourir
+	 * @return une list de list de String contenant les informations du header
+	 */
 	public static List<List<String>> parseHeader(File file){
 		List<List<String>> list = new ArrayList<>();
 		Scanner scanner = null;
@@ -219,23 +233,44 @@ public class Parser {
 		
 		return list;
 	}
-	
+	/**
+	 * decrit un element
+	 * @author grp I3
+	 *
+	 */
 	public static class Element {
-		
+		/**
+		 * nom de l'element
+		 */
 		public String name;
+		/**
+		 * nombre d'elements
+		 */
 		public int count;
-		
+		/**
+		 * liste des proprietes 
+		 */
 		public LinkedHashMap<String, List<String>> properties = new LinkedHashMap<>();
-		
+		/**
+		 * constructeur
+		 * @param name des elements
+		 * @param count nombre d'elements
+		 */
 		public Element(String name, int count) {
 			this.name = name;
 			this.count = count;
 		}
-		
+		/**
+		 * ajoute une propriete
+		 * @param name nom de la propriete
+		 * @param args liste d'arguments
+		 * @return un boolean indiquant si l'ajout s'est bien passé
+		 */
 		public boolean addProp(String name, List<String> args) {
-			if(name == null || args == null || args.size() == 0 || properties.containsKey(name))return false;
+			boolean isAdded = true;
+			if(name == null || args == null || args.size() == 0 || properties.containsKey(name))isAdded = false;
 			properties.put(name, args);
-			return true;
+			return isAdded;
 		}
 		
 	}
@@ -249,6 +284,7 @@ public class Parser {
 	 */
 	public static int parseNb(File file, String element) {
 		Scanner sc = null;
+		int nb = -1;
 		try {
 			sc = new Scanner(file);
 			StringTokenizer st;
@@ -256,9 +292,8 @@ public class Parser {
 				st = new StringTokenizer(sc.nextLine());
 				if( (st.hasMoreTokens() && st.nextToken().equals("element") )&& (st.hasMoreTokens() &&st.nextToken().equals(element) )) {
 					if(st.hasMoreTokens()) {
-						int nb = Integer.parseInt(st.nextToken());
+						nb = Integer.parseInt(st.nextToken());
 						System.out.println("On a "+nb+ " "+element +" pour le fichier" +file.getName());
-						return nb;
 					}
 				}
 			}
@@ -267,7 +302,8 @@ public class Parser {
 		} finally {
 			if(sc != null) sc.close();
 		}
-		return -1;
+		
+		return nb;
 	}
 	
 }

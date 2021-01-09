@@ -63,7 +63,7 @@ public class FolderParserUtils{
 			}
 			if(fType == null || !fType.equalsIgnoreCase("ply"))lst= null;
 			else {
-				List<List<String>> header = Parser.parseHeader(file);
+				List<List<String>> header = ParserUtils.parseHeader(file);
 				for(List<String> line:header) {
 					StringJoiner sj = new StringJoiner(" ");
 					if(line.size() > 1 && line.get(0).equalsIgnoreCase("comment")) {
@@ -109,7 +109,7 @@ public class FolderParserUtils{
 			}
 			if(fType == null || !fType.equalsIgnoreCase("ply"))lst= null;
 			else {
-				List<List<String>> header = Parser.parseHeader(file);
+				List<List<String>> header = ParserUtils.parseHeader(file);
 				for(List<String> line:header) {
 					StringJoiner sj = new StringJoiner(" ");
 					if(line.size() > 1 && line.get(0).equalsIgnoreCase("comment")) {
