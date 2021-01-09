@@ -5,12 +5,31 @@ import java.io.File;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
+/**
+ * descripteur de fichier basique
+ * @author guilhane bourgoin
+ *
+ */
 public class FileDescriptor {
+	/**
+	 *  le  nom du fichier
+	 */
 	public StringProperty name;
+	/**
+	 * le nom du créateur
+	 */
 	public StringProperty creator;
+	/**
+	 * le nombre de faces du modele decrit
+	 */
 	public StringProperty face;
+	/**
+ 	 * le nombre de sommets du modele decrit
+	 */
 	public StringProperty vertex;
+	/**
+	 * le fichier ply
+	 */
 	private File f;
 	/**
 	 * Constructeur basique qui crée un descripteur de fichier à partir du nom du fichier
