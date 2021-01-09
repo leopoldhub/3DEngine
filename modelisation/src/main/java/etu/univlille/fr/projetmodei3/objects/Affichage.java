@@ -402,7 +402,7 @@ public class Affichage extends VBox{
 			gc.setStroke(Color.BLACK);
 			gc.setFill(new Color(f.getColor().getRed() * tauxAffichage,f.getColor().getBlue() * tauxAffichage,f.getColor().getGreen() * tauxAffichage,f.getColor().getOpacity()));
 
-			
+			 
 			if(this.modele.vueFaceOn()) gc.fillPolygon(xPoints,yPoints,idx);
 			if(modele.vueArreteOn())gc.strokePolygon(xPoints,yPoints,idx);
 		}
