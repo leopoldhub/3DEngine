@@ -130,26 +130,41 @@ public class Model3D implements PointCloud{
 
 	/**
 	 * Methode de rotation globale, elle fait appel au trois méthode de transformation rotateX, Y, Z
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x angle de rotation autour de l'axe horizontal X
+	 * @param y angle de rotation autour de l'axe vertical Y
+	 * @param z angle de rotation autour de l'axe de profondeur Z
 	 */
 	public void rotate(double x, double y, double z) {
+		Point centre = getCenter(); boolean reset = false;
+		System.out.println("Centre : "+centre);
+		if(centre.getX() != 0 ||  centre.getY() != 0 || centre.getZ() != 0){
+			reset();
+			reset = true;
+		}
+		System.out.println("Centre : "+getCenter());
 
-		Point centre = getCenter();
 		System.out.println(centre);
-		//this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 		for(Point p : getPoints()) {
 			if(x != 0) rotateX(p,x);
 			if(y != 0) rotateY(p,y);
 			if(z != 0) rotateZ(p,z);
 
 		}
-		//this.translate(centre.getX(),centre.getY(),centre.getZ());
+		
+		if(reset) {
+			translate(centre.getX(), centre.getY(), centre.getZ());
+		}
+		
 		if(vue != null)
 			vue.affichage();
 	}
 
+	/**
+	 * Méthode de déplacement du modèle 
+	 * @param x valeur de déplacement sur l'axe horizontal X
+	 * @param y valeur de déplacement sur l'axe vertical Y
+	 * @param z valeur de déplacement sur l'axe de profondeur Z
+	 */
 	public void translate(double x, double y, double z) {
 		for (Point p : this.getPoints()) {
 			p.setX(p.getX() + x);
@@ -160,30 +175,32 @@ public class Model3D implements PointCloud{
 			vue.affichage();
 	}
 	
+	/**
+	 * Methode d'aggrandissement ou de retrecissement du modèle, fonctionnant par taux : entre 0 et 1
+	 * c'est un retrecissement, supérieur à 1 c'est un aggrandissement 
+	 * @param valeur
+	 */
 	public void zoom(double valeur) { 
-		
-		
-		System.out.println("Centre avant : "+getCenter());
-		Point centre = getCenter();
-		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
-
-		System.out.println("centre : "+getCenter());
-		
+		Point centre = getCenter(); boolean reset = false;
+		if(centre.getX() != 0 ||  centre.getY() != 0 || centre.getZ() != 0){
+			reset();
+			reset = true;
+		}
 		for(Point p : getPoints()) {
 			p.setX(p.getX()*valeur);
 			p.setY(p.getY()*valeur);
 			p.setZ(p.getZ()*valeur);
 		}
-		
-		this.translate(centre.getX(),centre.getY(),centre.getZ());
-		
-		
-		System.out.println("Centre après : "+getCenter());
+		if(reset) 	translate(centre.getX(), centre.getY(), centre.getZ());
 		if(vue != null)
 			vue.affichage();
 	}
 	
-	
+	/**
+	 * Methode de rotation autour de l'axe horizontal X pour un point
+	 * @param p Point à transformer
+	 * @param degree Angle de la rotation
+	 */
 	public void rotateX(Point p,double degree) { 
 		Point psauv = new Point();
 		psauv.setX(p.getX());
@@ -193,6 +210,11 @@ public class Model3D implements PointCloud{
 		p.setY(psauv.getY() * Math.cos(degree) - psauv.getZ() * Math.sin(degree));
 		p.setZ(psauv.getY()  * Math.sin(degree) + (psauv.getZ() * Math.cos(degree)));
 	}
+	/**
+	 * Methode de rotation autour de l'axe vertical Y pour un point
+	 * @param p Point à transformer
+	 * @param degree Angle de la rotation
+	 */
 	public void rotateY(Point p, double degree) {
 		Point psauv = new Point();
 		psauv.setX(p.getX());
@@ -203,6 +225,11 @@ public class Model3D implements PointCloud{
 		p.setZ(-psauv.getX() * Math.sin(degree) + psauv.getZ() * Math.cos(degree));
 
 	}
+	/**
+	 * Methode de rotation autour de l'axe de profondeur Z pour un point
+	 * @param p Point à transformer
+	 * @param degree Angle de la rotation
+	 */
 	public void rotateZ(Point p, double degree) {
 		Point psauv = new Point();
 		psauv.setX(p.getX());
@@ -213,28 +240,56 @@ public class Model3D implements PointCloud{
 		p.setZ(psauv.getZ());
 	}
 	
+	/**
+	 *Methode pour remettre le centre de la figure au point (0,0,0)
+	 */
 	public void reset() {
 		Point centre = this.getCenter();
 		this.translate(-centre.getX(),-centre.getY(),-centre.getZ());
 	}
 
-	
+	/**
+	 * Methode pour changer la vue à notifier lors d'une transformation, la vue se mettra d'ailleurs
+	 * à afficher ce modele
+	 * @param vue nouvelle vue à notifier
+	 */
 	public void setVue(Affichage vue) {
 		this.vue = vue;
 		vue.setModele(this);
 		vue.affichage();
 	}
 	
+	/**
+	 * Getter pour la position de la lumière 
+	 * @return le point représentant une source de lumière
+	 */
 	public Point getLumiere() {
 		return this.posLumiere;
 	}
 	
+	
+	/**
+	 * Getter pour l'affichage si les faces sont à afficher ou non
+	 * @return true si les faces sont à afficher, false sinon
+	 */
 	public boolean vueFaceOn() {
 		return this.voirFace;
 	}
+	/**
+	 * Getter pour l'affichage si les arrêtes sont à afficher ou non
+	 * @return true si les arrêtes sont à afficher, false sinon
+	 */
 	public boolean vueArreteOn() {
 		return this.voirArrete;
 	}
+	
+	/**
+	 * Setter pour changer la position de la lumière, notez que le modèle étant déplacer au centre
+	 * du canvas de l'affichage, la lumière suit le même déplacement, elle notifie la vue
+	 * @param x nouvelle position sur l'axe horizontal X
+	 * @param y nouvelle position sur l'axe Vertical Y
+	 * @param z nouvelle position sur l'axe de profondeur Z
+	 */
 	public void setLumiere(double x, double y, double z) {
 		this.posLumiere.setX(x+ vue.getWidth()/2);
 		this.posLumiere.setY(y+ vue.getWidth()/2);
@@ -242,18 +297,34 @@ public class Model3D implements PointCloud{
 		vue.affichage();
 	}
 	
+	
+	/**
+	 * Getter pour connaître la vue que le modèle notifie 
+	 * @return
+	 */
 	public Affichage getVue() {
 		return this.vue;
 	}
 	
+	/**
+	 * Permet de changer si oui ou non les faces doivent être affichés
+	 */
 	public void switchVueFace() {
 		this.voirFace = !voirFace;
 		vue.affichage();
 	}
+	/**
+	 * Permet de changer si oui ou non les arrêtes doivent être affichés
+	 */
 	public void switchVueArrete() {
 		this.voirArrete = !voirArrete;
 		vue.affichage();
 	}
+	
+	/**
+	 * Affichage écrit d'un modèle 3D, qui affiche toutes les faces, qui elle-même affiche tous les
+	 * points, autant dire que c'est illisible (Maxime)
+	 */
 	@Override
 	public String toString() {
 		return "Model3D [faces=" + faces + "]";
