@@ -8,6 +8,7 @@ import java.util.StringJoiner;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import etu.univlille.fr.projetmodei3.interfaces.Tri;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
 import java.util.Map.Entry;
@@ -59,39 +60,67 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 
-
+/**
+ * Classe d'affichage, elle sert de vue au patron Architectural Modèle-Vue-Controller. Elle contient toute les méthodes servant à
+ * afficher un modèle ou de le changer. Elle se compose d'une Barre de menu, un Canvas et un Controller (cf classe Controller)
+ * 
+ * @author Leopold HUBERT, Maxime BOUTRY, Guilhane BOURGOING, Luca FAUBOURG
+ *
+ */
 public class Affichage extends VBox{
 	
-	MenuBar menu;
-	Model3D modele;
-	Canvas vue;
-	Controller commande;
-	HBox vueCommande;
-	Timer timer = new Timer();
-
-	private int nbTranches = 2;
-	private double sensibilite = 60.0/360.0;
-	boolean rotationAuto = false;
-	Trieur tri;
-	private boolean isRotation = false, lightOn = true;
+	/**
+	 * La barre de menu : elle contient 3 options : -Fichier qui sert à changer le modèle à afficher ou à générer une nouvelle fenêtre de vue sur un nouveau modèle
+	 * -Edition : Permet d'activer ou non la lumière
+	 * -Paramètre : Permettant de changer la sensibilité des rotations sur chacun des 3 axes formant l'espace 3D
+	 */
+	private MenuBar menu;
+	/**
+	 * Le modèle à afficher, le modèle possède une instance de cet Affichage afin de le notifier lors d'une transformation
+	 */
+	private Model3D modele;
+	/**
+	 * La node sur laquelle sera dessiner les faces du modèle correspondant à l'algorithme du peintre
+	 */
+	private Canvas vue;
+	/**
+	 * Le panneau de commande qui permet d'appliquer des transformations sur le modele, qui notifie cette vue et qui affiche les modifications
+	 */
+	private Controller commande;
+	/**
+	 * La HBox qui contient à gauche le Canvas "vue" et à droite le panneau de commande "commande"
+	 */
+	private HBox vueCommande;
 	
+	/**
+	 * La méthode de tri des fichiers lorsqu'on affiche les modèle disponible
+	 */
+	private Trieur tri;
 	
+	private boolean lightOn = true;
+	
+	/**
+	 * Le constructeur d'affichage : il met en place toutes les nodes de l'instance, ces dernières sont inamovibles de l'exterieur
+	 * Pour changer la taille des nodes il suffit d'aller les changer dans la méthode parametrageTailles()
+	 * Ce constructeur met aussi en place la lumière en car celle-ci dépendra de la taille de la fenêtre lors de l'instanciation
+	 */
 	public Affichage() {
 		this.menu = new MenuBar();
 		this.modele = new Model3D();
 		this.vue = new Canvas();
 		this.vueCommande = new HBox();
-		//this.commande = new AnchorPane();
 		this.commande = new Controller(modele);
-		tri = new Trieur();
+		this.tri = new Trieur();
 		parametrageTailles();
 		parametrageMenu();
-		//parametrageCommande();
 		this.modele.posLumiere.setX(this.modele.posLumiere.getX()+ vue.getWidth()/2);
 		this.modele.posLumiere.setY(this.modele.posLumiere.getY()+ vue.getHeight()/2);
 		
 	}
 	
+	/**
+	 * Methode privée permettant de gérer les tailles des différentes nodes
+	 */
 	private void parametrageTailles() {
 		this.setPrefWidth(1124);
 		this.setPrefHeight(775);
@@ -107,7 +136,9 @@ public class Affichage extends VBox{
 		this.commande.setPrefHeight(720);
 	}
 	
-	
+	/**
+	 * Méthode privée permettant de gérer les différentes options de la barre de Menu
+	 */
 	private void parametrageMenu() {
 		this.menu.getMenus().add(new Menu("fichier"));
 		this.menu.getMenus().add(new Menu("edition"));
@@ -149,127 +180,12 @@ public class Affichage extends VBox{
 		this.menu.getMenus().get(0).getItems().add(nouvelleVue);
 
 	}
-	
-	private void parametrageCommande() {
-		
-		GridPane boutons = new GridPane();
-		
-		Button affichageFace = new Button("Cacher Faces");
-		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
-			if(this.modele.vueFaceOn()) {
-				modele.switchVueFace();
-				affichageFace.setText("Voir Faces");
-			} else {
-				modele.switchVueFace();
-				affichageFace.setText("Cacher Faces");
-			}
-			affichage(/*modele*/);
-		});
-		affichageFace.setTranslateY(300);
-		affichageFace.setPrefWidth(130);
-		affichageFace.setPrefHeight(50);
 
-		this.commande.getChildren().add(affichageFace);
-		
-		Button affichageArrete = new Button("Cacher Arretes");
-		affichageArrete.addEventHandler(ActionEvent.ACTION, e->{
-			if(modele.vueArreteOn()) {
-				modele.switchVueArrete();
-				affichageArrete.setText("Voir Arretes");
-			} else {
-				modele.switchVueArrete();
-				affichageArrete.setText("Cacher Arretes");
-			}
-			affichage(/*modele*/);
-		});
-		affichageArrete.setTranslateY(400);
-		affichageArrete.setPrefWidth(130);
-		affichageArrete.setPrefHeight(50);
-
-		this.commande.getChildren().add(affichageArrete);
-
-
-		Slider posLumX = new Slider(),posLumY = new Slider(),posLumZ = new Slider();
-
-
-		Button tranches = new Button("Vue en tranches");
-		Affichage vue = this;
-		tranches.addEventHandler(ActionEvent.ACTION, e->{
-			Model3D modeleTranches = new Model3D();
-			Face tranche;
-			Point depart, courant;
-			Point[] intersection;
-			int idx;
-			List<Point[]> segments = new ArrayList<Point[]>();
-			for(double z : MathsUtils.getZtranches(modele, nbTranches)) {
-				tranche = new Face();
-				for(Face f: modele.getFaces()) {
-					intersection = MathsUtils.getIntersection(f, z);
-					if(intersection != null) segments.add(intersection);
-				}
-				System.out.println("Liste intersection : "+segments);
-				depart = segments.get(0)[0];
-				courant = segments.get(0)[1];
-				tranche.addPoints(depart);
-				tranche.addPoints(courant);
-
-				System.out.println("Segment : "+segments.get(0)[0]+"\nDepart : "+depart+"\ncourant"+courant);
-				segments.remove(0);
-				while(!segments.isEmpty()) {
-					idx = 1;	
-					while(idx < segments.size() && !courant.equals(segments.get(idx-1)[0]) && !courant.equals(segments.get(idx-1)[1])) {
-						idx++;
-					}
-					if(idx < segments.size()) {
-						System.out.println("dans le if");
-						if(courant.equals(segments.get(idx-1)[0])) {
-							courant = segments.get(idx-1)[1];
-							tranche.addPoints(courant);
-						} else {
-							courant = segments.get(idx-1)[0];
-							tranche.addPoints(courant);
-						}
-						segments.remove(idx-1);
-						System.out.println("Fin du if");
-					}	else {
-						tranche.addPoints(depart);
-						segments.clear();
-					}
-				}
-				tranche.addPoints(depart);
-				System.out.println("Face fini");
-				modeleTranches.addFaces(tranche);
-			}
-			
-			modeleTranches.setVue(vue);
-			modele = modeleTranches;
-		});
-		
-		tranches.setPrefWidth(130);
-		tranches.setPrefHeight(50);
-		tranches.setTranslateY(500);
-		
-		this.commande.getChildren().add(tranches);
-		//this.commande.getChildren().add(sliderTranche);
-		
-		
-		Button resetModel = new Button("Reset translation");
-		resetModel.addEventHandler(ActionEvent.ACTION, e->{
-			modele.reset();	
-			affichage(/*modele*/);
-		});
-		resetModel.setTranslateY(700);
-		resetModel.setPrefWidth(130);
-		resetModel.setPrefHeight(50);
-		
-		this.commande.getChildren().add(resetModel);
-		
-	
-
-	}
-
-	
-	//PENSER A RAJOUTER UN BOUTON CROISSANT DECROISSANT
+	/**
+	 * Méthode appelée lorsque l'option "fichier" du menu est utilisée
+	 * Elle permet de sélectionner un fichier .ply parmis ceux que le répertoire au préalable sélectionné par l'utilisateur
+	 * possède
+	 */
 	public void selectModel() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/resources/"));
@@ -293,13 +209,17 @@ public class Affichage extends VBox{
 	    }
 	
 	
-
-  	public void mettreBouton(VBox listeBouton, Stage fenetreChoix) {
+	/**
+	 * Methode servant à réagencer les différents fichier .ply lorsqu'on les tri 
+	 * @param listeBouton
+	 * @param fenetreChoix
+	 */
+  	private void mettreBouton(VBox listeBouton, Stage fenetreChoix) {
   		List<File> fichier = new ArrayList<File>();
 	  	listeBouton.getChildren().clear();
 	  	ToolBar toolBar = new ToolBar();
 	  	System.out.println("vbox add ok");
-	  	  
+	  	tri.tri(fichier);
 	  	for(EnumTri et : EnumTri.values()) {
 	  		Button tmp = new Button(et.getNom());
 	  		tmp.setOnAction(new EventHandler<ActionEvent>() {
@@ -308,7 +228,6 @@ public class Affichage extends VBox{
 				public void handle(ActionEvent event) {
 					tri.setMethodeTri(et.getNom());
 					mettreBouton(listeBouton, fenetreChoix);
-					
 				}
 	  			
 			});
@@ -402,6 +321,12 @@ public class Affichage extends VBox{
 	  	
   	}
 	
+  	/**
+  	 * Méthode permettant de centrer le modèle pour qu'a chaque fois qu'on parse un modèle, il puisse prendre toute la 
+  	 * place disponible dans la fenêtre
+  	 * @param width la longueur de la fenêtre
+  	 * @param height la hauteur de la fenêtre 
+  	 */
 	public void autoResize(double width, double height) {
 		System.out.println("center: "+modele.getCenter());
 		double mw = 0;
@@ -418,16 +343,15 @@ public class Affichage extends VBox{
 		
 		modele.zoom(mw < mh?mw:mh);
 	}	
+	
+	/**
+	 * Methode qui va peindre le modèle sur le Canvas, il efface le modèle précédent puis dessine le nouveau
+	 * La méthode d'affichage correspond à l'algorithme du peintre
+	 */
 	public void affichage() {
 		GraphicsContext gc = this.vue.getGraphicsContext2D();
-		//this.modele = modele;
-		
 		gc.clearRect(0,0,this.vue.getWidth(),this.vue.getHeight());
-		
 		Polygon forme;
-		//vue.setTranslateX(vue.getWidth()/2);
-		//vue.setTranslateY(vue.getHeight()/2);
-		
 		int idx = 0;
 		double[] xPoints,yPoints;
 		
@@ -437,8 +361,6 @@ public class Affichage extends VBox{
 			xPoints = new double[1000];
 			yPoints = new double[1000];
 			for(Point p : f.getPoints()) {
-				//forme.getPoints().add(p.getX());
-				//forme.getPoints().add(p.getY());
 				xPoints[idx] = p.getX()+vue.getWidth()/2;
 				yPoints[idx] = p.getY()+vue.getHeight()/2;
 				idx++;
@@ -448,14 +370,12 @@ public class Affichage extends VBox{
 				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.modele.getLumiere()));
 			else
 				tauxAffichage = 1;
-			//System.out.println("Taux affichage pour la face : "+tauxAffichage);
 			forme.setStroke(Color.BLACK);
 			if(f.getColor() != null) {
 				forme.setFill(new Color(f.getColor().getRed()/255.0,f.getColor().getBlue()/255.0,f.getColor().getGreen()/255.0,f.getColor().getAlpha()/255.0));
 			} else {
 				forme.setFill(Color.RED);
-			}
-			
+			}			
 			gc.setStroke(Color.BLACK);
 			if(f.getColor() != null) {
 				gc.setFill(new Color(f.getColor().getRed() * tauxAffichage/255.0,f.getColor().getBlue() * tauxAffichage/255.0,f.getColor().getGreen() * tauxAffichage/255.0,f.getColor().getAlpha()/255.0));
@@ -464,42 +384,16 @@ public class Affichage extends VBox{
 			}
 			if(this.modele.vueFaceOn()) gc.fillPolygon(xPoints,yPoints,idx);
 			if(modele.vueArreteOn())gc.strokePolygon(xPoints,yPoints,idx);
-
-			//vue.getChildren().add(forme);
 		}
 
 	}	
-	
+	/**
+	 * Methode permettant de changer le modele que la vue affiche
+	 * @param modele nouveau modele
+	 */
 	public void setModele(Model3D modele) {
 		this.modele = modele;
 	}
 	
-	public void setSliderLumiere(Slider x, Slider y, Slider z) {
-		if(x == null) {
-			x = new Slider();
-			y = new Slider();
-			z = new Slider();
-		}
-		List<Point> points = modele.getPoints();
-		double xMin = points.get(0).getX(), xMax = points.get(0).getX(), 
-				yMin = points.get(0).getY(), yMax = points.get(0).getY(), 
-				zMin = points.get(0).getZ(), zMax = points.get(0).getZ();
-		for(Point p : modele.getPoints()) {
-			if(p.getX() < xMin) xMin = p.getX();
-			if(p.getX() > xMax) xMax = p.getX();
-			if(p.getX() < yMin) xMin = p.getY();
-			if(p.getX() > yMin) xMax = p.getY();
-			if(p.getX() < zMin) xMin = p.getZ();
-			if(p.getX() > zMax) xMax = p.getZ();
-		}
-		
-		x.setMin(xMin * 0.8);
-		x.setMax(xMax * 1.2);
-		x.setMin(yMin * 0.8);
-		x.setMin(yMax * 1.2);
-		x.setMin(zMin * 0.8);
-		x.setMin(zMax * 1.2);
-
-	}
 
 }
