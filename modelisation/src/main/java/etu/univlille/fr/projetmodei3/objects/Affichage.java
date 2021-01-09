@@ -99,7 +99,7 @@ public class Affichage extends VBox{
 		this.modele.posLumiere.setX(this.modele.posLumiere.getX()+ vue.getWidth()/2);
 		this.modele.posLumiere.setY(this.modele.posLumiere.getY()+ vue.getHeight()/2);
 		
-		this.vueCommande.setOnMousePressed(new EventHandler<MouseEvent>() {
+		this.vue.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				prevx = event.getX();
@@ -108,14 +108,14 @@ public class Affichage extends VBox{
 			}
 		});
 		
-		this.vueCommande.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		this.vue.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				event.setDragDetect(false);
 			}
 		});
 		
-		this.vueCommande.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		this.vue.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				if(modele != null) {
@@ -131,7 +131,7 @@ public class Affichage extends VBox{
 			}
 		});
 		
-		this.vueCommande.setOnScroll(new EventHandler<ScrollEvent>() {
+		this.vue.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
 				double factor = 0.2;
@@ -394,11 +394,14 @@ public class Affichage extends VBox{
 				tauxAffichage = MathsUtils.tauxEclairage(f, MathsUtils.getVecteur(f.getCenter(), this.modele.getLumiere()));
 			else
 				tauxAffichage = 1;
+			
 			forme.setStroke(Color.BLACK);
-			forme.setFill(f.getColor());
+			forme.setFill(new Color(f.getColor().getRed(),f.getColor().getBlue(),f.getColor().getGreen(),f.getColor().getOpacity()));
+
 			
 			gc.setStroke(Color.BLACK);
-			gc.setFill(f.getColor());
+			gc.setFill(new Color(f.getColor().getRed() * tauxAffichage,f.getColor().getBlue() * tauxAffichage,f.getColor().getGreen() * tauxAffichage,f.getColor().getOpacity()));
+
 			
 			if(this.modele.vueFaceOn()) gc.fillPolygon(xPoints,yPoints,idx);
 			if(modele.vueArreteOn())gc.strokePolygon(xPoints,yPoints,idx);
