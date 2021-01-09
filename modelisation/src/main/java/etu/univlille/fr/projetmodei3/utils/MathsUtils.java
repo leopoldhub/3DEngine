@@ -5,36 +5,34 @@ import java.util.List;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-import etu.univlille.fr.projetmodei3.objects.Vector3D;
-
+/**
+ * Classe de methodes mathématiques utiles
+ * @author grp I3
+ *
+ */
 public class MathsUtils {
-
-	public static Vector3D getNormal(List<Point> points) {
-		if(points == null || points.size() < 3)return new Vector3D(0, 0, 0);
-		Point a = points.get(0);
-		Point b = points.get(1);
-		Point c = points.get(2);
-		Vector3D ab = getVectorFromPoints(a, b);
-		Vector3D bc = getVectorFromPoints(b, c);
-		
-		double x = ab.getY()*bc.getZ()-ab.getZ()*bc.getY();
-		double y = ab.getZ()*bc.getX()-ab.getX()*bc.getZ();
-		double z = ab.getX()*bc.getY()-ab.getY()*bc.getX();
-		
-		Vector3D vn = new Vector3D(x, y, z);
-		double norm = vn.getNorm();
-		
-		return new Vector3D(x/norm, y/norm, z/norm);
-	}
 	
-	public static Vector3D getVectorFromPoints(Point a, Point b) {
-		return new Vector3D(b.getX()-a.getX(),b.getY()-a.getY(),b.getZ()-a.getZ());
-	}
+	/**
+	 * Un triangle traverse un plan forcément en 2 points
+	 */
+	private final static int NBPOINTSMIN = 2;
 	
+	/**
+	 * trouve le centre d'un segment
+	 * @param a debut du segment
+	 * @param b fin du segment
+	 * @return le milieu du segment
+	 * 
+	 */
 	public static double getSegmentCenter(double a, double b) {
 		return ((b-a)/2)+a;
 	}
-	
+	/**
+	 * arrondie 
+	 * @param value la variable à arrondir
+	 * @param places le nombre de chiffres après la virgule
+	 * @return value arrondie à places chiffres après la virgule
+	 */
 	public static double round(double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
@@ -44,24 +42,45 @@ public class MathsUtils {
 		return (double) tmp / factor;
 	}
 	
-	//Vecteur allant de p1 à p2
+	
+	/**
+	 * Vecteur allant de p1 à p2
+	 * @param p1 debut du vecteur
+	 * @param p2 fin du vecteur
+	 * @return un vecteur partant de p1 et allant à p2
+	 */
 	public static Point getVecteur(Point p1, Point p2) {
 		return new Point(p2.getX()-p1.getX(), p2.getY()-p1.getY(), p2.getZ()-p1.getZ());
 	}
 	
-	//On part du principe que TOUTES les faces sont des triangles (eeeerrrrfffff)
+		/**
+	 * On part du principe que TOUTES les faces sont des triangles
+	 * @param vecteur1 premier vecteur
+	 * @param vecteur2 second vecteur 
+	 * @return resultat du produit scalaire de vecteur1 et vecteur2
+	 */
 	public static Point produitVectoriel(Point vecteur1, Point vecteur2) {
 		return new Point(vecteur1.getY() * vecteur2.getZ() - vecteur1.getZ() * vecteur2.getY(),
 						-vecteur1.getX() * vecteur2.getZ() + vecteur1.getZ() * vecteur2.getX(),
 						 vecteur1.getX() * vecteur2.getY() - vecteur1.getY() * vecteur2.getX()
 				);
 	}
-	//Obtenir la norme d'un vecteur 
+	
+	/**
+	 * Obtenir la norme d'un vecteur  
+	 * @param produitVectoriel le point du produit vectoriel
+	 * @return la norme
+	 */
 	public static double getNorme(Point produitVectoriel) {
 		return Math.sqrt(Math.pow(produitVectoriel.getX(),2) + Math.pow(produitVectoriel.getY(),2) + Math.pow(produitVectoriel.getZ(),2));
 	}
 
-	//Obtenir le vecteur normal unitaire d'une face
+
+	/**
+	 * Obtenir le vecteur normal unitaire d'une face
+	 * @param f face de laquelle, on veut le vecteur normal
+	 * @return le vecteur normal à la face
+	 */
 	public static Point getVecteurNormal(Face f) {
 		Point vecteur1  = getVecteur(f.getPoints().get(0), f.getPoints().get(1));
 		Point vecteur2  = getVecteur(f.getPoints().get(0), f.getPoints().get(2));
@@ -73,26 +92,39 @@ public class MathsUtils {
 
 		return prodVectoriel;
 	}
-	
+	/**
+	 * normalise un vecteur
+	 * @param vecteur le vecteur à normaliser
+	 */
 	public static void normalisation(Point vecteur) {
 		double norme = getNorme(vecteur);
 		vecteur.setX(vecteur.getX()/norme);
 		vecteur.setY(vecteur.getY()/norme);
 		vecteur.setZ(vecteur.getZ()/norme);
 	}
-	
+	/**
+	 * le taux d'eclairage
+	 * @param f la face à eclairer
+	 * @param vecteurVersLumiere direction de la lumière
+	 * @return le taux d'eclairage de la face
+	 */
 	public static double tauxEclairage(Face f, Point vecteurVersLumiere) {
 		Point vecteurNorm = getVecteurNormal(f);
+		double resultat;
 		normalisation(vecteurVersLumiere);
 		//System.out.println("Vecteur vers la source de lumière : " +vecteurVersLumiere);
-		double resultat = (vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
-		if(resultat > 0) {
-			return resultat;
-		} else {
-			return 0;
+		resultat = (vecteurNorm.getX() * vecteurVersLumiere.getX() + vecteurNorm.getY() * vecteurVersLumiere.getY() + vecteurNorm.getZ() * vecteurVersLumiere.getZ());
+		if(resultat < 0) {
+			resultat = 0;
 		}
+		return resultat;
 	}
-	
+	/**
+	 * 
+	 * @param modele le modele 3D
+	 * @param nbTranches le nombre de tranches voulues
+	 * @return un tableau de double
+	 */
 	public static double[] getZtranches(Model3D modele, int nbTranches) {
 		double[] zTranches = new double[nbTranches];
 		List<Face> faces = modele.getFaces();
@@ -115,9 +147,14 @@ public class MathsUtils {
 		
 		return zTranches;
 	}
-	
+	/**
+	 * trouve l'intersection de la face et des points
+	 * @param f la face 
+	 * @param z la profondeur de la tranche
+	 * @return une liste de points d'intersections 
+	 */
 	public static Point[] getIntersection(Face f, double z) {
-		//Un triangle traverse un plan forcément en 2 points
+
 		Point[] intersections = new Point[2];
 		List<Point> points = f.getPoints();
 		int idx = 0;
@@ -139,30 +176,43 @@ public class MathsUtils {
 		}
 		
 		System.out.println("getIntersection : "+idx+ " points renvoyés");
-		if(idx == 2) return intersections;
-		else return null;
+		if(idx != NBPOINTSMIN)intersections = null;
+		return intersections;
 	}
-	
+	/**
+	 * donne l'intersection entre une droite et le plan
+	 * @param p1 premier point de la droite 
+	 * @param p2 deuxieme point de la droite 
+	 * @param z profondeur de la tranche
+	 * @return le point d'intersection
+	 */
 	public static Point intersectionDroitePlan(Point p1, Point p2, double z) {
-		
+		Point res = null;
 		if( p1.getZ() < z && p2.getZ() > z) {
 			double taux = (z-p1.getZ())/(p2.getZ() - p1.getZ());
-			return new Point(p1.getX() + (p2.getX()-p1.getX())*taux, p1.getY()+ (p2.getY()-p1.getY())*taux,z);
+			res = new Point(p1.getX() + (p2.getX()-p1.getX())*taux, p1.getY()+ (p2.getY()-p1.getY())*taux,z);
 		} else if (p1.getZ() > z && p2.getZ() < z){
 			double taux = (z-p2.getZ())/(p1.getZ() - p2.getZ());
-			return new Point(p2.getX() + (p1.getX()-p2.getX())*taux, p2.getY()+ (p1.getY()-p2.getY())*taux,z);
-		} else {
-			return null;
-		}
+			res = new Point(p2.getX() + (p1.getX()-p2.getX())*taux, p2.getY()+ (p1.getY()-p2.getY())*taux,z);
+		} 
+		return res;
 	
 	}
 	
 	
-	
+	/**
+	 * Convertis de degrés en radiants
+	 * @param degree la valeur à convertir
+	 * @return la valeur convertie
+	 */
 	public static double degreeToRad(double degree) {
 		return degree * Math.PI / 180;
 	}
-	
+	/**
+	 * convertis de randiant en degrees
+	 * @param rad la valeur à convertir
+	 * @return la valeur convertie
+	 */
 	public static double radToDegree(double rad) {
 		return rad * 180 / Math.PI;
 	}
