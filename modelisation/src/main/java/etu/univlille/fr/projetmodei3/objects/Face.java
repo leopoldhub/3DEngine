@@ -5,30 +5,50 @@ import java.util.Arrays;
 import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
-import etu.univlille.fr.projetmodei3.utils.MathsUtils;
-
+/**
+ * 
+ * @author guilhane bourgoin
+ * objet face, correspondant à une face du model 3D
+ */
 public class Face implements PointCloud, Comparable<Face>{
-
+	/**
+	 * liste des points de la face
+	 */
 	private List<Point> points;
-	
+	/**
+	 * couleur de la face
+	 */
 	private Color color;
-	
+	/**
+	 * constructeur
+	 * @param points tableau ou liste ou variable de points de la face
+	 */
 	public Face(Point... points) {
 		this(new Color(255,0,0), points);
 	}
-	
+	/**
+	 * 
+	 * @param color la couleur de la face
+	 * @param points tableau ou liste ou variable de points de la face
+	 */
 	public Face(Color color, Point... points) {
 		this.points = new ArrayList<>();
 		this.color = color;
 		addPoints(points);
 	}
-	
+	/**
+	 * ajouter des points à la face
+	 * @param points tableau ou liste ou variable de points de la face
+	 */
 	public void addPoints(Point... points) {
 		for(Point point:points) {
 			if(point != null && !this.points.contains(point))this.points.add(point);
 		}
 	}
-	
+	/**
+	 * supprimer des points de la face
+	 * @param points tableau ou liste ou variable de points de la face
+	 */
 	public void remPoints(Point... points) {
 		this.points.removeAll(Arrays.asList(points));
 	}
@@ -49,7 +69,9 @@ public class Face implements PointCloud, Comparable<Face>{
 	public String toString() {
 		return "Face [points=" + points + "]\n Couleur : "+this.color;
 	}
-	
+	/**
+	 * avoir le centre de la face
+	 */
 	public Point getCenter() {
 		double centerx = 0,centery = 0,centerz = 0;
 		
