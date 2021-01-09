@@ -3,12 +3,10 @@ package etu.univlille.fr.projetmodei3.objects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
-import etu.univlille.fr.projetmodei3.utils.Matrix;
 
 public class Model3D implements PointCloud{
 
@@ -40,13 +38,8 @@ public class Model3D implements PointCloud{
 		List<Face> showfaces = new ArrayList<>();
 		
 		for(Face face:this.faces) {
-			Vector3D vn = MathsUtils.getNormal(face.getPoints());
-			Point center = face.getCenter();
-			//if(center.getZ()>center.getZ()+vn.getZ()) {
 				showfaces.add(face);
-			//}
 		}
-		//System.out.println("Nombre de faces renvoy�s par getFaces() : "+showfaces.size());
 		return showfaces;
 	}
 
@@ -112,7 +105,6 @@ public class Model3D implements PointCloud{
 	
 	public void zoom(double valeur) { 
 		
-		double[][] pointsModele = new double[4][getPoints().size()];
 		
 		System.out.println("Centre avant : "+getCenter());
 		Point centre = getCenter();
