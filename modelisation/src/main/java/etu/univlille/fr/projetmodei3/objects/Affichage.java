@@ -2,56 +2,30 @@ package etu.univlille.fr.projetmodei3.objects;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import etu.univlille.fr.projetmodei3.interfaces.Tri;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 
-import java.util.Map.Entry;
-import java.util.ServiceConfigurationError;
-import java.util.Set;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -279,11 +253,9 @@ public class Affichage extends VBox{
 	  		
 	  		models.add(fdTmp);
 	  		
-	  		
-	  		int i = 0;
+
 	  		for(String line : FolderParser.getFileInfos(f,fdTmp)) {
 	  			sj.add(line);
-	  			i++;
 	  		}
 	  		fdTmp.setFile(f);
 	  		Affichage vue= this;
@@ -291,6 +263,8 @@ public class Affichage extends VBox{
 	  			@Override
 	  			public void handle(MouseEvent event) {
 	  				try {
+	  						  					 
+	  					
 	  					TableView c = (TableView) event.getSource();
 	  					int index = c.getSelectionModel().getFocusedIndex();
 	  					

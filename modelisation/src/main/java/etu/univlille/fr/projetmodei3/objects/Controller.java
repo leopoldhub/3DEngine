@@ -9,7 +9,6 @@ import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,7 +32,7 @@ public class Controller extends AnchorPane{
 	Timer timer = new Timer();
 	Slider posLumX,posLumY,posLumZ;
 	boolean rotationAuto = false;
-	private boolean isRotation = false, lightOn = true;
+	private boolean isRotation = false;
 
 	
 	public Controller(Model3D modele) {
