@@ -1,13 +1,10 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import etu.univlille.fr.projetmodei3.objects.Face;
-import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 

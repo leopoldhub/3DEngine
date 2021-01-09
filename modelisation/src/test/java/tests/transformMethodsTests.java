@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import etu.univlille.fr.projetmodei3.objects.Affichage;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
