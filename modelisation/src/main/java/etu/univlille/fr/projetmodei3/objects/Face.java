@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
+import javafx.scene.paint.Color;
 /**
  * 
  * @author guilhane bourgoin
@@ -24,7 +25,7 @@ public class Face implements PointCloud, Comparable<Face>{
 	 * @param points tableau ou liste ou variable de points de la face
 	 */
 	public Face(Point... points) {
-		this(new Color(255,0,0), points);
+		this(Color.WHITE, points);
 	}
 	/**
 	 * 

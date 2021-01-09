@@ -9,14 +9,18 @@ import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Controller extends AnchorPane{
@@ -232,7 +236,22 @@ public class Controller extends AnchorPane{
 		this.getChildren().add(lumY);
 		this.getChildren().add(lumZ);
 
-
+		
+		Label lcolorPicker = new Label("Couleur du modèle");
+		lcolorPicker.setTranslateY(220);
+		
+		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
+		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
+			for(Face face:modele.getFaces()) {
+				face.setColor(colorPicker.getValue());
+			}
+			modele.translate(0, 0, 0);
+		});
+		
+		colorPicker.setTranslateY(240);
+		
+		this.getChildren().add(lcolorPicker);
+		this.getChildren().add(colorPicker);
 		
 		Button rotationHor = new Button("Rotation auto");
 		

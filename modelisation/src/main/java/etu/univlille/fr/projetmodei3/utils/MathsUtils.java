@@ -5,11 +5,11 @@ import java.util.List;
 import etu.univlille.fr.projetmodei3.objects.Face;
 import etu.univlille.fr.projetmodei3.objects.Model3D;
 import etu.univlille.fr.projetmodei3.objects.Point;
-import etu.univlille.fr.projetmodei3.objects.Vector3D;
+//import etu.univlille.fr.projetmodei3.objects.Vector3D;
 
 public class MathsUtils {
 
-	public static Vector3D getNormal(List<Point> points) {
+	/*public static Vector3D getNormal(List<Point> points) {
 		if(points == null || points.size() < 3)return new Vector3D(0, 0, 0);
 		Point a = points.get(0);
 		Point b = points.get(1);
@@ -29,7 +29,7 @@ public class MathsUtils {
 	
 	public static Vector3D getVectorFromPoints(Point a, Point b) {
 		return new Vector3D(b.getX()-a.getX(),b.getY()-a.getY(),b.getZ()-a.getZ());
-	}
+	}*/
 	
 	public static double getSegmentCenter(double a, double b) {
 		return ((b-a)/2)+a;
