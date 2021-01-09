@@ -70,7 +70,13 @@ public class Affichage extends VBox{
 	 * La méthode de tri des fichiers lorsqu'on affiche les modèle disponible
 	 */
 	private Trieur tri;
-	
+	/**
+	 * nombre de clicks pour un double click
+	 */
+	private final int doubleClick = 2;
+	/**
+	 * sert à savoir si la lumière est allumée
+	 */
 	private boolean lightOn = true;
 	
 	/**
@@ -189,7 +195,7 @@ public class Affichage extends VBox{
 	 * @param fenetreChoix
 	 */
   	private void mettreBouton(VBox listeBouton, Stage fenetreChoix) {
-  		List<File> fichier = new ArrayList<File>();
+  		List<File> fichier = new ArrayList<>();
 	  	listeBouton.getChildren().clear();
 	  	ToolBar toolBar = new ToolBar();
 	  	System.out.println("vbox add ok");
@@ -223,21 +229,21 @@ public class Affichage extends VBox{
 	  	
 	  	ObservableList<FileDescriptor> models = FXCollections.observableArrayList();
 	  	
-	  	TableView<FileDescriptor> table = new TableView<FileDescriptor>();
+	  	TableView<FileDescriptor> table = new TableView<>();
 	  	
 	  	
-	  	TableColumn<FileDescriptor, String> fileName = new TableColumn<FileDescriptor, String>("file name");
+	  	TableColumn<FileDescriptor, String> fileName = new TableColumn<>("file name");
 	  	fileName.setCellValueFactory(new PropertyValueFactory<>("name"));
 	  	
-	  	TableColumn<FileDescriptor, String> creatorColumn = new TableColumn<FileDescriptor, String>("creator");
+	  	TableColumn<FileDescriptor, String> creatorColumn = new TableColumn<>("creator");
 	  	creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
 	  	creatorColumn.setPrefWidth(215);
 	  	
-	  	TableColumn<FileDescriptor, String> vertexColumn = new TableColumn<FileDescriptor, String>("vertex");
+	  	TableColumn<FileDescriptor, String> vertexColumn = new TableColumn<>("vertex");
 	  	vertexColumn.setCellValueFactory(new PropertyValueFactory<>("vertex"));
 
 	  	
-	  	TableColumn<FileDescriptor, String> faceColumn = new TableColumn<FileDescriptor, String>("face");
+	  	TableColumn<FileDescriptor, String> faceColumn = new TableColumn<>("face");
 	  	faceColumn.setCellValueFactory(new PropertyValueFactory<>("face"));
 
 	  	
@@ -268,7 +274,7 @@ public class Affichage extends VBox{
 	  					TableView c = (TableView) event.getSource();
 	  					int index = c.getSelectionModel().getFocusedIndex();
 	  					
-	  					if(event.getClickCount() == 2) {
+	  					if(event.getClickCount() == doubleClick) {
 	  						fenetreChoix.close();
 		  					modele = Parser.parse(models.get(index).getFile());
 		  					modele.setVue(vue);
@@ -326,7 +332,7 @@ public class Affichage extends VBox{
 		GraphicsContext gc = this.vue.getGraphicsContext2D();
 		gc.clearRect(0,0,this.vue.getWidth(),this.vue.getHeight());
 		Polygon forme;
-		int idx = 0;
+		int idx;
 		double[] xPoints,yPoints;
 		
 		for(Face f : this.modele.getFaces()) {

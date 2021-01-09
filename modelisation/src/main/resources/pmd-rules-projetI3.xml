@@ -10,7 +10,7 @@ Ensemble de règles Perso Projet Mode S3
 </rule>
 <rule ref="category/java/design.xml/NcssCount">
 <properties>
-<property name="methodReportLevel" value="25"/>
+<property name="methodReportLevel" value="60"/>
 <property name="classReportLevel" value="300"/>
 <property name="ncssOptions" value=""/>
 </properties>
