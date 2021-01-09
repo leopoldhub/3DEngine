@@ -10,8 +10,21 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+/**
+ * La classe Parser, classe utilitaire permettant de creer des instances de Model3D a partir 
+ * d'un fichier .ply
+ * @author Leopold HUBERT, Maxime BOUTRY, Guilhane BOURGOING, Luca FAUBOURG
+ *
+ */
 public class Parser {
 
+	/**
+	 * La méthode principale convertissant un fichier .ply et en extrait les informations nécessaires
+	 * à la création d'une instance de Model3D
+	 * @param file Le fichier a transformer
+	 * @return Le Model3D correspondant au fichier transformé, si ce dernier ne comporte pas d'erreur
+	 * @throws Exception Les erreurs trouvés dans le fichier
+	 */
 	public static Model3D parse(File file) throws Exception {
 		List<List<String>> headerList = parseHeader(file);
 		List<List<String>> list = new ArrayList<>();
@@ -129,6 +142,15 @@ public class Parser {
 		return model;
 	}
 	
+	
+	/**
+	 * Methode permettant la capture d'erreur en cas d'incohérence dans le fichier .ply
+	 * Il compare le type attendu et le type de la chaine de caractère à tester
+	 * La valeur retournée est la traduction de la chaine de caractère 
+	 * @param type Le type attendu
+	 * @param arg La chaine qui sera parser à l'aide du type attendu
+	 * @return Resultat de la traduction de la chaine de caractère
+	 */
 	public static double getDoubleValueFromArg(String type, String arg) {
 		double value = 0;
 		if(type.startsWith("short") || type.startsWith("ushort")) {
@@ -218,6 +240,13 @@ public class Parser {
 		
 	}
 	
+	/**
+	 * Methode permetant de parser le nombre de faces ou de point, servant pour les methodes tri des
+	 * classes implémentants l'interface Tri
+	 * @param file Fichier à trier
+	 * @param element Element du ficher qu'on recherche : nombre de Face ou de Points
+	 * @return Le nombre de l'élément recherché
+	 */
 	public static int parseNb(File file, String element) {
 		Scanner sc = null;
 		try {
