@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class Controller extends AnchorPane{
 	
 	
-	Model3D modele;
+	public Model3D modele;
 	private double sensibilite = 60.0/360.0;
 	private double sensibiliteX,sensibiliteY,sensibiliteZ = 0.0;
 
@@ -44,6 +44,30 @@ public class Controller extends AnchorPane{
 		parametrageCommande();
 	}
 	
+	Button affichageFace;
+	
+	public void switchVueFace() {
+		if(affichageFace == null)return;
+		if(this.modele.vueFaceOn()) {
+			modele.switchVueFace() ;
+			affichageFace.setText("Voir Faces");
+		} else {
+			modele.switchVueFace() ;
+			affichageFace.setText("Cacher Faces");
+		}
+	}
+	
+	Button affichageArrete;
+	
+	public void switchVueArrete() {
+		if(this.modele.vueArreteOn()) {
+			this.modele.switchVueArrete();
+			affichageArrete.setText("Voir Arretes");
+		} else {
+			this.modele.switchVueArrete();
+			affichageArrete.setText("Cacher Arretes");
+		}
+	}
 	
 	private void parametrageCommande() {
 		sensibiliteX = 60.0/360.0;
@@ -51,35 +75,21 @@ public class Controller extends AnchorPane{
 		sensibiliteZ = (60.0/360.0);
 		GridPane boutons = new GridPane();
 		
-		Button affichageFace = new Button("Cacher Faces");
+		affichageFace = new Button("Cacher Faces");
 		affichageFace.addEventHandler(ActionEvent.ACTION, e->{
-			if(this.modele.vueFaceOn()) {
-				modele.switchVueFace() ;
-				affichageFace.setText("Voir Faces");
-			} else {
-				modele.switchVueFace() ;
-				affichageFace.setText("Cacher Faces");
-			}
-			//affichage(/*modele*/);
+			switchVueFace();
 		});
-		affichageFace.setTranslateY(300);
+		affichageFace.setTranslateY(260);
 		affichageFace.setPrefWidth(130);
 		affichageFace.setPrefHeight(50);
 
 		this.getChildren().add(affichageFace);
 		
-		Button affichageArrete = new Button("Cacher Arretes");
+		affichageArrete = new Button("Cacher Arretes");
 		affichageArrete.addEventHandler(ActionEvent.ACTION, e->{
-			if(this.modele.vueArreteOn()) {
-				this.modele.switchVueArrete();
-				affichageArrete.setText("Voir Arretes");
-			} else {
-				this.modele.switchVueArrete();
-				affichageArrete.setText("Cacher Arretes");
-			}
-			//TODO affichage(/*modele*/);
+			switchVueArrete();
 		});
-		affichageArrete.setTranslateY(400);
+		affichageArrete.setTranslateY(360);
 		affichageArrete.setPrefWidth(130);
 		affichageArrete.setPrefHeight(50);
 
@@ -193,7 +203,7 @@ public class Controller extends AnchorPane{
 		
 		tranches.setPrefWidth(130);
 		tranches.setPrefHeight(50);
-		tranches.setTranslateY(500);
+		tranches.setTranslateY(460);
 		
 		this.getChildren().add(tranches);		
 		
@@ -202,7 +212,7 @@ public class Controller extends AnchorPane{
 			modele.reset();	
 			//affichage(/*modele*/);
 		});
-		resetModel.setTranslateY(700);
+		resetModel.setTranslateY(660);
 		resetModel.setPrefWidth(130);
 		resetModel.setPrefHeight(50);
 		
@@ -216,17 +226,17 @@ public class Controller extends AnchorPane{
 			}
 
 		});
-		posLumX.setTranslateY(100);
-		posLumY.setTranslateY(150);
-		posLumZ.setTranslateY(200);
+		posLumX.setTranslateY(20);
+		posLumY.setTranslateY(70);
+		posLumZ.setTranslateY(120);
 
 		Label lumX = new Label("Valeur X lumière");
 		Label lumY = new Label("Valeur Y lumière");
 		Label lumZ = new Label("Valeur Z lumière");
 
-		lumX.setTranslateY(80);
-		lumY.setTranslateY(130);
-		lumZ.setTranslateY(180);
+		lumX.setTranslateY(0);
+		lumY.setTranslateY(50);
+		lumZ.setTranslateY(100);
 
 		
 		this.getChildren().add(posLumX);
@@ -238,7 +248,7 @@ public class Controller extends AnchorPane{
 
 		
 		Label lcolorPicker = new Label("Couleur du modèle");
-		lcolorPicker.setTranslateY(220);
+		lcolorPicker.setTranslateY(140);
 		
 		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
 		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
@@ -248,7 +258,7 @@ public class Controller extends AnchorPane{
 			modele.translate(0, 0, 0);
 		});
 		
-		colorPicker.setTranslateY(240);
+		colorPicker.setTranslateY(160);
 		
 		this.getChildren().add(lcolorPicker);
 		this.getChildren().add(colorPicker);
@@ -281,11 +291,11 @@ public class Controller extends AnchorPane{
 		});
 		
 			
-		rotationHor.setTranslateY(600);
+		rotationHor.setTranslateY(560);
 		rotationHor.setPrefWidth(130);
 		rotationHor.setPrefHeight(50);
 		this.getChildren().add(rotationHor);
-
+/*
 		
 		Button option = new Button("\u2196 hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
@@ -293,7 +303,6 @@ public class Controller extends AnchorPane{
 				modele.translate(-sensibilite*60, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibilite,-sensibilite,-sensibilite);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,0);
 		
@@ -303,7 +312,6 @@ public class Controller extends AnchorPane{
 				modele.translate(0, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibilite,0,0);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,1,0);
 		
@@ -313,7 +321,6 @@ public class Controller extends AnchorPane{
 				modele.translate(sensibilite*60, -sensibilite*60, 0);
 			else
 				modele.rotate(sensibiliteX,sensibiliteY,sensibiliteZ);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,0);
 		
@@ -324,7 +331,6 @@ public class Controller extends AnchorPane{
 				modele.translate(-sensibilite*60, 0, 0);
 			else
 				modele.rotate(0,-sensibilite,0);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,1);
 		
@@ -339,7 +345,6 @@ public class Controller extends AnchorPane{
 			else
 				middleButton.setText("\u2928 ");
 			modele.rotate(0,0,0);
-			//affichage(/*modele*/);
 		});
 		boutons.add(middleButton,1,1);
 		
@@ -349,7 +354,6 @@ public class Controller extends AnchorPane{
 				modele.translate(sensibilite*60,0 ,0);
 			else
 				modele.rotate(0,sensibilite,0);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,1);
 		
@@ -359,7 +363,6 @@ public class Controller extends AnchorPane{
 				modele.translate(-sensibilite*60, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,-sensibilite,-sensibilite);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,0,2);
 		
@@ -369,7 +372,6 @@ public class Controller extends AnchorPane{
 				modele.translate(0, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,0,0);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,1,2);
 		
@@ -379,11 +381,10 @@ public class Controller extends AnchorPane{
 				modele.translate(sensibilite*60, sensibilite*60, 0);
 			else
 				modele.rotate(-sensibilite,sensibilite,sensibilite);
-			//affichage(/*modele*/);
 		});
 		boutons.add(option,2,2);
 		
-		this.getChildren().add(boutons);
+		this.getChildren().add(boutons);*/
 	}
 	
 	

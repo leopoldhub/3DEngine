@@ -25,6 +25,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
@@ -134,9 +136,37 @@ public class Affichage extends VBox{
 		this.vue.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
-				double factor = 0.2;
-				double deltaY = event.getDeltaY();
-	            modele.zoom(deltaY<0?1-factor:1+factor);
+				if(modele != null) {
+					double factor = 0.2;
+					double deltaY = event.getDeltaY();
+		            modele.zoom(deltaY<0?1-factor:1+factor);
+				}
+			}
+		});
+		
+		this.setOnKeyTyped(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				System.out.println(event.getCharacter());
+				if(event.getCharacter() == null || event.getCharacter().length() == 0 || event.getCharacter().length() > 1)return;
+				char c = event.getCharacter().toUpperCase().charAt(0);
+				switch (c) {
+				case 'F': 
+					commande.switchVueFace();
+					break;
+				case 'A': 
+					commande.switchVueArrete();
+					break;
+				case 'R': 
+					modele.reset();
+					break;
+				case 'L':
+					lightOn = !lightOn;
+					affichage();
+					break;
+				default:
+					break;
+				}
 			}
 		});
 		
