@@ -12,11 +12,15 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -27,8 +31,7 @@ public class Controller extends AnchorPane{
 	
 	
 	public Model3D modele;
-	private double sensibilite = 60.0/360.0;
-	private double sensibiliteX,sensibiliteY,sensibiliteZ = 0.0;
+	private double sensibiliteX,sensibiliteY,sensibiliteZ = 60.0/360.0;
 
 	private int nbTranches = 2;
 
@@ -126,17 +129,7 @@ public class Controller extends AnchorPane{
 		
 		
 		setSliderLumiere();
-		/*
-		Slider nbTranches = new Slider();
-		nbTranches.setTranslateY(550);
-		nbTranches.setMin(1);
-		nbTranches.setMax(20);
-		nbTranches.setOrientation(Orientation.HORIZONTAL);
-		nbTranches.setValue(4);
-		nbTranches.setShowTickLabels(true);
-		nbTranches.setShowTickMarks(true);
-		nbTranches.setMajorTickUnit(1);
-		 */
+
 
 		Button tranches = new Button("Vue en tranches");
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
@@ -229,17 +222,17 @@ public class Controller extends AnchorPane{
 			}
 
 		});
-		posLumX.setTranslateY(20);
-		posLumY.setTranslateY(70);
-		posLumZ.setTranslateY(120);
+		posLumX.setTranslateY(120);
+		posLumY.setTranslateY(170);
+		posLumZ.setTranslateY(220);
 
 		Label lumX = new Label("Valeur X lumière");
 		Label lumY = new Label("Valeur Y lumière");
 		Label lumZ = new Label("Valeur Z lumière");
 
-		lumX.setTranslateY(0);
-		lumY.setTranslateY(50);
-		lumZ.setTranslateY(100);
+		lumX.setTranslateY(100);
+		lumY.setTranslateY(150);
+		lumZ.setTranslateY(200);
 
 		
 		this.getChildren().add(posLumX);
@@ -249,22 +242,6 @@ public class Controller extends AnchorPane{
 		this.getChildren().add(lumY);
 		this.getChildren().add(lumZ);
 
-		
-		Label lcolorPicker = new Label("Couleur du modèle");
-		lcolorPicker.setTranslateY(140);
-		
-		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
-		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
-			for(Face face:modele.getFaces()) {
-				face.setColor(colorPicker.getValue());
-			}
-			modele.translate(0, 0, 0);
-		});
-		
-		colorPicker.setTranslateY(160);
-		
-		this.getChildren().add(lcolorPicker);
-		this.getChildren().add(colorPicker);
 		
 		Button rotationHor = new Button("Rotation auto");
 		
@@ -290,30 +267,30 @@ public class Controller extends AnchorPane{
 		rotationHor.setPrefWidth(130);
 		rotationHor.setPrefHeight(50);
 		this.getChildren().add(rotationHor);
-/*
+
 		
 		Button option = new Button("\u2196 hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(-sensibilite*60, -sensibilite*60, 0);
+				modele.translate(-sensibiliteX*60, -sensibiliteY*60, 0);
 			else
-				modele.rotate(sensibilite,-sensibilite,-sensibilite);
+				modele.rotate(sensibiliteX,-sensibiliteY,-sensibiliteZ);
 		});
 		boutons.add(option,0,0);
 		
 		option = new Button("\u2191 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(0, -sensibilite*60, 0);
+				modele.translate(0, -sensibiliteY*60, 0);
 			else
-				modele.rotate(sensibilite,0,0);
+				modele.rotate(sensibiliteX,0,0);
 		});
 		boutons.add(option,1,0);
 		
 		option = new Button("\u2197 hd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(sensibilite*60, -sensibilite*60, 0);
+				modele.translate(sensibiliteX*60, -sensibiliteY*60, 0);
 			else
 				modele.rotate(sensibiliteX,sensibiliteY,sensibiliteZ);
 		});
@@ -323,9 +300,9 @@ public class Controller extends AnchorPane{
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			//modele.rotate(0,-sensibilite,0);
 			if(!isRotation)
-				modele.translate(-sensibilite*60, 0, 0);
+				modele.translate(-sensibiliteX*60, 0, 0);
 			else
-				modele.rotate(0,-sensibilite,0);
+				modele.rotate(0,-sensibiliteY,0);
 		});
 		boutons.add(option,0,1);
 		
@@ -346,40 +323,40 @@ public class Controller extends AnchorPane{
 		option = new Button("\u2192 -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(sensibilite*60,0 ,0);
+				modele.translate(sensibiliteX*60,0 ,0);
 			else
-				modele.rotate(0,sensibilite,0);
+				modele.rotate(0,sensibiliteY,0);
 		});
 		boutons.add(option,2,1);
 		
 		option = new Button("\u2199 bg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(-sensibilite*60, sensibilite*60, 0);
+				modele.translate(-sensibiliteX*60, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,-sensibilite,-sensibilite);
+				modele.rotate(-sensibiliteX,-sensibiliteY,-sensibiliteZ);
 		});
 		boutons.add(option,0,2);
 		
 		option = new Button("\u2193 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(0, sensibilite*60, 0);
+				modele.translate(0, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,0,0);
+				modele.rotate(-sensibiliteX,0,0);
 		});
 		boutons.add(option,1,2);
 		
 		option = new Button("\u2198 bd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation )
-				modele.translate(sensibilite*60, sensibilite*60, 0);
+				modele.translate(sensibiliteX*60, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,sensibilite,sensibilite);
+				modele.rotate(-sensibiliteX,sensibiliteY,sensibiliteZ);
 		});
 		boutons.add(option,2,2);
 		
-		this.getChildren().add(boutons);*/
+		this.getChildren().add(boutons);
 	}
 	
 	
@@ -408,7 +385,9 @@ public class Controller extends AnchorPane{
 	}
 	
 	public void setSensibilite(double angle) {
-		this.sensibilite = angle/360.0;
+		sensibiliteX = angle/360.0;
+		sensibiliteY = angle/360.0;
+		sensibiliteZ = angle/360.0;
 	}
 	
 	public void setModele(Model3D modele) {
@@ -423,50 +402,79 @@ public class Controller extends AnchorPane{
 		Scene settingScene = new Scene(settingVbox,800,500);		
 		Label labelRotation = new Label("Entrez l'angle de rotation au format(x y z) : ");
 		TextField angleRotation = new TextField();
+		angleRotation.setTranslateY(10);
 		angleRotation.setMaxWidth(400);
-		angleRotation.setText(sensibilite+"");
+		angleRotation.setText(sensibiliteX+"");
+		
+		CheckBox xyzSensi = new CheckBox("utiliser la sensibilité avancée");
+		xyzSensi.setSelected(false);
+		xyzSensi.setTranslateY(20);
 		
 		Label labelRotationX = new Label("Entrez l'angle de rotation sur l'axe X : ");
+		labelRotationX.setTranslateY(30);
 		TextField angleRotationX = new TextField();
 		angleRotationX.setMaxWidth(400);
+		angleRotationX.setTranslateY(30);
 		angleRotationX.setText(sensibiliteX+"");
 		
 		Label labelRotationY = new Label("Entrez l'angle de rotation sur l'axe Y : ");
+		labelRotationY.setTranslateY(40);
 		TextField angleRotationY = new TextField();
 		angleRotationY.setMaxWidth(400);
+		angleRotationY.setTranslateY(40);
 		angleRotationY.setText(sensibiliteY+"");
 		
 		Label labelRotationZ = new Label("Entrez l'angle de rotation sur l'axe Z : ");
+		labelRotationZ.setTranslateY(50);
 		TextField angleRotationZ = new TextField();
 		angleRotationZ.setMaxWidth(400);
+		angleRotationZ.setTranslateY(50);
 		angleRotationZ.setText(sensibiliteZ+"");
 		
 		Label labelFps = new Label("Entrez le nombre de rotation par secondes en milliseconde : ");
+		labelFps.setTranslateY(60);
 		TextField fieldFps = new TextField();
 		fieldFps.setMaxWidth(400);
+		fieldFps.setTranslateY(60);
 		fieldFps.setText(nbFps+"");
 		
 		
 		Label labelTranches = new Label("Entrez le nombre de tranches : ");
-		labelTranches.setTranslateY(10);
+		labelTranches.setTranslateY(70);
 		TextField trancheField = new TextField();
 		trancheField.setMaxWidth(400);
-		trancheField.setTranslateY(10);
+		trancheField.setTranslateY(70);
 		trancheField.setText(nbTranches+"");
 		
+		
+		Label lcolorPicker = new Label("Couleur du modèle");
+		lcolorPicker.setTranslateY(80);
+		
+		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
+		colorPicker.setTranslateY(90);
+		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
+			for(Face face:modele.getFaces()) {
+				face.setColor(colorPicker.getValue());
+			}
+			modele.translate(0, 0, 0);
+		});
+		
+		
 		Button validateSettings = new Button("valider");
-		validateSettings.setTranslateY(20);
+		validateSettings.setTranslateY(120);
 		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
 			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
 			System.out.println("ça contient : "+angleRotation.getText());
-			if(angleRotation.getText()!=null || !angleRotation.getText().equals("0"))
+			if((angleRotation.getText()!=null || !angleRotation.getText().equals("0")) && !xyzSensi.isSelected())
 			{
 				try {
-					sensibilite =  Integer.parseInt(angleRotation.getText());
+					sensibiliteX = Integer.parseInt(angleRotation.getText());
+					sensibiliteY = Integer.parseInt(angleRotation.getText());
+					sensibiliteZ = Integer.parseInt(angleRotation.getText());
 					if(rotationAuto) 
 						timer.cancel();
 					
-					rotationTask = new RotationTask(modele, sensibilite);
+					rotationTask = new RotationTask(modele, sensibiliteX);
 
 				}catch(Exception eRota) {
 					if(rotationAuto) 
@@ -476,6 +484,26 @@ public class Controller extends AnchorPane{
 
 				}
 				
+			}else {
+				try {
+					sensibiliteX = Integer.parseInt(angleRotationX.getText());
+					sensibiliteY = Integer.parseInt(angleRotationY.getText());
+					sensibiliteZ = Integer.parseInt(angleRotationZ.getText());
+					if(rotationAuto) 
+						timer.cancel();
+					
+					rotationTask = new RotationTask(modele, sensibiliteX,sensibiliteY,sensibiliteZ);
+
+				}catch(Exception eXyz ) {
+					Alert alert4 = new Alert(AlertType.ERROR);
+					alert4.setTitle("Error on Advenced rotation");
+					alert4.setContentText("Missing an XYZ rotation angle");
+					alert4.show();
+					alert4.setOnCloseRequest(lambda->{
+						settings();
+					});
+					System.out.println("il manque 1 case");
+				}
 			}
 			
 			
@@ -483,7 +511,7 @@ public class Controller extends AnchorPane{
 				try {
 					if(rotationAuto) 
 						timer.cancel();
-					rotationTask = new RotationTask(modele, sensibilite);
+					rotationTask = new RotationTask(modele, sensibiliteX);
 					nbFps = Integer.parseInt(fieldFps.getText());
 				}catch(Exception eFps) {
 					
@@ -502,6 +530,9 @@ public class Controller extends AnchorPane{
 
 				}
 			}
+			
+			if(xyzSensi.isSelected())
+				System.out.println("toggle ok");
 
 			System.out.println("bouton settings"+rotationAuto);
 
@@ -509,7 +540,7 @@ public class Controller extends AnchorPane{
 		});
 		
 
-		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,validateSettings);
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,xyzSensi,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,lcolorPicker,colorPicker,validateSettings);
 		
 		
 		settingStage.setTitle("Parametres");
