@@ -129,17 +129,7 @@ public class Controller extends AnchorPane{
 		
 		
 		setSliderLumiere();
-		/*
-		Slider nbTranches = new Slider();
-		nbTranches.setTranslateY(550);
-		nbTranches.setMin(1);
-		nbTranches.setMax(20);
-		nbTranches.setOrientation(Orientation.HORIZONTAL);
-		nbTranches.setValue(4);
-		nbTranches.setShowTickLabels(true);
-		nbTranches.setShowTickMarks(true);
-		nbTranches.setMajorTickUnit(1);
-		 */
+
 
 		Button tranches = new Button("Vue en tranches");
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
@@ -232,17 +222,17 @@ public class Controller extends AnchorPane{
 			}
 
 		});
-		posLumX.setTranslateY(20);
-		posLumY.setTranslateY(70);
-		posLumZ.setTranslateY(120);
+		posLumX.setTranslateY(120);
+		posLumY.setTranslateY(170);
+		posLumZ.setTranslateY(220);
 
 		Label lumX = new Label("Valeur X lumière");
 		Label lumY = new Label("Valeur Y lumière");
 		Label lumZ = new Label("Valeur Z lumière");
 
-		lumX.setTranslateY(0);
-		lumY.setTranslateY(50);
-		lumZ.setTranslateY(100);
+		lumX.setTranslateY(100);
+		lumY.setTranslateY(150);
+		lumZ.setTranslateY(200);
 
 		
 		this.getChildren().add(posLumX);
@@ -253,13 +243,6 @@ public class Controller extends AnchorPane{
 		this.getChildren().add(lumZ);
 
 		
-		/*
-		
-		colorPicker.setTranslateY(160);
-		
-		this.getChildren().add(lcolorPicker);
-		this.getChildren().add(colorPicker);
-		*/
 		Button rotationHor = new Button("Rotation auto");
 		
 		rotationHor.addEventHandler(ActionEvent.ACTION, e->{
@@ -284,30 +267,30 @@ public class Controller extends AnchorPane{
 		rotationHor.setPrefWidth(130);
 		rotationHor.setPrefHeight(50);
 		this.getChildren().add(rotationHor);
-/*
+
 		
 		Button option = new Button("\u2196 hg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(-sensibilite*60, -sensibilite*60, 0);
+				modele.translate(-sensibiliteX*60, -sensibiliteY*60, 0);
 			else
-				modele.rotate(sensibilite,-sensibilite,-sensibilite);
+				modele.rotate(sensibiliteX,-sensibiliteY,-sensibiliteZ);
 		});
 		boutons.add(option,0,0);
 		
 		option = new Button("\u2191 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(0, -sensibilite*60, 0);
+				modele.translate(0, -sensibiliteY*60, 0);
 			else
-				modele.rotate(sensibilite,0,0);
+				modele.rotate(sensibiliteX,0,0);
 		});
 		boutons.add(option,1,0);
 		
 		option = new Button("\u2197 hd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(sensibilite*60, -sensibilite*60, 0);
+				modele.translate(sensibiliteX*60, -sensibiliteY*60, 0);
 			else
 				modele.rotate(sensibiliteX,sensibiliteY,sensibiliteZ);
 		});
@@ -317,9 +300,9 @@ public class Controller extends AnchorPane{
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			//modele.rotate(0,-sensibilite,0);
 			if(!isRotation)
-				modele.translate(-sensibilite*60, 0, 0);
+				modele.translate(-sensibiliteX*60, 0, 0);
 			else
-				modele.rotate(0,-sensibilite,0);
+				modele.rotate(0,-sensibiliteY,0);
 		});
 		boutons.add(option,0,1);
 		
@@ -340,40 +323,40 @@ public class Controller extends AnchorPane{
 		option = new Button("\u2192 -");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(sensibilite*60,0 ,0);
+				modele.translate(sensibiliteX*60,0 ,0);
 			else
-				modele.rotate(0,sensibilite,0);
+				modele.rotate(0,sensibiliteY,0);
 		});
 		boutons.add(option,2,1);
 		
 		option = new Button("\u2199 bg");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(-sensibilite*60, sensibilite*60, 0);
+				modele.translate(-sensibiliteX*60, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,-sensibilite,-sensibilite);
+				modele.rotate(-sensibiliteX,-sensibiliteY,-sensibiliteZ);
 		});
 		boutons.add(option,0,2);
 		
 		option = new Button("\u2193 |");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation)
-				modele.translate(0, sensibilite*60, 0);
+				modele.translate(0, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,0,0);
+				modele.rotate(-sensibiliteX,0,0);
 		});
 		boutons.add(option,1,2);
 		
 		option = new Button("\u2198 bd");
 		option.addEventHandler(ActionEvent.ACTION,e->{
 			if(!isRotation )
-				modele.translate(sensibilite*60, sensibilite*60, 0);
+				modele.translate(sensibiliteX*60, sensibiliteY*60, 0);
 			else
-				modele.rotate(-sensibilite,sensibilite,sensibilite);
+				modele.rotate(-sensibiliteX,sensibiliteY,sensibiliteZ);
 		});
 		boutons.add(option,2,2);
 		
-		this.getChildren().add(boutons);*/
+		this.getChildren().add(boutons);
 	}
 	
 	
