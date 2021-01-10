@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -20,60 +17,115 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * La classe Controller, un panneau de commande qui permet d'intéragir avec le modèle, il est contenu en général dans une instance d'Affichage.java
+ * @author Leopold HUBERT, Maxime BOUTRY, Guilhane BOURGOING, Luca FAUBOURG
+ *
+ */
 public class Controller extends AnchorPane{
 	
-	
+	/**
+	 * Le modèle qui sera transformé
+	 */
 	public Model3D modele;
-	private double sensibiliteX,sensibiliteY,sensibiliteZ = 60.0/360.0;
+	/**
+	 * La sensibilité sur l'axe horizontal X
+	 */
+	private double sensibiliteX;
+	/**
+	 * La sensibilité sur l'axe vertical Y
+	 */
+	private double sensibiliteY;
+	/**
+	 * La sensibilité sur l'axe de profondeur Z
+	 */
+	private double sensibiliteZ = 60.0/360.0;
 
+	
+	/**
+	 * Le nombre de tranches qui sera affiché lorsque l'option affichage en tranche sera activé
+	 */
 	private int nbTranches = 2;
 
-	Trieur tri;
+	/**
+	 * 
+	 */
 	Timer timer = new Timer();
-	Slider posLumX,posLumY,posLumZ;
+	
+	/**
+	 * Slider permettant de déplacer la lumière sur l'axe horizontal X
+	 */
+	Slider posLumX; 
+	/**
+	 * Slider permettant de déplacer la lumière sur l'axe vertical Y
+	 */
+	Slider posLumY;
+	/**
+	 * Slider permettant de déplacer la lumière sur l'axe de profondeur Z
+	 */
+	Slider posLumZ;
 	private TimerTask task;
+	
 	private RotationTask rotationTask;
+	/**
+	 * Boolean indiquant si la rotation automatique est activée
+	 */
 	private boolean rotationAuto = false;
+	/**
+	 * Boolean indiquant si les boutons appliquent une rotation ou une translation sur le modèle
+	 */
 	private boolean isRotation = false;
 	private int nbFps = 500;
-
 	
+	/**
+	 * 
+	 */
+	private Button affichageFace;
+	private Button affichageArrete;
+
+
+	/**
+	 * Le constructeur de base de Controlleur qui récupère un modèle sur lequel intéragir
+	 * @param modele Modele qui sera modifié par les boutons
+	 */
 	public Controller(Model3D modele) {
 		this.modele = modele;
 		parametrageCommande();
 	}
 	
-	Button affichageFace;
 	
+	/**
+	 * Methode permettant d'activer ou de désactiver l'affichage des faces
+	 */
 	public void switchVueFace() {
 		if(affichageFace == null)return;
 		if(this.modele.vueFaceOn()) {
-			modele.switchVueFace() ;
 			affichageFace.setText("Voir Faces");
 		} else {
-			modele.switchVueFace() ;
 			affichageFace.setText("Cacher Faces");
 		}
+		modele.switchVueFace() ;
+
 	}
 	
-	Button affichageArrete;
-	
+	/**
+	 * Methode permettant d'activer ou de désactiver l'affichage des arretes
+	 */
 	public void switchVueArrete() {
 		if(this.modele.vueArreteOn()) {
-			this.modele.switchVueArrete();
 			affichageArrete.setText("Voir Arretes");
 		} else {
-			this.modele.switchVueArrete();
 			affichageArrete.setText("Cacher Arretes");
 		}
+		this.modele.switchVueArrete();
 	}
+	
 	
 	private void parametrageCommande() {
 		sensibiliteX = 60.0/360.0;
@@ -135,20 +187,6 @@ public class Controller extends AnchorPane{
 		tranches.addEventHandler(ActionEvent.ACTION, e->{
 			Model3D modeleTranches = new Model3D();
 			Face tranche;
-			/*
-			Point[] intersections;
-			for(double z : MathsUtils.getZtranches(modele, (int)nbTranches.getValue())) {
-				tranche = new Face();
-				for(Face f : modele.getFaces()) {
-					intersections = MathsUtils.getIntersection(f, z);
-					if(intersections != null) {
-						tranche.addPoints(intersections[0]);
-						tranche.addPoints(intersections[1]);
-					}
-				}
-				modeleTranches.addFaces(tranche);
-			}
-			*/
 			Point depart, courant;
 			Point[] intersection;
 			int idx;
@@ -359,7 +397,9 @@ public class Controller extends AnchorPane{
 		this.getChildren().add(boutons);
 	}
 	
-	
+	/**
+	 * Methode permettant de mettre à jour les sliders lumières, qui s'adaptent en temps normal aux tailles variables des modèles
+	 */
 	public void setSliderLumiere() {
 		List<Point> points = modele.getPoints();
 		if(!points.isEmpty()) {
@@ -378,23 +418,31 @@ public class Controller extends AnchorPane{
 			posLumY.setMax(5000);
 			posLumZ.setMin(-5000); 
 			posLumZ.setMax(5000);
-			System.out.println("Borne des Slider Lumière : x ("+posLumX.getMin()+":"+posLumX.getMax()+")");
-			System.out.println("Borne des Slider Lumière : y ("+posLumY.getMin()+":"+posLumY.getMax()+")");
-			System.out.println("Borne des Slider Lumière : z ("+posLumZ.getMin()+":"+posLumZ.getMax()+")");
 		}
 	}
 	
+	/**
+	 * Methode permettant de changer la sensibilité, augmentant ou diminuant l'impact du pavé directionnel en haut à droite
+	 * @param angle Nouvel angle de sensibilité
+	 */
 	public void setSensibilite(double angle) {
 		sensibiliteX = angle/360.0;
 		sensibiliteY = angle/360.0;
 		sensibiliteZ = angle/360.0;
 	}
 	
+	/**
+	 * Setter permettant de changer de modèle sur lequel intéragir
+	 * @param modele
+	 */
 	public void setModele(Model3D modele) {
-		System.out.println("Set Modele fait");
 		this.modele = modele;
 		setSliderLumiere();
 	}
+	/**
+	 * Methode affichant une fenetre de parametrage, sur laquelle l'utilisateur pourra modifier la sensibilité des transformations,
+	 * la couleur du modèle et la vitesse d'actualisation de la rotation automatique
+	 */
 	public void settings() {
 		
 		Stage settingStage = new Stage();
@@ -464,7 +512,6 @@ public class Controller extends AnchorPane{
 		validateSettings.setTranslateY(120);
 		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
 			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
-			System.out.println("ça contient : "+angleRotation.getText());
 			if((angleRotation.getText()!=null || !angleRotation.getText().equals("0")) && !xyzSensi.isSelected())
 			{
 				try {
