@@ -253,22 +253,13 @@ public class Controller extends AnchorPane{
 		this.getChildren().add(lumZ);
 
 		
-		Label lcolorPicker = new Label("Couleur du modèle");
-		lcolorPicker.setTranslateY(140);
-		
-		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
-		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
-			for(Face face:modele.getFaces()) {
-				face.setColor(colorPicker.getValue());
-			}
-			modele.translate(0, 0, 0);
-		});
+		/*
 		
 		colorPicker.setTranslateY(160);
 		
 		this.getChildren().add(lcolorPicker);
 		this.getChildren().add(colorPicker);
-		
+		*/
 		Button rotationHor = new Button("Rotation auto");
 		
 		rotationHor.addEventHandler(ActionEvent.ACTION, e->{
@@ -428,42 +419,66 @@ public class Controller extends AnchorPane{
 		Scene settingScene = new Scene(settingVbox,800,500);		
 		Label labelRotation = new Label("Entrez l'angle de rotation au format(x y z) : ");
 		TextField angleRotation = new TextField();
+		angleRotation.setTranslateY(10);
 		angleRotation.setMaxWidth(400);
 		angleRotation.setText(sensibiliteX+"");
 		
 		CheckBox xyzSensi = new CheckBox("utiliser la sensibilité avancée");
 		xyzSensi.setSelected(false);
+		xyzSensi.setTranslateY(20);
 		
 		Label labelRotationX = new Label("Entrez l'angle de rotation sur l'axe X : ");
+		labelRotationX.setTranslateY(30);
 		TextField angleRotationX = new TextField();
 		angleRotationX.setMaxWidth(400);
+		angleRotationX.setTranslateY(30);
 		angleRotationX.setText(sensibiliteX+"");
 		
 		Label labelRotationY = new Label("Entrez l'angle de rotation sur l'axe Y : ");
+		labelRotationY.setTranslateY(40);
 		TextField angleRotationY = new TextField();
 		angleRotationY.setMaxWidth(400);
+		angleRotationY.setTranslateY(40);
 		angleRotationY.setText(sensibiliteY+"");
 		
 		Label labelRotationZ = new Label("Entrez l'angle de rotation sur l'axe Z : ");
+		labelRotationZ.setTranslateY(50);
 		TextField angleRotationZ = new TextField();
 		angleRotationZ.setMaxWidth(400);
+		angleRotationZ.setTranslateY(50);
 		angleRotationZ.setText(sensibiliteZ+"");
 		
 		Label labelFps = new Label("Entrez le nombre de rotation par secondes en milliseconde : ");
+		labelFps.setTranslateY(60);
 		TextField fieldFps = new TextField();
 		fieldFps.setMaxWidth(400);
+		fieldFps.setTranslateY(60);
 		fieldFps.setText(nbFps+"");
 		
 		
 		Label labelTranches = new Label("Entrez le nombre de tranches : ");
-		labelTranches.setTranslateY(10);
+		labelTranches.setTranslateY(70);
 		TextField trancheField = new TextField();
 		trancheField.setMaxWidth(400);
-		trancheField.setTranslateY(10);
+		trancheField.setTranslateY(70);
 		trancheField.setText(nbTranches+"");
 		
+		
+		Label lcolorPicker = new Label("Couleur du modèle");
+		lcolorPicker.setTranslateY(80);
+		
+		ColorPicker colorPicker = new ColorPicker(Color.WHITE);
+		colorPicker.setTranslateY(90);
+		colorPicker.addEventHandler(ActionEvent.ACTION, e->{
+			for(Face face:modele.getFaces()) {
+				face.setColor(colorPicker.getValue());
+			}
+			modele.translate(0, 0, 0);
+		});
+		
+		
 		Button validateSettings = new Button("valider");
-		validateSettings.setTranslateY(20);
+		validateSettings.setTranslateY(120);
 		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
 			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
 			System.out.println("ça contient : "+angleRotation.getText());
@@ -542,7 +557,7 @@ public class Controller extends AnchorPane{
 		});
 		
 
-		settingVbox.getChildren().addAll(labelRotation,angleRotation,xyzSensi,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,validateSettings);
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,xyzSensi,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,lcolorPicker,colorPicker,validateSettings);
 		
 		
 		settingStage.setTitle("Parametres");
