@@ -3,7 +3,6 @@ package etu.univlille.fr.projetmodei3.objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 import etu.univlille.fr.projetmodei3.utils.MathsUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,8 +69,9 @@ public class Controller extends AnchorPane{
 	 * Slider permettant de déplacer la lumière sur l'axe de profondeur Z
 	 */
 	Slider posLumZ;
-	private TimerTask task;
-	
+	/**
+	 * Task servant à la rotation automatique
+	 */
 	private RotationTask rotationTask;
 	/**
 	 * Boolean indiquant si la rotation automatique est activée
@@ -81,12 +81,18 @@ public class Controller extends AnchorPane{
 	 * Boolean indiquant si les boutons appliquent une rotation ou une translation sur le modèle
 	 */
 	private boolean isRotation = false;
+	/**
+	 * le nombre de frame par secondes
+	 */
 	private int nbFps = 500;
 	
 	/**
-	 * 
+	 * boutton d'affichage des faces
 	 */
 	private Button affichageFace;
+	/**
+	 * boutton d'affichage des arretes
+	 */
 	private Button affichageArrete;
 
 
@@ -126,7 +132,9 @@ public class Controller extends AnchorPane{
 		this.modele.switchVueArrete();
 	}
 	
-	
+	/**
+	 * s'occupe de toutes les commandes visibles sur le menu
+	 */
 	private void parametrageCommande() {
 		sensibiliteX = 60.0/360.0;
 		sensibiliteY = 60.0/360.0;
