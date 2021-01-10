@@ -7,9 +7,8 @@ import java.util.List;
 import etu.univlille.fr.projetmodei3.interfaces.PointCloud;
 import javafx.scene.paint.Color;
 /**
- * 
- * @author guilhane bourgoin
  * objet face, correspondant à une face du model 3D
+ * @author guilhane bourgoin
  */
 public class Face implements PointCloud, Comparable<Face>{
 	/**
