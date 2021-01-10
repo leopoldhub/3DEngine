@@ -35,8 +35,11 @@ public class Controller extends AnchorPane{
 	Trieur tri;
 	Timer timer = new Timer();
 	Slider posLumX,posLumY,posLumZ;
-	boolean rotationAuto = false;
+	private TimerTask task;
+	private RotationTask rotationTask;
+	private boolean rotationAuto = false;
 	private boolean isRotation = false;
+	private int nbFps = 500;
 
 	
 	public Controller(Model3D modele) {
@@ -266,23 +269,15 @@ public class Controller extends AnchorPane{
 		Button rotationHor = new Button("Rotation auto");
 		
 		rotationHor.addEventHandler(ActionEvent.ACTION, e->{
-			
-			
-			TimerTask task = new TimerTask() {
-				
-				@Override
-				public void run() {
-					modele.rotate(sensibiliteX+1, sensibiliteY+1, sensibiliteZ+3);	
-					
-					
-				}
-			};			
+			System.out.println("bouton rotation"+rotationAuto);
+			rotationTask = new RotationTask(modele);
+
 			if(rotationAuto) {
 				timer.cancel();
 				
 			}else {
 				timer = new Timer();
-				timer.schedule(task, 0,60);		
+				timer.schedule(/*task*/rotationTask, 0,nbFps);		
 			}	
 			this.rotationAuto = !rotationAuto;
 				
@@ -446,6 +441,11 @@ public class Controller extends AnchorPane{
 		angleRotationZ.setMaxWidth(400);
 		angleRotationZ.setText(sensibiliteZ+"");
 		
+		Label labelFps = new Label("Entrez le nombre de rotation par secondes en milliseconde : ");
+		TextField fieldFps = new TextField();
+		fieldFps.setMaxWidth(400);
+		fieldFps.setText(nbFps+"");
+		
 		
 		Label labelTranches = new Label("Entrez le nombre de tranches : ");
 		labelTranches.setTranslateY(10);
@@ -462,13 +462,34 @@ public class Controller extends AnchorPane{
 			if(angleRotation.getText()!=null || !angleRotation.getText().equals("0"))
 			{
 				try {
-					sensibilite =  Integer.parseInt(angleRotation.getText());					
+					sensibilite =  Integer.parseInt(angleRotation.getText());
+					if(rotationAuto) 
+						timer.cancel();
+					
+					rotationTask = new RotationTask(modele, sensibilite);
+
 				}catch(Exception eRota) {
-					sensibiliteX = 60.0/360.0;
-					sensibiliteY = 60.0/360.0;
-					sensibiliteZ = (60.0/360.0) + 3;
+					if(rotationAuto) 
+						timer.cancel();						
+					
+					rotationTask = new RotationTask(modele);
+
+				}
+				
+			}
+			
+			
+			if(fieldFps.getText()!=null || !fieldFps.getText().equals("500")) {
+				try {
+					if(rotationAuto) 
+						timer.cancel();
+					rotationTask = new RotationTask(modele, sensibilite);
+					nbFps = Integer.parseInt(fieldFps.getText());
+				}catch(Exception eFps) {
+					
 				}
 			}
+			
 				
 			
 			if(trancheField.getText()!=null || !trancheField.getText().equals("0")||!trancheField.getText().trim().isBlank()) {
@@ -481,15 +502,14 @@ public class Controller extends AnchorPane{
 
 				}
 			}
-			
+
+			System.out.println("bouton settings"+rotationAuto);
+
 			settingStage.close();
 		});
 		
-		/*
-		Label label = new Label("Entrez le nombre de tranches : ");
-		TextField nbRotations = new TextField();
-		*/
-		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelTranches,trancheField,validateSettings);
+
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,validateSettings);
 		
 		
 		settingStage.setTitle("Parametres");
