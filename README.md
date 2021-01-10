@@ -20,14 +20,19 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
  - Rotations
  - Tests
  - Tests des scripts sur differents os et configurations
+ - Rotation auto
+ - paremetres
  
 **Maxime** (Maxime, Maxime Boutry)
  - Translations
  - Zoom
  - Quelques Tests
  - EventHandlers 
+ - TestLumière
+ - Mise en place des patrons de conceptions
+ - Vue en tranche
  
-**Luca**
+~~**Luca**~~ a quité le navire
  - PLY Parser
  
 **Léopold** (Leopold Hubert, leopold)
@@ -35,8 +40,10 @@ les informations pour compiler/lancer le programme se trouvent [sur cette page](
  - Structure du projet
  - PLY/Folder Parser
  - Sélection du dossier/fichier
+ - Choix des couleurs
+ - Raccourcis clavier et usage de la souris
  
-**Victor**
+~~**Victor**~~ a quité le navire
  - Fenêtre javaFX
  
 # précisions
