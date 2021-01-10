@@ -12,11 +12,15 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -27,8 +31,7 @@ public class Controller extends AnchorPane{
 	
 	
 	public Model3D modele;
-	private double sensibilite = 60.0/360.0;
-	private double sensibiliteX,sensibiliteY,sensibiliteZ = 0.0;
+	private double sensibiliteX,sensibiliteY,sensibiliteZ = 60.0/360.0;
 
 	private int nbTranches = 2;
 
@@ -408,7 +411,9 @@ public class Controller extends AnchorPane{
 	}
 	
 	public void setSensibilite(double angle) {
-		this.sensibilite = angle/360.0;
+		sensibiliteX = angle/360.0;
+		sensibiliteY = angle/360.0;
+		sensibiliteZ = angle/360.0;
 	}
 	
 	public void setModele(Model3D modele) {
@@ -424,7 +429,10 @@ public class Controller extends AnchorPane{
 		Label labelRotation = new Label("Entrez l'angle de rotation au format(x y z) : ");
 		TextField angleRotation = new TextField();
 		angleRotation.setMaxWidth(400);
-		angleRotation.setText(sensibilite+"");
+		angleRotation.setText(sensibiliteX+"");
+		
+		CheckBox xyzSensi = new CheckBox("utiliser la sensibilité avancée");
+		xyzSensi.setSelected(false);
 		
 		Label labelRotationX = new Label("Entrez l'angle de rotation sur l'axe X : ");
 		TextField angleRotationX = new TextField();
@@ -459,14 +467,16 @@ public class Controller extends AnchorPane{
 		validateSettings.addEventHandler(ActionEvent.ACTION, e->{
 			//les if marchent pas encore, si on laisse vide ça marche pas et les affectations suffisent pas 
 			System.out.println("ça contient : "+angleRotation.getText());
-			if(angleRotation.getText()!=null || !angleRotation.getText().equals("0"))
+			if((angleRotation.getText()!=null || !angleRotation.getText().equals("0")) && !xyzSensi.isSelected())
 			{
 				try {
-					sensibilite =  Integer.parseInt(angleRotation.getText());
+					sensibiliteX = Integer.parseInt(angleRotation.getText());
+					sensibiliteY = Integer.parseInt(angleRotation.getText());
+					sensibiliteZ = Integer.parseInt(angleRotation.getText());
 					if(rotationAuto) 
 						timer.cancel();
 					
-					rotationTask = new RotationTask(modele, sensibilite);
+					rotationTask = new RotationTask(modele, sensibiliteX);
 
 				}catch(Exception eRota) {
 					if(rotationAuto) 
@@ -476,6 +486,26 @@ public class Controller extends AnchorPane{
 
 				}
 				
+			}else {
+				try {
+					sensibiliteX = Integer.parseInt(angleRotationX.getText());
+					sensibiliteY = Integer.parseInt(angleRotationY.getText());
+					sensibiliteZ = Integer.parseInt(angleRotationZ.getText());
+					if(rotationAuto) 
+						timer.cancel();
+					
+					rotationTask = new RotationTask(modele, sensibiliteX,sensibiliteY,sensibiliteZ);
+
+				}catch(Exception eXyz ) {
+					Alert alert4 = new Alert(AlertType.ERROR);
+					alert4.setTitle("Error on Advenced rotation");
+					alert4.setContentText("Missing an XYZ rotation angle");
+					alert4.show();
+					alert4.setOnCloseRequest(lambda->{
+						settings();
+					});
+					System.out.println("il manque 1 case");
+				}
 			}
 			
 			
@@ -483,7 +513,7 @@ public class Controller extends AnchorPane{
 				try {
 					if(rotationAuto) 
 						timer.cancel();
-					rotationTask = new RotationTask(modele, sensibilite);
+					rotationTask = new RotationTask(modele, sensibiliteX);
 					nbFps = Integer.parseInt(fieldFps.getText());
 				}catch(Exception eFps) {
 					
@@ -502,6 +532,9 @@ public class Controller extends AnchorPane{
 
 				}
 			}
+			
+			if(xyzSensi.isSelected())
+				System.out.println("toggle ok");
 
 			System.out.println("bouton settings"+rotationAuto);
 
@@ -509,7 +542,7 @@ public class Controller extends AnchorPane{
 		});
 		
 
-		settingVbox.getChildren().addAll(labelRotation,angleRotation,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,validateSettings);
+		settingVbox.getChildren().addAll(labelRotation,angleRotation,xyzSensi,labelRotationX,angleRotationX,labelRotationY,angleRotationY,labelRotationZ,angleRotationZ,labelFps,fieldFps,labelTranches,trancheField,validateSettings);
 		
 		
 		settingStage.setTitle("Parametres");
