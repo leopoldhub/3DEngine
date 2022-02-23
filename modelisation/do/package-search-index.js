@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"etu.univlille.fr.projetmodei3"},{"l":"etu.univlille.fr.projetmodei3.interfaces"},{"l":"etu.univlille.fr.projetmodei3.objects"},{"l":"etu.univlille.fr.projetmodei3.utils"}];updateSearchResults();
